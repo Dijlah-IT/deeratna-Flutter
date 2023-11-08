@@ -1,4 +1,4 @@
-import 'package:deeratna/Pages/RootPage.dart';
+import 'package:deeratna/Pages/root_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -24,9 +24,13 @@ class _SplashPageState extends State<SplashPage> {
               ModalRoute.withName('/'),
             );
           },
-          child: Image.asset(
-            './Assets/images/p-1.jpg',
-            fit: BoxFit.cover,
+          child: AspectRatio(
+            aspectRatio: 1/10,
+
+            child: Image.asset(
+              './Assets/images/splash.jpg',
+              fit: BoxFit.fill,
+            ),
           ),
         ),
       ),

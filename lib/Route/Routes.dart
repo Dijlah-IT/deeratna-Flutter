@@ -1,5 +1,5 @@
-import 'package:deeratna/Pages/RootPage.dart';
-import 'package:deeratna/Pages/SplashPage.dart';
+import 'package:deeratna/Pages/root_page.dart';
+import 'package:deeratna/Pages/splash_page.dart';
 import 'package:flutter/material.dart';
 
   final Map<String, WidgetBuilder> routes = {

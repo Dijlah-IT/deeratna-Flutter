@@ -1,5 +1,5 @@
-import 'package:deeratna/Pages/SplashPage.dart';
-import 'package:deeratna/Route/Routes.dart';
+import 'package:deeratna/Pages/splash_page.dart';
+import 'package:deeratna/Route/routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,6 +12,7 @@ class Deeratna extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Deeratna',
       initialRoute: SplashPage.routName,
       routes: routes,
