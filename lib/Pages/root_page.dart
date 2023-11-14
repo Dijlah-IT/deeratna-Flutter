@@ -3,16 +3,14 @@ import 'package:deeratna/Pages/about_page.dart';
 import 'package:deeratna/Pages/home_page.dart';
 import 'package:deeratna/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:day_night_switcher/day_night_switcher.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
-
   static String routName = "/RootPage";
-
   @override
   State<RootPage> createState() => _RootPageState();
 }
@@ -20,6 +18,12 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
   MotionTabBarController? _motionTabBarController;
   bool showProfile = false;
+  bool isDarkModeEnabled = false;
+  double brightnessValue = 0.0;
+  double fontsizeValue = 15.0;
+  // ignore: deprecated_member_use
+  final brightness = MediaQueryData.fromView(WidgetsBinding.instance.window)
+      .platformBrightness;
   @override
   void initState() {
     super.initState();
@@ -72,9 +76,13 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       slideWidth: MediaQuery.of(context).size.width * 0.65,
       duration: const Duration(milliseconds: 500),
       // angle: 0.0,
-      menuBackgroundColor: Constants.backGroundColor,
+      menuBackgroundColor: isDarkModeEnabled
+          ? Constants.backGroundColorNight
+          : Constants.backGroundColor,
       mainScreen: Scaffold(
-        backgroundColor: Constants.backGroundColor,
+        backgroundColor: isDarkModeEnabled
+            ? Constants.backGroundColorNight
+            : Constants.backGroundColor,
         appBar: AppBar(
           toolbarHeight: 60,
           backgroundColor: Constants.headerColor,
@@ -98,7 +106,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
               IconButton(
                 onPressed: () {
                   debugPrint("Working !!!");
-                  drawerController.open?.call();
+                  drawerController.toggle!();
                 },
                 icon: Icon(
                   Icons.menu,
@@ -119,14 +127,232 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                 Center(
                   child: Text("Dashboard"),
                 ),
-                Center(
-                  child: Text("Profile"),
+                // Setting
+                Padding(
+                  padding: const EdgeInsets.all(40),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        "المظهر",
+                        style: TextStyle(
+                          color: Constants.lineColor,
+                          fontSize: 18,
+                          fontFamily: 'Jazeera-Regular',
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            width: 0.4,
+                            color: Constants.lineColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(
+                              "داكن",
+                              style: TextStyle(
+                                fontFamily: 'Jazeera-Regular',
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                fontSize: 17,
+                              ),
+                            ),
+                            DayNightSwitcher(
+                              dayBackgroundColor: Constants.headerColor,
+                              isDarkModeEnabled: isDarkModeEnabled,
+                              onStateChanged: (isDarkModeEnabled) {
+                                setState(() {
+                                  this.isDarkModeEnabled = isDarkModeEnabled;
+                                });
+                              },
+                            ),
+                            Text(
+                              "فاتح",
+                              style: TextStyle(
+                                fontFamily: 'Jazeera-Regular',
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "الاضاءة",
+                        style: TextStyle(
+                          color: Constants.lineColor,
+                          fontSize: 18,
+                          fontFamily: 'Jazeera-Regular',
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            width: 0.4,
+                            color: Constants.lineColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (brightnessValue.toInt() != 0) {
+                                    brightnessValue--;
+                                    debugPrint(brightnessValue.toString());
+                                  }
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.lightbulb_outline,
+                                size: 23,
+                              ),
+                            ),
+                            SliderTheme(
+                              data: SliderThemeData(),
+                              child: Slider(
+                                min: 0,
+                                max: 20,
+                                value: brightnessValue,
+                                divisions: 20,
+                                label: brightnessValue.toInt().toString(),
+                                onChanged: (double value) {
+                                  setState(() {
+                                    debugPrint("working");
+                                    brightnessValue = value;
+                                  });
+                                },
+                                activeColor: Constants.textColor,
+                                inactiveColor: Constants.backGroundColor,
+                                thumbColor: Constants.headerColor,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  debugPrint(brightnessValue.toString());
+                                  if (brightnessValue.toInt() < 19) {
+                                    brightnessValue++;
+                                  }
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.lightbulb,
+                                size: 23,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "حجم النص",
+                        style: TextStyle(
+                          color: Constants.lineColor,
+                          fontSize: 18,
+                          fontFamily: 'Jazeera-Regular',
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            width: 0.4,
+                            color: Constants.lineColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (fontsizeValue.toInt() != 0) {
+                                    fontsizeValue--;
+                                    debugPrint(fontsizeValue.toString());
+                                  }
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.exposure_minus_1,
+                                size: 23,
+                              ),
+                            ),
+                            Slider(
+                              min: 15,
+                              max: 32,
+                              value: fontsizeValue,
+                              divisions: 17,
+                              label: fontsizeValue.toInt().toString(),
+                              onChanged: (double value) {
+                                setState(() {
+                                  debugPrint("working");
+                                  fontsizeValue = value;
+                                });
+                              },
+                              activeColor: Constants.textColor,
+                              inactiveColor: Constants.backGroundColor,
+                              thumbColor: Constants.headerColor,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  debugPrint(fontsizeValue.toString());
+                                  if (fontsizeValue.toInt() < 31) {
+                                    fontsizeValue++;
+                                  }
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.plus_one,
+                                size: 23,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 Center(
                   child: HomePage(),
                 ),
-                Center(
-                  child: Text("call"),
+                SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      "شركة تقنية عراقية رائدة ذات خبرة طويلة في مجال التصميم والخدمات الرقمية.\n المجال: تصميم مواقع الويب، التطبيقات، أرشفة المواقع، تصميم هوية رقمية بجودة عالية، وكل ما يتبع ذلك من خدمات تفصيلية تخدم حاجة العميل وتطلعاته. \nالهدف: نسعى لترك بصمة مميزة في المحتوى التقني من خلال ما نقدمه من خدمات رقمية ينجزها أفضل الخبراء والمحترفين مع الاهتمام بأدق التفاصيل للوصول إلى أعلى معايير الجودة.\n- بدأت العمل سنة 1998 مع بداية اتساع العالم الافتراضي وتحول الميديا الى الشاشة الصغيرة، واكتسبت تجربة ثرية بعد ان سجلّتْ في دفتر يومياتها إنجاز اكثر من 500 موقعا الكترونيا رصينا و 200 تطبيقا حمل مواصفات عالية في دقة الانجاز والتصميم.\n- تهتم الشركة بأدق التفاصيل للوصول إلى أعلى معايير الجودة. \n- يتم دراسة المشاريع قبل تنفيذها لضمان نجاح وتميز المشاريع. \n- ايجاد الحلول المناسبة للمشاريع والافكار المتميزة والمبتكرة. \n- نمتلك الخبرة الكافية في أحدث التكنولوجيا المستخدمة حالياً. \n- هدفنا الاتقان والتفرد في الانجاز والجمالية في التصميم والامن في الحفاظ على المعلومات.\n- تنشط في ١٤ بلدا باعمال وبلغات مختلفة.",
+                      style: TextStyle(
+                        fontFamily: 'Jazeera-Regular',
+                        fontSize: 17,
+                        color: isDarkModeEnabled
+                            ? Constants.textColorNight
+                            : Constants.textColor,
+                      ),
+                      textAlign: TextAlign.justify,
+                      textDirection: TextDirection.rtl,
+                    ),
+                  ),
                 ),
                 Center(
                   child: Text("call"),
@@ -155,19 +381,19 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
             Icons.settings,
             Icons.home,
             Icons.info_outline,
-            Icons.support_agent,
+            Icons.call,
           ],
           tabSize: 50,
           tabBarHeight: 55,
           textStyle: TextStyle(
-            fontSize: 14,
+            fontSize: 13,
             color: Constants.lineColor,
             fontFamily: 'Jazeera-Regular',
             fontWeight: FontWeight.w500,
           ),
           tabIconColor: Constants.lineColor,
           tabIconSize: 28.0,
-          tabIconSelectedSize: 26.0,
+          tabIconSelectedSize: 28.0,
           tabSelectedColor: Constants.lineColor,
           tabIconSelectedColor: Colors.white,
           tabBarColor: Constants.headerColor,

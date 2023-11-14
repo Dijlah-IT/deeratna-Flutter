@@ -1,5 +1,6 @@
 import 'package:deeratna/Components/my_cart.dart';
 import 'package:deeratna/Constants/constants.dart';
+import 'package:deeratna/Pages/accessCard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 
@@ -12,11 +13,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static const List<String> sampleImages = [
-    "https://images.unsplash.com/photo-1557700836-25f2464e845d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
-    "https://images.unsplash.com/photo-1669462277329-f32f928a4a79?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-    "https://images.unsplash.com/photo-1542840410-3092f99611a3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-    "https://images.unsplash.com/photo-1542840410-3092f99611a3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
-    "https://images.unsplash.com/photo-1542840410-3092f99611a3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80",
+    './Assets/images/d-s001.jpg',
+    './Assets/images/d-s002.jpg',
+    './Assets/images/d-s003.jpg',
+    './Assets/images/d-s004.jpg',
+    './Assets/images/d-s005.jpg',
   ];
   static const List<String> servicesItemText = [
     "بطاقة دخول",
@@ -27,9 +28,9 @@ class _HomePageState extends State<HomePage> {
     "حجز مسبح",
   ];
   static const List<IconData> servicesItemIcon = [
-    Icons.person,
-    Icons.access_alarm_outlined,
-    Icons.add_alert,
+    Icons.card_membership,
+    Icons.car_crash_outlined,
+    Icons.car_crash_outlined,
     Icons.add_location_alt_outlined,
     Icons.phonelink_lock_sharp,
     Icons.mood_bad_sharp,
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
               // Slider one
               FanCarouselImageSlider(
                 imagesLink: sampleImages,
-                isAssets: false,
+                isAssets: true,
                 sliderHeight: size.height * 0.3,
                 imageRadius: 15,
                 sidesOpacity: 0.4,
@@ -57,6 +58,7 @@ class _HomePageState extends State<HomePage> {
                 imageFitMode: BoxFit.fill,
                 userCanDrag: true,
                 turns: 270,
+                expandImageHeight: size.height * 0.792,
                 indicatorActiveColor: Constants.textColor,
                 indicatorDeactiveColor: Constants.textColor,
                 autoPlayInterval: const Duration(milliseconds: 3000),
@@ -103,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                         right: 20,
                         child: SizedBox(
                           width: size.width * 0.8,
-                          child: Text(
+                          child: const Text(
                             "لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
                             style: TextStyle(
                               color: Colors.white,
@@ -120,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                expandedCloseBtnDecoration: BoxDecoration(),
+                expandedCloseBtnDecoration: const BoxDecoration(),
               ),
 
               Container(
@@ -185,6 +187,7 @@ class _HomePageState extends State<HomePage> {
                       (index) => ServiceItem(
                         servicesItemText: servicesItemText[index],
                         servicesItemIcon: servicesItemIcon[index],
+                        itemTag: index,
                       ),
                     ),
                   ),
@@ -201,17 +204,26 @@ class _HomePageState extends State<HomePage> {
 class ServiceItem extends StatelessWidget {
   final String servicesItemText;
   final IconData servicesItemIcon;
+  final int itemTag;
 
   const ServiceItem({
     super.key,
     required this.servicesItemText,
     required this.servicesItemIcon,
+    required this.itemTag,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        debugPrint(itemTag.toString());
+        debugPrint("Click !");
+        Navigator.pushNamed(
+          context,
+          AccessCard.routName,
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

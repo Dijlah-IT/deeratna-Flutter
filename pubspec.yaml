@@ -39,6 +39,7 @@ dependencies:
   fan_carousel_image_slider: ^0.1.2
   flutter_zoom_drawer: ^3.1.1
   get: ^4.6.5
+  day_night_switcher: ^0.2.0+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
