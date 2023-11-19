@@ -54,12 +54,25 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 40),
               Column(
                 children: List.generate(
-                    profileItemText.length,
-                    (index) => ProfileItem(
-                          title: profileItemText[index],
-                          subTitle: profileItemText2[index],
-                        )),
-              )
+                  profileItemText.length,
+                  (index) => ProfileItem(
+                    title: profileItemText[index],
+                    subTitle: profileItemText2[index],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 40),
+              Text(
+                "تغيير كلمة المرور",
+                style: TextStyle(
+                  fontFamily: 'Jazeera-Regular',
+                  color: Constants.headerColor,
+                  decoration: TextDecoration.underline,
+                  fontSize: 16,
+                ),
+                textAlign: TextAlign.center,
+
+              ),
             ],
           ),
         ),

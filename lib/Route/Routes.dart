@@ -9,4 +9,6 @@ final Map<String, WidgetBuilder> routes = {
   RootPage.routName: (context) => const RootPage(),
   ProfilePage.routName: (context) => const ProfilePage(),
   AccessCard.routName: (context) => const AccessCard(),
+  // NotifPage.routName: (context) => const NotifPage(),
+  
 };

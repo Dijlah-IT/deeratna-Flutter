@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:deeratna/Pages/root_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -13,7 +13,6 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Timer(
       const Duration(seconds: 2),
@@ -27,6 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // bool isDarkModeEnabled = Provider.of(context);
     return Scaffold(
       body: SizedBox(
         width: size.width,
