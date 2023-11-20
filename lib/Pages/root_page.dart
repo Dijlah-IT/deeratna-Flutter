@@ -3,13 +3,13 @@ import 'package:deeratna/Pages/about_page.dart';
 import 'package:deeratna/Pages/home_page.dart';
 import 'package:deeratna/Pages/notif_page.dart';
 import 'package:deeratna/Pages/profile_page.dart';
-import 'package:deeratna/Pages/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_drawer/flutter_slide_widget.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:day_night_switcher/day_night_switcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({
@@ -24,6 +24,8 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
   MotionTabBarController? _motionTabBarController;
   bool showProfile = false;
+  double brightnessValue = 0.0;
+  double fontsizeValue = 15.0;
   bool isDarkModeEnabled = false;
 
   _GetThemeMod() async {
@@ -33,20 +35,22 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
     });
   }
 
+  _SetThemeMod() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    debugPrint(isDarkModeEnabled.toString());
+    await pref.setBool('isDarkModeEnabled', isDarkModeEnabled);
+  }
+
   final GlobalKey<SliderDrawerWidgetState> drawerKey = GlobalKey();
   @override
   void initState() {
+    _GetThemeMod();
     super.initState();
     _motionTabBarController = MotionTabBarController(
-      initialIndex: 2,
-      length: 5,
+      initialIndex: 1,
+      length: 3,
       vsync: this,
     );
-  }
-
-  @override
-  void setState(VoidCallback fn) {
-    _GetThemeMod();
   }
 
   @override
@@ -59,25 +63,21 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final List<String> drawerItemText = [
-      "بطاقة دخول",
-      "ملصق السيارات",
-      "صيانة",
-      "ادارة معلومات",
-      "حجز ملعب",
-      "حجز مسبح",
+      "الرئيسية",
+      "من نحن",
+      "الدعم الفني",
+      "شارك التطبيق",
     ];
 
-    final List<IconData> drawerItemIcon = [
-      Icons.person,
-      Icons.access_alarm_outlined,
-      Icons.add_alert,
-      Icons.add_location_alt_outlined,
-      Icons.phonelink_lock_sharp,
-      Icons.mood_bad_sharp,
+    final List<FaIcon> drawerItemIcon = [
+      const FaIcon(FontAwesomeIcons.homeLg),
+      FaIcon(FontAwesomeIcons.gamepad),
+      FaIcon(FontAwesomeIcons.gamepad),
+      FaIcon(FontAwesomeIcons.gamepad),
     ];
 
     final Size size = MediaQuery.of(context).size;
-    debugPrint(isDarkModeEnabled.toString() + "   RootPage");
+    debugPrint("${Constants.isDarkModeEnabled}   RootPage");
     return SliderDrawerWidget(
       key: drawerKey,
       option: SliderDrawerOption(
@@ -153,12 +153,12 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
         ),
       ),
       body: Scaffold(
-        backgroundColor: isDarkModeEnabled
+        backgroundColor: Constants.isDarkModeEnabled
             ? Constants.backGroundColorNight
             : Constants.backGroundColor,
         appBar: AppBar(
           toolbarHeight: 60,
-          backgroundColor: isDarkModeEnabled
+          backgroundColor: Constants.isDarkModeEnabled
               ? Constants.headerColorNight
               : Constants.headerColor,
           automaticallyImplyLeading: false,
@@ -174,7 +174,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                 },
                 icon: Icon(
                   Icons.person,
-                  color: isDarkModeEnabled
+                  color: Constants.isDarkModeEnabled
                       ? Constants.lineColorNight
                       : Constants.lineColor,
                   size: 30,
@@ -187,7 +187,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                 },
                 icon: Icon(
                   Icons.menu,
-                  color: isDarkModeEnabled
+                  color: Constants.isDarkModeEnabled
                       ? Constants.lineColorNight
                       : Constants.lineColor,
                   size: 30,
@@ -207,41 +207,258 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                 const Center(
                   child: NotifPage(),
                 ),
-                // Setting
-                const SettingPage(),
+                // HomePage
                 const Center(
                   child: HomePage(),
                 ),
-                SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text(
-                      "شركة رائدة في مجال العقارات وإنشاء المدن السكنية وتسويقها وبيعها على شكل قطع سكنية ضمن مربعات سكنية واقــعه ضـمن وحدات جوار بموجب مخططات حضرية رسمية ومعتمدة من الجهــات الحكومـية ذات الأختصاص.\nهدفنا كسب ثقة كل شرائح المجتمع وذالك من خلال تجهيز مشاريع سكنية حضرية حديثة باسعار ميسرة بحيث يكون في متناول جميع فئات المجتمع حيث يتوفر نظام البيع بالأقساط المريحة والميسرة لهذة المشاريع وبهذا يستطيع ذوي الدخل المحدود إمتلاك قطعة أرض .\nالي جانب السجل العقاري ودفتر غرفة الصناعة والتجارة لدينا تصاريح مزاولة المهنة صادرة من هيئة الأراضي والمساحة والتخطيط العمراني بالحديدة، والى جانب هذا نمتلك أكثر من شهادة تقدير وأوسمة من جهات رسمية ومنظمات حقوقية يمنية وعربية الي جانب ذلك لدينا العديد من الشهادات المعتمدة من كل الجهات الحكومية ذات الإختصاص .",
-                      style: TextStyle(
-                        fontFamily: 'Jazeera-Regular',
-                        fontSize: 17,
-                        color: isDarkModeEnabled
-                            ? Constants.textColorNight
-                            : Constants.textColor,
-                      ),
-                      textAlign: TextAlign.justify,
-                      textDirection: TextDirection.rtl,
-                    ),
-                  ),
-                ),
+                // Setting
                 Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Text(
-                    "بامكانك التواصل مع خدمة الدعم الفني على مدار الاسبوع عبر الارقام التالية:\n0780000000\n0770000000",
-                    style: TextStyle(
-                      fontFamily: 'Jazeera-Regular',
-                      fontSize: 17,
-                      color: isDarkModeEnabled
-                          ? Constants.textColorNight
-                          : Constants.textColor,
-                    ),
-                    textAlign: TextAlign.justify,
-                    textDirection: TextDirection.rtl,
+                  padding: const EdgeInsets.all(40),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        "المظهر",
+                        style: TextStyle(
+                          color: isDarkModeEnabled
+                              ? Constants.lineColorNight
+                              : Constants.lineColor,
+                          fontSize: 18,
+                          fontFamily: 'Jazeera-Regular',
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isDarkModeEnabled
+                              ? Constants.itemColorNight
+                              : Constants.itemColor,
+                          border: Border.all(
+                            width: 0.4,
+                            color: isDarkModeEnabled
+                                ? Constants.lineColorNight
+                                : Constants.lineColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Text(
+                              "فاتح",
+                              style: TextStyle(
+                                fontFamily: 'Jazeera-Regular',
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                fontSize: 17,
+                              ),
+                            ),
+                            DayNightSwitcher(
+                              dayBackgroundColor: Constants.headerColor,
+                              isDarkModeEnabled: isDarkModeEnabled,
+                              onStateChanged: (isDarkModeEnabled) {
+                                setState(() {
+                                  Constants.isDarkModeEnabled =
+                                      isDarkModeEnabled;
+                                  this.isDarkModeEnabled = isDarkModeEnabled;
+                                  _SetThemeMod();
+                                });
+                              },
+                            ),
+                            Text(
+                              "داكن",
+                              style: TextStyle(
+                                fontFamily: 'Jazeera-Regular',
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                fontSize: 17,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "الاضاءة",
+                        style: TextStyle(
+                          color: isDarkModeEnabled
+                              ? Constants.lineColorNight
+                              : Constants.lineColor,
+                          fontSize: 18,
+                          fontFamily: 'Jazeera-Regular',
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: isDarkModeEnabled
+                              ? Constants.itemColorNight
+                              : Constants.itemColor,
+                          border: Border.all(
+                            width: 0.4,
+                            color: isDarkModeEnabled
+                                ? Constants.lineColorNight
+                                : Constants.lineColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (brightnessValue.toInt() != 0) {
+                                    brightnessValue--;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.lightbulb_outline,
+                                size: 23,
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                              ),
+                            ),
+                            SliderTheme(
+                              data: const SliderThemeData(),
+                              child: Slider(
+                                min: 0,
+                                max: 20,
+                                value: brightnessValue,
+                                divisions: 20,
+                                label: brightnessValue.toInt().toString(),
+                                onChanged: (double value) {
+                                  setState(() {
+                                    brightnessValue = value;
+                                  });
+                                },
+                                activeColor: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                inactiveColor: isDarkModeEnabled
+                                    ? Constants.backGroundColorNight
+                                    : Constants.backGroundColor,
+                                thumbColor: isDarkModeEnabled
+                                    ? Constants.headerColorNight
+                                    : Constants.headerColor,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (brightnessValue.toInt() < 19) {
+                                    brightnessValue++;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.lightbulb,
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                size: 23,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "حجم النص",
+                        style: TextStyle(
+                          color: isDarkModeEnabled
+                              ? Constants.lineColorNight
+                              : Constants.lineColor,
+                          fontSize: 18,
+                          fontFamily: 'Jazeera-Regular',
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: isDarkModeEnabled
+                              ? Constants.itemColorNight
+                              : Constants.itemColor,
+                          border: Border.all(
+                            width: 0.4,
+                            color: isDarkModeEnabled
+                                ? Constants.lineColorNight
+                                : Constants.lineColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (fontsizeValue.toInt() != 0) {
+                                    fontsizeValue--;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.exposure_minus_1,
+                                size: 23,
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                              ),
+                            ),
+                            Slider(
+                              min: 15,
+                              max: 32,
+                              value: fontsizeValue,
+                              divisions: 17,
+                              label: fontsizeValue.toInt().toString(),
+                              onChanged: (double value) {
+                                setState(() {
+                                  fontsizeValue = value;
+                                });
+                              },
+                              activeColor: isDarkModeEnabled
+                                  ? Constants.textColorNight
+                                  : Constants.textColor,
+                              inactiveColor: isDarkModeEnabled
+                                  ? Constants.backGroundColorNight
+                                  : Constants.backGroundColor,
+                              thumbColor: isDarkModeEnabled
+                                  ? Constants.headerColorNight
+                                  : Constants.headerColor,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (fontsizeValue.toInt() < 31) {
+                                    fontsizeValue++;
+                                  }
+                                });
+                              },
+                              icon: Icon(
+                                Icons.plus_one,
+                                color: isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                size: 23,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -249,7 +466,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               height: showProfile ? size.height : 0,
-              child: const ProfilePage(),
+              // ignore: prefer_const_constructors
+              child: ProfilePage(),
             ),
           ],
         ),
@@ -258,38 +476,34 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
           initialSelectedTab: "الرئيسية",
           labels: const [
             "الاشعارات",
-            "الاعدادات",
             "الرئيسية",
-            "من نحن",
-            "الدعم الفني",
+            "الاعدادات",
           ],
           icons: const [
             Icons.notifications,
-            Icons.settings,
             Icons.home,
-            Icons.info_outline,
-            Icons.call,
+            Icons.settings,
           ],
           tabSize: 50,
           tabBarHeight: 55,
           textStyle: TextStyle(
             fontSize: 13,
-            color: isDarkModeEnabled
+            color: Constants.isDarkModeEnabled
                 ? Constants.lineColorNight
                 : Constants.lineColor,
             fontFamily: 'Jazeera-Regular',
             fontWeight: FontWeight.w500,
           ),
-          tabIconColor: isDarkModeEnabled
+          tabIconColor: Constants.isDarkModeEnabled
               ? Constants.lineColorNight
               : Constants.lineColor,
           tabIconSize: 28.0,
           tabIconSelectedSize: 28.0,
-          tabSelectedColor: isDarkModeEnabled
+          tabSelectedColor: Constants.isDarkModeEnabled
               ? Constants.lineColorNight
               : Constants.lineColor,
           tabIconSelectedColor: Colors.white,
-          tabBarColor: isDarkModeEnabled
+          tabBarColor: Constants.isDarkModeEnabled
               ? Constants.headerColorNight
               : Constants.headerColor,
           onTabItemSelected: (int value) {
@@ -305,7 +519,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
 
 class DrawerItems extends StatelessWidget {
   final String title;
-  final IconData icon;
+  final FaIcon icon;
   const DrawerItems({
     super.key,
     required this.title,
@@ -330,7 +544,7 @@ class DrawerItems extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
-            icon: Icon(icon),
+            icon: icon,
             color: Constants.lineColor,
           ),
         ],

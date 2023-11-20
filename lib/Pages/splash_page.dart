@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:deeratna/Pages/root_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -15,7 +15,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 2),
+      const Duration(seconds: 10),
       () => Navigator.popAndPushNamed(
         context,
         RootPage.routName,
@@ -31,9 +31,23 @@ class _SplashPageState extends State<SplashPage> {
       body: SizedBox(
         width: size.width,
         height: size.height,
-        child: Image.asset(
-          './Assets/images/splash.jpg',
-          fit: BoxFit.fill,
+        child: Stack(
+          children: <Widget>[
+            Image.asset(
+              './Assets/images/splash.jpg',
+              fit: BoxFit.fill,
+              width: size.width,
+              height: size.height,
+            ),
+            Center(
+              child: Lottie.asset(
+                './Assets/images/deratna-fell.json',
+                width: 600,
+                height: 600,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
         ),
       ),
     );

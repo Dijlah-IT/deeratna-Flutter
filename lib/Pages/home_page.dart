@@ -2,7 +2,8 @@ import 'package:deeratna/Components/my_cart.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Pages/accessCard_page.dart';
 import 'package:flutter/material.dart';
-import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:lottie/lottie.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,148 +36,147 @@ class _HomePageState extends State<HomePage> {
     Icons.phonelink_lock_sharp,
     Icons.mood_bad_sharp,
   ];
+  int _current = 0;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final CarouselController _controller = CarouselController();
     return Scaffold(
-      backgroundColor: Constants.backGroundColor,
+      backgroundColor: Constants.isDarkModeEnabled
+          ? Constants.backGroundColorNight
+          : Constants.backGroundColor,
       body: Center(
         child: SingleChildScrollView(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Column(
-            children: <Widget>[
-              // Slider one
-              FanCarouselImageSlider(
-                imagesLink: sampleImages,
-                isAssets: true,
-                sliderHeight: size.height * 0.3,
-                imageRadius: 15,
-                sidesOpacity: 0.4,
-                autoPlay: true,
-                showArrowNav: false,
-                imageFitMode: BoxFit.fill,
-                userCanDrag: true,
-                turns: 270,
-                expandImageHeight: size.height * 0.792,
-                indicatorActiveColor: Constants.textColor,
-                indicatorDeactiveColor: Constants.textColor,
-                autoPlayInterval: const Duration(milliseconds: 3000),
-                currentItemShadow: const [
-                  BoxShadow(
-                      offset: Offset(1, 1),
-                      color: Colors.white,
-                      blurRadius: 10),
-                ],
-                sliderDuration: const Duration(milliseconds: 300),
-                expandedCloseBtn: Container(
-                  height: 500,
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
+          child: SizedBox(
+            width: size.width,
+            child: Column(
+              children: <Widget>[
+                // Slider one
+                Column(
+                  children: [
+                    CarouselSlider(
+                      options: CarouselOptions(
+                        height: 220.0,
+                        autoPlay: true,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        },
+                      ),
+                      items: [0, 1, 2, 3, 4].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: const BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 0), // Shadow position
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                child: Image.asset(
+                                  sampleImages[i],
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
                     ),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Constants.headerColor,
-                      ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: sampleImages.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => _controller.animateToPage(entry.key),
+                          child: Container(
+                            width: 8.0,
+                            height: 8.0,
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 4.0),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: (Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.white
+                                        : Colors.black)
+                                    .withOpacity(
+                                        _current == entry.key ? 0.9 : 0.4)),
+                          ),
+                        );
+                      }).toList(),
                     ),
-                  ),
+                  ],
+                ),
+
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Stack(
                     children: <Widget>[
-                      const Positioned(
-                        top: 320,
-                        right: 20,
-                        child: Text(
-                          "لوريم إيبسوم",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Jazeera-Bold',
-                            fontSize: 20,
-                          ),
-                        ),
+                      Divider(
+                        height: 20,
+                        thickness: 1,
+                        endIndent: 80,
+                        color: Constants.isDarkModeEnabled
+                            ? Constants.lineColorNight
+                            : Constants.lineColor,
                       ),
                       Positioned(
-                        top: 355,
-                        right: 20,
-                        child: SizedBox(
-                          width: size.width * 0.8,
-                          child: const Text(
-                            "لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Jazeera-Regular',
-                              fontSize: 18,
-                            ),
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.justify,
-                            textDirection: TextDirection.rtl,
+                        top: -3,
+                        right: 10,
+                        child: Text(
+                          "الطلبات",
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            color: Constants.isDarkModeEnabled
+                                ? Constants.textColorNight
+                                : Constants.textColor,
+                            fontFamily: 'Jazeera-Bold',
+                            fontSize: 16,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                expandedCloseBtnDecoration: const BoxDecoration(),
-              ),
 
-              Container(
-                width: size.width,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Stack(
-                  children: <Widget>[
-                    Divider(
-                      height: 20,
-                      thickness: 1,
-                      endIndent: 80,
-                      color: Constants.lineColor,
+                SizedBox(
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 100.0,
+                      autoPlay: false,
+                      enlargeCenterPage: true,
                     ),
-                    Positioned(
-                      top: -3,
-                      right: 10,
-                      child: Text(
-                        "الطلبات",
-                        textDirection: TextDirection.rtl,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Constants.textColor,
-                          fontFamily: 'Jazeera-Bold',
-                          fontSize: 16,
-                        ),
-                      ),
-                    )
-                  ],
+                    items: [0, 1, 2, 3, 4].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return const MyCart(
+                            description:
+                                " لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
+                            title: "لوريم إيبسوم",
+                            icon: Icons.person_pin,
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 100,
-                width: size.width,
-                child: ListView.builder(
-                  reverse: true,
-                  scrollDirection: Axis.horizontal,
-                  physics: const PageScrollPhysics(),
-                  itemCount: 10,
-                  itemBuilder: (BuildContext context, int index) {
-                    return const MyCart(
-                      description:
-                          " لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
-                      title: "لوريم إيبسوم",
-                      icon: Icons.person_pin,
-                    );
-                  },
-                ),
-              ),
-
-              SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: SizedBox(
-                  height: size.height * 0.3,
+                SizedBox(
+                  height: 280,
                   child: GridView.count(
                     padding: const EdgeInsets.all(20),
                     crossAxisSpacing: 20,
@@ -191,9 +191,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -226,7 +226,16 @@ class ServiceItem extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 0.2,
+              offset: Offset(0, 0), // Shadow position
+            ),
+          ],
+          color: Constants.isDarkModeEnabled
+              ? Constants.itemColorNight
+              : Constants.itemColor,
           border: Border.all(color: const Color.fromARGB(255, 233, 232, 232)),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -234,16 +243,19 @@ class ServiceItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              servicesItemIcon,
-              size: 30,
-              color: Constants.textColor,
+            Lottie.asset(
+              './Assets/images/deratna-fell.json',
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Text(
               servicesItemText,
               style: TextStyle(
-                color: Constants.textColor,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.textColorNight
+                    : Constants.textColor,
                 fontFamily: 'Jazeera-Regular',
               ),
             ),

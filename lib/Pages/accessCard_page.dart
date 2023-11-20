@@ -13,21 +13,29 @@ class _AccessCardState extends State<AccessCard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Constants.backGroundColor,
+      backgroundColor: Constants.isDarkModeEnabled
+          ? Constants.backGroundColorNight
+          : Constants.backGroundColor,
       appBar: AppBar(
-        backgroundColor: Constants.headerColor,
+        backgroundColor: Constants.isDarkModeEnabled
+            ? Constants.headerColorNight
+            : Constants.headerColor,
         toolbarHeight: 60,
         iconTheme: IconThemeData(
-          color: Constants.lineColor,
+          color: Constants.isDarkModeEnabled
+              ? Constants.lineColorNight
+              : Constants.lineColor,
         ),
-        title:  Align(
+        title: Align(
           child: Padding(
             padding: const EdgeInsets.only(right: 55),
             child: Text(
               "بطاقة دخول",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Constants.lineColor,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.lineColorNight
+                    : Constants.lineColor,
                 fontFamily: 'Jazeera-Regular',
               ),
             ),

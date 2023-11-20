@@ -15,4 +15,5 @@ class Constants {
 
   static int themeDurationChange = 300;
   static int fontSize = 18;
+  static bool isDarkModeEnabled = false;
 }

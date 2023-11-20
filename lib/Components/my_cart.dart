@@ -19,6 +19,9 @@ class MyCart extends StatelessWidget {
     return SizedBox(
       width: size.width,
       child: Card(
+        color: Constants.isDarkModeEnabled
+            ? Constants.itemColorNight
+            : Constants.itemColor,
         child: Center(
           child: ListTile(
             title: Text(
@@ -26,7 +29,9 @@ class MyCart extends StatelessWidget {
               textDirection: TextDirection.rtl,
               title,
               style: TextStyle(
-                color: Constants.textColor,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.textColorNight
+                    : Constants.textColor,
                 fontFamily: 'Jazeera-Bold',
               ),
             ),
@@ -37,14 +42,18 @@ class MyCart extends StatelessWidget {
                 border: Border(
                   left: BorderSide(
                     width: 2,
-                    color: Constants.lineColor,
+                    color: Constants.isDarkModeEnabled
+                        ? Constants.lineColorNight
+                        : Constants.lineColor,
                   ),
                 ),
               ),
               child: Icon(
                 icon,
                 size: 45,
-                color: Constants.textColor,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.textColorNight
+                    : Constants.textColor,
               ),
             ),
             subtitle: Text(
@@ -55,7 +64,9 @@ class MyCart extends StatelessWidget {
               maxLines: 2,
               description,
               style: TextStyle(
-                color: Constants.textColor,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.textColorNight
+                    : Constants.textColor,
                 fontFamily: 'Jazeera-Regular',
               ),
             ),

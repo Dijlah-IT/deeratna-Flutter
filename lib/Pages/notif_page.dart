@@ -38,7 +38,9 @@ class NotifItem extends StatelessWidget {
           padding: const EdgeInsets.all(5),
           width: size.width,
           decoration: BoxDecoration(
-            color: Constants.headerColor,
+            color: Constants.isDarkModeEnabled
+                ? Constants.headerColorNight
+                : Constants.headerColor,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(7),
               topRight: Radius.circular(7),
@@ -47,7 +49,9 @@ class NotifItem extends StatelessWidget {
           child: Text(
             "لوريم إيبسوم",
             style: TextStyle(
-              color: Constants.lineColor,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.lineColorNight
+                  : Constants.lineColor,
               fontFamily: 'Jazeera-Bold',
               fontSize: 18,
             ),
@@ -59,7 +63,9 @@ class NotifItem extends StatelessWidget {
           padding: const EdgeInsets.all(5),
           width: size.width,
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.itemColorNight
+                  : Constants.itemColor,
               border: Border.all(color: Constants.headerColor, width: 0.1)),
           child: const Text(
             "لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",

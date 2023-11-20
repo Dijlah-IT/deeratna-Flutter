@@ -25,11 +25,16 @@ class _ProfilePageState extends State<ProfilePage> {
       "الأمل١",
       "zn-am1",
     ];
+    debugPrint("${Constants.isDarkModeEnabled}   Profile");
     return Scaffold(
-      backgroundColor: Constants.backGroundColor,
+      backgroundColor: Constants.isDarkModeEnabled
+          ? Constants.backGroundColorNight
+          : Constants.backGroundColor,
       body: SingleChildScrollView(
         child: Container(
-          color: Constants.backGroundColor,
+          color: Constants.isDarkModeEnabled
+              ? Constants.backGroundColorNight
+              : Constants.backGroundColor,
           height: size.height * 0.8,
           width: size.width,
           child: Column(
@@ -41,7 +46,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 height: 180,
                 padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  color: Constants.headerColor,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.headerColorNight
+                      : Constants.headerColor,
                   shape: BoxShape.circle,
                 ),
                 child: CircleAvatar(
@@ -66,12 +73,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 "تغيير كلمة المرور",
                 style: TextStyle(
                   fontFamily: 'Jazeera-Regular',
-                  color: Constants.headerColor,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.textColorNight
+                      : Constants.headerColor,
                   decoration: TextDecoration.underline,
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.center,
-
               ),
             ],
           ),
@@ -117,29 +125,38 @@ class ProfileItem extends StatelessWidget {
             height: 40,
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
             width: 180,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: Constants.isDarkModeEnabled
+                  ? Constants.backGroundColorNight
+                  : Constants.backGroundColor,
             ),
             child: Text(
               subTitle,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 15,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.textColorNight
+                    : Constants.textColor,
                 fontFamily: 'Jazeera-Bold',
               ),
             ),
           ),
           Container(
-            color: Constants.textColor,
+            color: Constants.isDarkModeEnabled
+                ? Constants.textColorNight
+                : Constants.textColor,
             width: 120,
             height: 40,
             padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 15,
-                color: Colors.white,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.lineColorNight
+                    : Constants.textColorNight,
                 fontFamily: 'Jazeera-Regular',
               ),
             ),
