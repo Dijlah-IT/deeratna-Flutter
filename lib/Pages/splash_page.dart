@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:deeratna/Pages/root_page.dart';
+import 'package:deeratna/Pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -15,10 +15,10 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(seconds: 10),
+      const Duration(seconds: 3),
       () => Navigator.popAndPushNamed(
         context,
-        RootPage.routName,
+        LoginPage.routName,
       ),
     );
   }
@@ -42,9 +42,6 @@ class _SplashPageState extends State<SplashPage> {
             Center(
               child: Lottie.asset(
                 './Assets/images/deratna-fell.json',
-                width: 600,
-                height: 600,
-                fit: BoxFit.cover,
               ),
             ),
           ],
