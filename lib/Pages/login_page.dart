@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:deeratna/Components/input_costum.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Constants/functions.dart';
+import 'package:deeratna/Pages/root_page.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,8 +15,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  int step = 0;
+  static const maxSecondesSMS = 20;
+  int secondes = maxSecondesSMS;
+  Timer? timer;
+
+  void StartTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (secondes > 1) {
+          secondes--;
+        } else {
+          stopTimer();
+        }
+      });
+    });
+  }
+
+  void stopTimer() {
+    timer?.cancel();
+  }
+
+  final _formkey = GlobalKey<FormState>();
+  int _step = 0;
   bool _login = true;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -97,142 +123,353 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+          // REGISTER
           Positioned(
             width: size.width,
-            height: size.height * 0.5,
+            height: size.height * 0.6,
             top: 290,
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Theme(
-                data: ThemeData(
-                  shadowColor: Colors.transparent,
-                  canvasColor: Colors.transparent,
-                  primarySwatch: getMaterialColor(Constants.headerColor),
-                ),
-                child: Stepper(
-                  controlsBuilder: (context, details) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            if (step > 0) {
+            child: Visibility(
+              visible: !_login,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Theme(
+                  data: ThemeData(
+                    shadowColor: Colors.transparent,
+                    canvasColor: Colors.transparent,
+                    primarySwatch: getMaterialColor(Constants.headerColor),
+                  ),
+                  child: Stepper(
+                    controlsBuilder: (context, details) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          _step != 0 && _step != 3
+                              ? TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _step--;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 5,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                          width: 0.3,
+                                          color: Constants.headerColor,
+                                        )),
+                                    child: const Text(
+                                      'السابق',
+                                      style: TextStyle(
+                                        fontFamily: 'Jazeera-Regular',
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : const Text(""),
+                          TextButton(
+                            onPressed: () {
                               setState(() {
-                                step--;
+                                if (_step != 2) {
+                                  StartTimer();
+                                }
+
+                                if (_step < 3) {
+                                  _step++;
+                                } else {
+                                  Navigator.popAndPushNamed(
+                                    context,
+                                    RootPage.routName,
+                                  );
+                                }
                               });
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 5,
-                            ),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  width: 0.3,
-                                  color: Constants.headerColor,
-                                )),
-                            child: const Text(
-                              'السابق',
-                              style: TextStyle(
-                                fontFamily: 'Jazeera-Regular',
-                                fontSize: 16,
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 5,
                               ),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    width: 0.3,
+                                    color: Constants.headerColor,
+                                  ),
+                                  color: _step != 3
+                                      ? Colors.transparent
+                                      : Constants.headerColor),
+                              child: _step != 3
+                                  ? const Text(
+                                      'التالي',
+                                      style: TextStyle(
+                                        fontFamily: 'Jazeera-Regular',
+                                        fontSize: 16,
+                                      ),
+                                    )
+                                  : const Text(
+                                      "دخول",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: 'Jazeera-Regular',
+                                      ),
+                                    ),
                             ),
                           ),
+                        ],
+                      );
+                    },
+                    type: StepperType.horizontal,
+                    currentStep: _step,
+                    steps: <Step>[
+                      Step(
+                        isActive: _step != 0 ? false : true,
+                        title: const Text(""),
+                        state:
+                            _step > 0 ? StepState.complete : StepState.indexed,
+                        content: const TextFormFieldCostum(
+                          isEmptyTitle: "أدخل رقم هاتفك المحمول",
+                          maxLength: 12,
+                          lengthErrorTitle: "أدخل رقم هاتفك المحمول بشكل صحيح",
+                          labelTitle: "رقم الهاتف الجوال",
+                          helperTitle:
+                              "يجب ادخال الرقم المسجل في قاعدة بيانات النظام",
+                          inputType: TextInputType.phone,
+                          obscureText: false,
+                          inputIcon: Icons.phone_android_rounded,
                         ),
-                        TextButton(
+                        label: Text(
+                          "الهاتف",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Jazeera-Regular',
+                            color: _step != 0
+                                ? Colors.grey
+                                : Constants.headerColor,
+                          ),
+                        ),
+                      ),
+                      Step(
+                        isActive: _step != 1 ? false : true,
+                        state:
+                            _step > 1 ? StepState.complete : StepState.indexed,
+                        title: const Text(""),
+                        content: Column(
+                          children: [
+                            const TextFormFieldCostum(
+                              isEmptyTitle: "يرجى ادخال الرمز بشكل صحيح",
+                              maxLength: 1000,
+                              lengthErrorTitle: "",
+                              labelTitle: "رمز التحقق",
+                              helperTitle:
+                                  "اكتب رمز التحقق الذي يصل على رقم هاتفك",
+                              inputType: TextInputType.phone,
+                              obscureText: false,
+                              inputIcon: Icons.sms,
+                            ),
+                            const SizedBox(height: 20),
+                            Container(
+                              child: secondes == 1
+                                  ? GestureDetector(
+                                      onTap: () {},
+                                      child: Text(
+                                        "لم تحصل على رمز التحقق؟",
+                                        style: TextStyle(
+                                          fontFamily: 'Jazeera-Regular',
+                                          color: Constants.headerColor,
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  : Stack(
+                                      children: <Widget>[
+                                        Center(
+                                          child: SizedBox(
+                                            width: 30,
+                                            height: 30,
+                                            child: Center(
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 1.0,
+                                                value:
+                                                    secondes / maxSecondesSMS,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 3),
+                                          child: Center(
+                                            child: Text(
+                                              '$secondes',
+                                              style: const TextStyle(
+                                                fontFamily: 'Jazeera-Regular',
+                                                fontSize: 15,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                        label: Text(
+                          "التحقق",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Jazeera-Regular',
+                            color: _step != 1
+                                ? Colors.grey
+                                : Constants.headerColor,
+                          ),
+                        ),
+                      ),
+                      Step(
+                        isActive: _step != 2 ? false : true,
+                        state:
+                            _step > 2 ? StepState.complete : StepState.indexed,
+                        title: const Text(""),
+                        content: const Column(
+                          children: <Widget>[
+                            TextFormFieldCostum(
+                              isEmptyTitle: "أدخل رقم هاتفك المحمول",
+                              maxLength: 1000,
+                              lengthErrorTitle:
+                                  "أدخل رقم هاتفك المحمول بشكل صحيح",
+                              labelTitle: "كلمة المرور",
+                              helperTitle: "يرجى التأكد من كلمة المرور",
+                              inputType: TextInputType.phone,
+                              obscureText: false,
+                              inputIcon: Icons.password,
+                            ),
+                            SizedBox(height: 20),
+                            TextFormFieldCostum(
+                              isEmptyTitle: "أدخل رقم هاتفك المحمول",
+                              maxLength: 1000,
+                              lengthErrorTitle:
+                                  "أدخل رقم هاتفك المحمول بشكل صحيح",
+                              labelTitle: "تكرار كلمة المرور",
+                              helperTitle: "يرجى التأكد من مطابقة كلمة المرور",
+                              inputType: TextInputType.phone,
+                              obscureText: false,
+                              inputIcon: Icons.password,
+                            ),
+                          ],
+                        ),
+                        label: Text(
+                          "الرمز",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Jazeera-Regular',
+                            color: _step != 2
+                                ? Colors.grey
+                                : Constants.headerColor,
+                          ),
+                        ),
+                      ),
+                      Step(
+                        isActive: _step != 3 ? false : true,
+                        state:
+                            _step > 3 ? StepState.complete : StepState.indexed,
+                        title: const Text(""),
+                        content: Text(
+                          "اهلا بك يا علی حردان",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Jazeera-Bold',
+                            fontSize: 20,
+                            color: Constants.headerColor,
+                          ),
+                        ),
+                        label: Text(
+                          "النهاية",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Jazeera-Regular',
+                            color: _step != 3
+                                ? Colors.grey
+                                : Constants.headerColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // LOGIN
+          Positioned(
+            width: size.width,
+            height: size.height * 0.6,
+            top: 290,
+            child: Visibility(
+              visible: _login,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 40,
+                  vertical: 20,
+                ),
+                child: Form(
+                  key: _formkey,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 20),
+                        const TextFormFieldCostum(
+                          isEmptyTitle: "أدخل رقم هاتفك المحمول",
+                          maxLength: 12,
+                          lengthErrorTitle: "أدخل رقم هاتفك المحمول بشكل صحيح",
+                          labelTitle: "رقم الهاتف الجوال",
+                          helperTitle:
+                              "يجب ادخال الرقم المسجل في قاعدة بيانات النظام",
+                          inputType: TextInputType.phone,
+                          obscureText: false,
+                          inputIcon: Icons.phone_android_rounded,
+                        ),
+                        const SizedBox(height: 20),
+                        const TextFormFieldCostum(
+                          isEmptyTitle: "اكتب كلمة المرور",
+                          maxLength: 1000,
+                          lengthErrorTitle: "",
+                          labelTitle: "كلمة المرور",
+                          helperTitle: "يرجى التأكد من كلمة المرور",
+                          inputType: TextInputType.visiblePassword,
+                          obscureText: true,
+                          inputIcon: Icons.password,
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith((states) {
+                              return Constants.headerColor;
+                            }),
+                          ),
                           onPressed: () {
-                            setState(() {
-                              if (step < 3) {
-                                step++;
-                              }
-                            });
+                            _formkey.currentState!.validate();
                           },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 5,
-                            ),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  width: 0.3,
-                                  color: Constants.headerColor,
-                                )),
-                            child: const Text(
-                              'التالي',
-                              style: TextStyle(
-                                fontFamily: 'Jazeera-Regular',
-                                fontSize: 16,
-                              ),
+                          child: Text(
+                            "دخول",
+                            style: TextStyle(
+                              fontFamily: 'Jazeera-Regular',
                             ),
                           ),
-                        ),
+                        )
                       ],
-                    );
-                  },
-                  type: StepperType.horizontal,
-                  currentStep: step,
-                  steps: <Step>[
-                    Step(
-                      isActive: step != 0 ? false : true,
-                      title: Text(""),
-                      content: Text(""),
-                      label: Text(
-                        "الهاتف",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Jazeera-Regular',
-                          color:
-                              step != 0 ? Colors.grey : Constants.headerColor,
-                        ),
-                      ),
                     ),
-                    Step(
-                      isActive: step != 1 ? false : true,
-                      title: Text(""),
-                      content: Text("2wqeweqw"),
-                      label: Text(
-                        "التحقق",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Jazeera-Regular',
-                          color:
-                              step != 1 ? Colors.grey : Constants.headerColor,
-                        ),
-                      ),
-                    ),
-                    Step(
-                      isActive: step != 2 ? false : true,
-                      title: Text(""),
-                      content: Text("3ewqwqewe"),
-                      label: Text(
-                        "الرمز",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Jazeera-Regular',
-                          color:
-                              step != 2 ? Colors.grey : Constants.headerColor,
-                        ),
-                      ),
-                    ),
-                    Step(
-                      isActive: step != 3 ? false : true,
-                      title: Text(""),
-                      content: Text("313222222222"),
-                      label: Text(
-                        "النهاية",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Jazeera-Regular',
-                          color:
-                              step != 3 ? Colors.grey : Constants.headerColor,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

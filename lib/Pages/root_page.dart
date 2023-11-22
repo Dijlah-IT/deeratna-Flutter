@@ -41,7 +41,6 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
     await pref.setBool('isDarkModeEnabled', isDarkModeEnabled);
   }
 
-  final GlobalKey<SliderDrawerWidgetState> drawerKey = GlobalKey();
   @override
   void initState() {
     _GetThemeMod();
@@ -52,6 +51,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       vsync: this,
     );
   }
+
+  final GlobalKey<SliderDrawerWidgetState> drawerKey = GlobalKey();
 
   @override
   void dispose() {
@@ -69,15 +70,15 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       "شارك التطبيق",
     ];
 
-    final List<FaIcon> drawerItemIcon = [
-      const FaIcon(FontAwesomeIcons.homeLg),
-      FaIcon(FontAwesomeIcons.gamepad),
-      FaIcon(FontAwesomeIcons.gamepad),
-      FaIcon(FontAwesomeIcons.gamepad),
+    final List<IconData> drawerItemIcon = [
+      Icons.home,
+      Icons.assignment_late_outlined,
+      Icons.phone_enabled,
+      Icons.share,
     ];
 
     final Size size = MediaQuery.of(context).size;
-    debugPrint("${Constants.isDarkModeEnabled}   RootPage");
+
     return SliderDrawerWidget(
       key: drawerKey,
       option: SliderDrawerOption(
@@ -131,6 +132,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                 (index) => DrawerItems(
                   title: drawerItemText[index],
                   icon: drawerItemIcon[index],
+                  tag: index,
                 ),
               ),
             ),
@@ -166,18 +168,21 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    showProfile = !showProfile;
-                  });
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Constants.isDarkModeEnabled
-                      ? Constants.lineColorNight
-                      : Constants.lineColor,
-                  size: 30,
+              Visibility(
+                visible: false,
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      showProfile = !showProfile;
+                    });
+                  },
+                  icon: Icon(
+                    Icons.person,
+                    color: Constants.isDarkModeEnabled
+                        ? Constants.lineColorNight
+                        : Constants.lineColor,
+                    size: 30,
+                  ),
                 ),
               ),
               IconButton(
@@ -519,35 +524,66 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
 
 class DrawerItems extends StatelessWidget {
   final String title;
-  final FaIcon icon;
+  final IconData icon;
+  final int tag;
+
   const DrawerItems({
     super.key,
     required this.title,
     required this.icon,
+    required this.tag,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: 'Jazeera-Regular',
-              fontSize: 18,
-              color: Constants.lineColor,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+      child: GestureDetector(
+        onTap: () {
+          debugPrint(tag.toString());
+          switch (tag) {
+            case 0:
+              break;
+            case 1:
+              Navigator.pushNamed(
+                context,
+                AboutPage.routName,
+                arguments: {
+                  "title": "من نحن",
+                  "isAbout": true,
+                },
+              );
+              break;
+            case 2:
+              Navigator.pushNamed(
+                context,
+                AboutPage.routName,
+                arguments: {
+                  "title": "الدعم الفني",
+                  "isAbout": false,
+                },
+              );
+              break;
+          }
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              title,
+              style: TextStyle(
+                fontFamily: 'Jazeera-Regular',
+                fontSize: 18,
+                color: Constants.lineColor,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: icon,
-            color: Constants.lineColor,
-          ),
-        ],
+            const SizedBox(width: 5),
+            Icon(
+              icon,
+              color: Constants.lineColor,
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:deeratna/Pages/about_page.dart';
 import 'package:deeratna/Pages/accessCard_page.dart';
 import 'package:deeratna/Pages/login_page.dart';
 import 'package:deeratna/Pages/profile_page.dart';
@@ -11,5 +12,6 @@ final Map<String, WidgetBuilder> routes = {
   ProfilePage.routName: (context) => const ProfilePage(),
   AccessCard.routName: (context) => const AccessCard(),
   LoginPage.routName: (context) => const LoginPage(),
+  AboutPage.routName: (context) => const AboutPage(),
   // NotifPage.routName: (context) => const NotifPage(),
 };

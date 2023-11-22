@@ -72,51 +72,100 @@ class _HomePageState extends State<HomePage> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               margin: const EdgeInsets.symmetric(vertical: 5.0),
-                              child: Container(
-                                clipBehavior: Clip.antiAlias,
-                                decoration: const BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      blurRadius: 4,
-                                      offset: Offset(0, 0), // Shadow position
+                              child: Stack(
+                                children: <Widget>[
+                                  Container(
+                                    clipBehavior: Clip.antiAlias,
+                                    width: size.width,
+                                    decoration: const BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey,
+                                          blurRadius: 4,
+                                          offset:
+                                              Offset(0, 0), // Shadow position
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
                                     ),
-                                  ],
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
+                                    child: Image.asset(
+                                      sampleImages[i],
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
-                                ),
-                                child: Image.asset(
-                                  sampleImages[i],
-                                  fit: BoxFit.fill,
-                                ),
+                                  Positioned(
+                                    top: 60,
+                                    right: 0,
+                                    left: 0,
+                                    height: 150,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10),
+                                        ),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Colors.transparent,
+                                            Constants.isDarkModeEnabled
+                                                ? Constants.lineColorNight
+                                                : Constants.headerColor,
+                                          ],
+                                        ),
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 10,
+                                          top: 110,
+                                          right: 10,
+                                        ),
+                                        child: Text(
+                                          "لوريم إيبسوم",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Jazeera-Bold',
+                                            fontSize: 18,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             );
                           },
                         );
                       }).toList(),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: sampleImages.asMap().entries.map((entry) {
-                        return GestureDetector(
-                          onTap: () => _controller.animateToPage(entry.key),
-                          child: Container(
-                            width: 8.0,
-                            height: 8.0,
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 4.0),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: (Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? Colors.white
-                                        : Colors.black)
-                                    .withOpacity(
-                                        _current == entry.key ? 0.9 : 0.4)),
-                          ),
-                        );
-                      }).toList(),
+                    Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: sampleImages.asMap().entries.map((entry) {
+                          return GestureDetector(
+                            onTap: () => _controller.animateToPage(entry.key),
+                            child: Container(
+                              width: 8.0,
+                              height: 8.0,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 4.0),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: (Constants.isDarkModeEnabled
+                                          ? Constants.lineColorNight
+                                          : Constants.headerColor)
+                                      .withOpacity(
+                                          _current == entry.key ? 0.9 : 0.4)),
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ],
                 ),
@@ -243,11 +292,11 @@ class ServiceItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Lottie.asset(
-              './Assets/images/deratna-fell.json',
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover
+            Icon(
+              servicesItemIcon,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.textColorNight
+                  : Constants.textColor,
             ),
             const SizedBox(height: 10),
             Text(
