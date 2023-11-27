@@ -22,7 +22,8 @@ class _DeeratnaState extends State<Deeratna> {
   _GetThemeMod() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
-      isNightTheme = pref.getBool("isDarkModeEnabled") ?? true;
+      isNightTheme = pref.getBool("isDarkModeEnabled") ?? false;
+      Constants.userToken = pref.getString("userToken") ?? "";
     });
   }
 
@@ -34,8 +35,8 @@ class _DeeratnaState extends State<Deeratna> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("${isNightTheme}main");
     Constants.isDarkModeEnabled = isNightTheme;
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Deeratna',

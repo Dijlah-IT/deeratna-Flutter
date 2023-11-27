@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Pages/login_page.dart';
+import 'package:deeratna/Pages/root_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -14,13 +16,20 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Timer(
-      const Duration(seconds: 4),
-      () => Navigator.popAndPushNamed(
-        context,
-        LoginPage.routName,
-      ),
-    );
+    Timer(const Duration(seconds: 4), () {
+      debugPrint(Constants.userToken +"<--------");
+      if (Constants.userToken == "") {
+        Navigator.popAndPushNamed(
+          context,
+          LoginPage.routName,
+        );
+      } else {
+        Navigator.popAndPushNamed(
+          context,
+          RootPage.routName,
+        );
+      }
+    });
   }
 
   @override

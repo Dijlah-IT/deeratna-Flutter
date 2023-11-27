@@ -10,7 +10,7 @@ class TextFormFieldCostum extends StatelessWidget {
   final TextInputType inputType;
   final bool obscureText;
   final IconData inputIcon;
-
+  final TextEditingController? controller;
   const TextFormFieldCostum({
     super.key,
     required this.isEmptyTitle,
@@ -21,11 +21,13 @@ class TextFormFieldCostum extends StatelessWidget {
     required this.inputType,
     required this.obscureText,
     required this.inputIcon,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       keyboardType: inputType,
       cursorColor: Colors.black,
       obscureText: obscureText,
@@ -33,9 +35,6 @@ class TextFormFieldCostum extends StatelessWidget {
       validator: (String? value) {
         if (value!.isEmpty) {
           return isEmptyTitle;
-        }
-        if (value.length < maxLength) {
-          return lengthErrorTitle;
         }
         return null;
       },
@@ -67,8 +66,10 @@ class TextFormFieldCostum extends StatelessWidget {
           fontFamily: 'Jazeera-Regular',
           color: Constants.headerColor,
         ),
-        helperStyle: const TextStyle(
+        helperStyle: TextStyle(
           fontSize: 10,
+          color:
+              Constants.statusCode == 200 ? Constants.headerColor : Colors.red,
           fontFamily: 'Jazeera-Regular',
         ),
       ),

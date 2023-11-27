@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
                                           right: 10,
                                         ),
                                         child: Text(
-                                          "لوريم إيبسوم",
+                                          "الامل ١ / a26-f3-p14",
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'Jazeera-Bold',

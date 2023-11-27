@@ -1,6 +1,7 @@
 import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Pages/about_page.dart';
 import 'package:deeratna/Pages/home_page.dart';
+import 'package:deeratna/Pages/login_page.dart';
 import 'package:deeratna/Pages/notif_page.dart';
 import 'package:deeratna/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,10 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
   double brightnessValue = 0.0;
   double fontsizeValue = 15.0;
   bool isDarkModeEnabled = false;
+  deleteToken() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.remove('userToken');
+  }
 
   _GetThemeMod() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -109,17 +114,16 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
               ),
               child: CircleAvatar(
                 radius: 100,
+                foregroundImage: NetworkImage(ConstUserInformations.photoURL),
                 backgroundColor: Constants.backGroundColor,
-                backgroundImage:
-                    const ExactAssetImage('./Assets/images/Profile.jpg'),
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              "علاء محمود عبدالله",
-              style: TextStyle(
+            Text(
+              ConstUserInformations.name,
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 25,
                 fontFamily: 'Jazeera-Bold',
@@ -143,11 +147,21 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(6),
                 border: Border.all(width: 1, color: Constants.headerColor),
               ),
-              child: Text(
-                "تسجيل الخروج",
-                style: TextStyle(
-                  color: Constants.textColor,
-                  fontFamily: 'Jazeera-Regular',
+              child: GestureDetector(
+                onTap: () {
+                  deleteToken();
+                  Constants.userToken = "";
+                  Navigator.popAndPushNamed(
+                    context,
+                    LoginPage.routName,
+                  );
+                },
+                child: Text(
+                  "تسجيل الخروج",
+                  style: TextStyle(
+                    color: Constants.textColor,
+                    fontFamily: 'Jazeera-Regular',
+                  ),
                 ),
               ),
             )
