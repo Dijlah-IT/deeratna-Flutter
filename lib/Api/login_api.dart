@@ -14,7 +14,7 @@ saveToken(String userToken) async {
 Future<MessagePosts> login(
     String phoneNumber, String password, String deviceName) async {
   final response = await http.post(
-      Uri.https("deeratna.net", 'api/login', {
+      Uri.https("deeratna.net", '/api/mobile/login', {
         'phone': phoneNumber,
         'password': password,
         'device_name': deviceName,
@@ -23,10 +23,13 @@ Future<MessagePosts> login(
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json; charset = UTF-8',
       });
+  debugPrint(response.statusCode.toString());
   Constants.statusCode = response.statusCode;
   if (response.statusCode == 404 || response.statusCode == 422) {
     return MessagePosts.fromJson(jsonDecode(response.body));
   } else if (response.statusCode == 200) {
+    saveToken(response.body);
+    Constants.userToken = response.body;
     return MessagePosts.fromJson(jsonDecode('{"message": " "}'));
   } else {
     throw Constants.message = "Erorr";
@@ -35,7 +38,7 @@ Future<MessagePosts> login(
 
 Future<MessagePosts> registerPhone(String phoneNumber) async {
   final response = await http.post(
-      Uri.https("deeratna.net", 'api/pre-activate', {'phone': phoneNumber}),
+      Uri.https("deeratna.net", '/api/mobile/pre-activate', {'phone': phoneNumber}),
       headers: <String, String>{
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json; charset = UTF-8',
@@ -46,7 +49,6 @@ Future<MessagePosts> registerPhone(String phoneNumber) async {
   if (response.statusCode == 404 || response.statusCode == 422) {
     return MessagePosts.fromJson(jsonDecode(response.body));
   } else if (response.statusCode == 200) {
-    Constants.userToken = response.body;
     return MessagePosts.fromJson(jsonDecode('{"message": " "}'));
   } else {
     throw Constants.message = "Erorr";
@@ -56,7 +58,7 @@ Future<MessagePosts> registerPhone(String phoneNumber) async {
 register(String phoneNumber, String password, String passwordConfirmation,
     String deviceName) async {
   final response = await http.post(
-      Uri.https("deeratna.net", 'api/activate', {
+      Uri.https("deeratna.net", '/api/mobile/activate', {
         'phone': phoneNumber,
         'password': password,
         'password_confirmation': passwordConfirmation,
@@ -78,14 +80,15 @@ register(String phoneNumber, String password, String passwordConfirmation,
 }
 
 Future<UserInformations> getUserInformations(String token) async {
+  debugPrint(token);
+
   final response = await http
-      .get(Uri.https("deeratna.net", 'api/user'), headers: <String, String>{
+      .get(Uri.https("deeratna.net", '/api/user'), headers: <String, String>{
     'X-Requested-With': 'XMLHttpRequest',
     'Authorization': 'Bearer $token',
     'Content-Type': 'application/json; charset = UTF-8',
   });
 
-  debugPrint("getUserInformations");
   Constants.statusCode = response.statusCode;
   if (response.statusCode == 404 || response.statusCode == 422) {
     return UserInformations.fromJson(jsonDecode(response.body));

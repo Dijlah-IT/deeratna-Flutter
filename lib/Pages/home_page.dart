@@ -1,6 +1,7 @@
 import 'package:deeratna/Components/my_cart.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Pages/accessCard_page.dart';
+import 'package:deeratna/Pages/housespecifications_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottie/lottie.dart';
@@ -69,74 +70,87 @@ class _HomePageState extends State<HomePage> {
                       items: [0, 1, 2, 3, 4].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(vertical: 5.0),
-                              child: Stack(
-                                children: <Widget>[
-                                  Container(
-                                    clipBehavior: Clip.antiAlias,
-                                    width: size.width,
-                                    decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 4,
-                                          offset:
-                                              Offset(0, 0), // Shadow position
-                                        ),
-                                      ],
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                    ),
-                                    child: Image.asset(
-                                      sampleImages[i],
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 60,
-                                    right: 0,
-                                    left: 0,
-                                    height: 150,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                          bottomLeft: Radius.circular(10),
-                                          bottomRight: Radius.circular(10),
-                                        ),
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: [
-                                            Colors.transparent,
-                                            Constants.isDarkModeEnabled
-                                                ? Constants.lineColorNight
-                                                : Constants.headerColor,
+                            return Hero(
+                              tag: "HouseSliderImage",
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    HouseSpecificationsPage.routName,
+                                  );
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 5.0),
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        clipBehavior: Clip.antiAlias,
+                                        width: size.width,
+                                        decoration: const BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 4,
+                                              offset: Offset(
+                                                  0, 0), // Shadow position
+                                            ),
                                           ],
-                                        ),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 10,
-                                          top: 110,
-                                          right: 10,
-                                        ),
-                                        child: Text(
-                                          "الامل ١ / a26-f3-p14",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Jazeera-Bold',
-                                            fontSize: 18,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(10),
                                           ),
-                                          textAlign: TextAlign.right,
-                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        child: Image.asset(
+                                          sampleImages[i],
+                                          fit: BoxFit.fill,
                                         ),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                      Positioned(
+                                        top: 60,
+                                        right: 0,
+                                        left: 0,
+                                        height: 150,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              bottomLeft: Radius.circular(10),
+                                              bottomRight: Radius.circular(10),
+                                            ),
+                                            gradient: LinearGradient(
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                              colors: [
+                                                Colors.transparent,
+                                                Constants.isDarkModeEnabled
+                                                    ? Constants.lineColorNight
+                                                    : Constants.headerColor,
+                                              ],
+                                            ),
+                                          ),
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(
+                                              left: 10,
+                                              top: 110,
+                                              right: 10,
+                                            ),
+                                            child: Text(
+                                              "الامل ١ / a26-f3-p14",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: 'Jazeera-Bold',
+                                                fontSize: 18,
+                                              ),
+                                              textAlign: TextAlign.right,
+                                              textDirection: TextDirection.rtl,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -285,18 +299,26 @@ class ServiceItem extends StatelessWidget {
           color: Constants.isDarkModeEnabled
               ? Constants.itemColorNight
               : Constants.itemColor,
-          border: Border.all(color: const Color.fromARGB(255, 233, 232, 232)),
+          border: Border.all(
+              color: Constants.isDarkModeEnabled
+                  ? Constants.lineColorNight
+                  : Constants.lineColor),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              servicesItemIcon,
-              color: Constants.isDarkModeEnabled
-                  ? Constants.textColorNight
-                  : Constants.textColor,
+            Lottie.asset(
+              './Assets/images/15.json',
+              width: 50,
+              height: 50,
+              reverse: true,
+              repeat: false,
+              options: LottieOptions(
+                enableMergePaths: true,
+                enableApplyingOpacityToLayers: true,
+              ),
             ),
             const SizedBox(height: 10),
             Text(

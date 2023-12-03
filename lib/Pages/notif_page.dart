@@ -1,23 +1,47 @@
 import 'package:deeratna/Constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotifPage extends StatefulWidget {
   const NotifPage({super.key});
   static String routName = "/NotifPage";
+
   @override
   State<NotifPage> createState() => _NotifPageState();
 }
 
 class _NotifPageState extends State<NotifPage> {
+  List<String> titleContent = [];
+  List<String> bodyContent = [];
+  _GetContents() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    setState(() {
+      titleContent = pref.getStringList("titleContent") ?? [];
+      bodyContent = pref.getStringList("bodyContent") ?? [];
+    });
+  }
+
+  @override
+  void initState() {
+    _GetContents();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.all(15),
+    Size size = MediaQuery.of(context).size;
+    debugPrint("${titleContent.length}Notif Size");
+    return Container(
+      height: size.height,
+      padding: const EdgeInsets.all(15),
+      child: SingleChildScrollView(
         child: Column(
             children: List.generate(
-          10,
-          (index) => const NotifItem(),
+          bodyContent.length,
+          (index) => NotifItem(
+            body: bodyContent[index],
+            title: titleContent[index],
+          ),
         )),
       ),
     );
@@ -25,8 +49,12 @@ class _NotifPageState extends State<NotifPage> {
 }
 
 class NotifItem extends StatelessWidget {
+  final String title;
+  final String body;
   const NotifItem({
     super.key,
+    required this.title,
+    required this.body,
   });
 
   @override
@@ -47,7 +75,7 @@ class NotifItem extends StatelessWidget {
             ),
           ),
           child: Text(
-            "لوريم إيبسوم",
+            title,
             style: TextStyle(
               color: Constants.isDarkModeEnabled
                   ? Constants.lineColorNight
@@ -67,9 +95,9 @@ class NotifItem extends StatelessWidget {
                   ? Constants.itemColorNight
                   : Constants.itemColor,
               border: Border.all(color: Constants.headerColor, width: 0.1)),
-          child: const Text(
-            "لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
-            style: TextStyle(
+          child: Text(
+            body,
+            style: const TextStyle(
               color: Colors.grey,
               fontFamily: 'Jazeera-Regular',
               fontSize: 16,

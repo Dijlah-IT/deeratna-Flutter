@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "688591888",
+    "project_id": "deeratna-92fe5",
+    "storage_bucket": "deeratna-92fe5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688591888:android:91041e23f7c2b29aa4e695",
+        "android_client_info": {
+          "package_name": "com.deeratna.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYn_BOHyp2BOHzL3x49BSN0myR54NuTWY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

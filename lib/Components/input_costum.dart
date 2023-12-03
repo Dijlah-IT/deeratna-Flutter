@@ -1,7 +1,9 @@
 import 'package:deeratna/Constants/constants.dart';
 import 'package:flutter/material.dart';
 
-class TextFormFieldCostum extends StatelessWidget {
+bool showPassword = true;
+
+class TextFormFieldCostum extends StatefulWidget {
   final String isEmptyTitle;
   final int maxLength;
   final String lengthErrorTitle;
@@ -11,6 +13,7 @@ class TextFormFieldCostum extends StatelessWidget {
   final bool obscureText;
   final IconData inputIcon;
   final TextEditingController? controller;
+
   const TextFormFieldCostum({
     super.key,
     required this.isEmptyTitle,
@@ -25,16 +28,22 @@ class TextFormFieldCostum extends StatelessWidget {
   });
 
   @override
+  State<TextFormFieldCostum> createState() => _TextFormFieldCostumState();
+}
+
+class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      keyboardType: inputType,
+      controller: widget.controller,
+      keyboardType: widget.inputType,
       cursorColor: Colors.black,
-      obscureText: obscureText,
+      obscureText:
+          widget.obscureText == true ? showPassword : widget.obscureText,
       obscuringCharacter: '*',
       validator: (String? value) {
         if (value!.isEmpty) {
-          return isEmptyTitle;
+          return widget.isEmptyTitle;
         }
         return null;
       },
@@ -57,10 +66,25 @@ class TextFormFieldCostum extends StatelessWidget {
           ),
           borderSide: BorderSide(color: Colors.red),
         ),
-        icon: Icon(inputIcon),
+        icon: Icon(
+          widget.inputIcon,
+        ),
+        suffixIcon: widget.obscureText
+            ? IconButton(
+                icon: Icon(
+                  !showPassword ? Icons.visibility : Icons.visibility_off,
+                ),
+                color: Constants.headerColor,
+                onPressed: () {
+                  setState(() {
+                    showPassword = !showPassword;
+                  });
+                },
+              )
+            : const Text(""),
         iconColor: Constants.headerColor,
-        labelText: labelTitle,
-        helperText: helperTitle,
+        labelText: widget.labelTitle,
+        helperText: widget.helperTitle,
         labelStyle: TextStyle(
           fontSize: 15,
           fontFamily: 'Jazeera-Regular',

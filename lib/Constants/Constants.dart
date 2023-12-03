@@ -7,11 +7,11 @@ class Constants {
   static Color lineColor = const Color.fromRGBO(216, 202, 153, 1);
   static Color backGroundColor = const Color.fromRGBO(247, 250, 243, 1);
 
-  static Color headerColorNight = const Color.fromRGBO(11, 8, 8, 1);
-  static Color textColorNight = Colors.white;
-  static Color itemColorNight = const Color.fromRGBO(35, 37, 40, 1);
-  static Color lineColorNight = const Color.fromRGBO(142, 141, 147, 1);
-  static Color backGroundColorNight = const Color.fromRGBO(23, 23, 23, 1);
+  static Color headerColorNight = const Color.fromRGBO(7,40,32, 1);
+  static Color textColorNight = const Color.fromRGBO(66,146,112, 1);
+  static Color itemColorNight = const Color.fromRGBO(7,40,32, 1);
+  static Color lineColorNight = const Color.fromRGBO(213,201,149, 1);
+  static Color backGroundColorNight = const Color.fromRGBO(14,27,23, 1);
 
   static int themeDurationChange = 300;
   static int fontSize = 18;

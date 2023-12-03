@@ -6,6 +6,7 @@ import 'package:deeratna/Pages/notif_page.dart';
 import 'package:deeratna/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_drawer/flutter_slide_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +29,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
   double brightnessValue = 0.0;
   double fontsizeValue = 15.0;
   bool isDarkModeEnabled = false;
+  bool isShowLogOutDialog = false;
+
   deleteToken() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.remove('userToken');
@@ -81,397 +84,404 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       Icons.phone_enabled,
       Icons.share,
     ];
-
     final Size size = MediaQuery.of(context).size;
 
-    return SliderDrawerWidget(
-      key: drawerKey,
-      option: SliderDrawerOption(
-        backgroundImage: Image.asset(
-          "./Assets/images/bg-sw.jpg",
-          height: size.height,
-          width: size.width,
-        ),
-        sliderEffectType: SliderEffectType.Rounded,
-        backgroundColor: Colors.black,
-        upDownScaleAmount: 10,
-        radiusAmount: 50,
-        direction: SliderDrawerDirection.RTL,
-      ),
-      drawer: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 70),
-            Container(
-              width: 130,
-              height: 130,
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                color: Constants.headerColor,
-                shape: BoxShape.circle,
+    return Scaffold(
+      body: Stack(
+        children: [
+          SliderDrawerWidget(
+            key: drawerKey,
+            option: SliderDrawerOption(
+              backgroundImage: Image.asset(
+                "./Assets/images/bg-sw.jpg",
+                height: size.height,
+                width: size.width,
               ),
-              child: CircleAvatar(
-                radius: 100,
-                foregroundImage: NetworkImage(ConstUserInformations.photoURL),
-                backgroundColor: Constants.backGroundColor,
-              ),
+              sliderEffectType: SliderEffectType.Rounded,
+              backgroundColor: Colors.black,
+              upDownScaleAmount: 10,
+              radiusAmount: 50,
+              direction: SliderDrawerDirection.RTL,
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              ConstUserInformations.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontFamily: 'Jazeera-Bold',
-              ),
-            ),
-            const SizedBox(height: 40),
-            Column(
-              children: List.generate(
-                drawerItemText.length,
-                (index) => DrawerItems(
-                  title: drawerItemText[index],
-                  icon: drawerItemIcon[index],
-                  tag: index,
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(width: 1, color: Constants.headerColor),
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  deleteToken();
-                  Constants.userToken = "";
-                  Navigator.popAndPushNamed(
-                    context,
-                    LoginPage.routName,
-                  );
-                },
-                child: Text(
-                  "تسجيل الخروج",
-                  style: TextStyle(
-                    color: Constants.textColor,
-                    fontFamily: 'Jazeera-Regular',
+            drawer: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(height: 70),
+                  Container(
+                    width: 130,
+                    height: 130,
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: Constants.headerColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      radius: 100,
+                      foregroundImage:
+                          NetworkImage(ConstUserInformations.photoURL),
+                      backgroundColor: Constants.backGroundColor,
+                    ),
                   ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-      body: Scaffold(
-        backgroundColor: Constants.isDarkModeEnabled
-            ? Constants.backGroundColorNight
-            : Constants.backGroundColor,
-        appBar: AppBar(
-          toolbarHeight: 60,
-          backgroundColor: Constants.isDarkModeEnabled
-              ? Constants.headerColorNight
-              : Constants.headerColor,
-          automaticallyImplyLeading: false,
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Visibility(
-                visible: false,
-                child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      showProfile = !showProfile;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.person,
-                    color: Constants.isDarkModeEnabled
-                        ? Constants.lineColorNight
-                        : Constants.lineColor,
-                    size: 30,
+                  const SizedBox(
+                    height: 10,
                   ),
+                  Text(
+                    ConstUserInformations.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontFamily: 'Jazeera-Bold',
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Column(
+                    children: List.generate(
+                      drawerItemText.length,
+                      (index) => DrawerItems(
+                        title: drawerItemText[index],
+                        icon: drawerItemIcon[index],
+                        tag: index,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      border:
+                          Border.all(width: 1, color: Constants.headerColor),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isShowLogOutDialog = true;
+                        });
+                      },
+                      child: Text(
+                        "تسجيل الخروج",
+                        style: TextStyle(
+                          color: Constants.textColor,
+                          fontFamily: 'Jazeera-Regular',
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            body: Scaffold(
+              backgroundColor: Constants.isDarkModeEnabled
+                  ? Constants.backGroundColorNight
+                  : Constants.backGroundColor,
+              appBar: AppBar(
+                toolbarHeight: 60,
+                backgroundColor: Constants.isDarkModeEnabled
+                    ? Constants.headerColorNight
+                    : Constants.headerColor,
+                automaticallyImplyLeading: false,
+                title: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Visibility(
+                      visible: false,
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showProfile = !showProfile;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.person,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.lineColorNight
+                              : Constants.lineColor,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        debugPrint("Working !!!");
+                        drawerKey.currentState!.toggleDrawer();
+                      },
+                      icon: Icon(
+                        Icons.menu,
+                        color: Constants.isDarkModeEnabled
+                            ? Constants.lineColorNight
+                            : Constants.lineColor,
+                        size: 30,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  debugPrint("Working !!!");
-                  drawerKey.currentState!.toggleDrawer();
-                },
-                icon: Icon(
-                  Icons.menu,
-                  color: Constants.isDarkModeEnabled
-                      ? Constants.lineColorNight
-                      : Constants.lineColor,
-                  size: 30,
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: Stack(
-          children: <Widget>[
-            TabBarView(
-              physics: const NeverScrollableScrollPhysics(),
-              // controller: _tabController,
-              controller: _motionTabBarController,
-              children: <Widget>[
-                // Notif
-                const Center(
-                  child: NotifPage(),
-                ),
-                // HomePage
-                const Center(
-                  child: HomePage(),
-                ),
-                // Setting
-                Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+              body: Stack(
+                children: <Widget>[
+                  TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    // controller: _tabController,
+                    controller: _motionTabBarController,
                     children: <Widget>[
-                      Text(
-                        "المظهر",
-                        style: TextStyle(
-                          color: isDarkModeEnabled
-                              ? Constants.lineColorNight
-                              : Constants.lineColor,
-                          fontSize: 18,
-                          fontFamily: 'Jazeera-Regular',
-                        ),
+                      // Notif
+                      const Center(
+                        child: NotifPage(),
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isDarkModeEnabled
-                              ? Constants.itemColorNight
-                              : Constants.itemColor,
-                          border: Border.all(
-                            width: 0.4,
-                            color: isDarkModeEnabled
-                                ? Constants.lineColorNight
-                                : Constants.lineColor,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // HomePage
+                      const Center(
+                        child: HomePage(),
+                      ),
+                      // Setting
+                      Padding(
+                        padding: const EdgeInsets.all(40),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Text(
-                              "فاتح",
+                              "المظهر",
                               style: TextStyle(
-                                fontFamily: 'Jazeera-Regular',
                                 color: isDarkModeEnabled
-                                    ? Constants.textColorNight
-                                    : Constants.textColor,
-                                fontSize: 17,
+                                    ? Constants.lineColorNight
+                                    : Constants.lineColor,
+                                fontSize: 18,
+                                fontFamily: 'Jazeera-Regular',
                               ),
                             ),
-                            DayNightSwitcher(
-                              dayBackgroundColor: Constants.headerColor,
-                              isDarkModeEnabled: isDarkModeEnabled,
-                              onStateChanged: (isDarkModeEnabled) {
-                                setState(() {
-                                  Constants.isDarkModeEnabled =
-                                      isDarkModeEnabled;
-                                  this.isDarkModeEnabled = isDarkModeEnabled;
-                                  _SetThemeMod();
-                                });
-                              },
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 20,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isDarkModeEnabled
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor,
+                                border: Border.all(
+                                  width: 0.4,
+                                  color: isDarkModeEnabled
+                                      ? Constants.lineColorNight
+                                      : Constants.lineColor,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Text(
+                                    "فاتح",
+                                    style: TextStyle(
+                                      fontFamily: 'Jazeera-Regular',
+                                      color: isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                  DayNightSwitcher(
+                                    dayBackgroundColor: Constants.headerColor,
+                                    isDarkModeEnabled: isDarkModeEnabled,
+                                    onStateChanged: (isDarkModeEnabled) {
+                                      setState(() {
+                                        Constants.isDarkModeEnabled =
+                                            isDarkModeEnabled;
+                                        this.isDarkModeEnabled =
+                                            isDarkModeEnabled;
+                                        _SetThemeMod();
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    "داكن",
+                                    style: TextStyle(
+                                      fontFamily: 'Jazeera-Regular',
+                                      color: isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             Text(
-                              "داكن",
+                              "الاضاءة",
                               style: TextStyle(
+                                color: isDarkModeEnabled
+                                    ? Constants.lineColorNight
+                                    : Constants.lineColor,
+                                fontSize: 18,
                                 fontFamily: 'Jazeera-Regular',
-                                color: isDarkModeEnabled
-                                    ? Constants.textColorNight
-                                    : Constants.textColor,
-                                fontSize: 17,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        "الاضاءة",
-                        style: TextStyle(
-                          color: isDarkModeEnabled
-                              ? Constants.lineColorNight
-                              : Constants.lineColor,
-                          fontSize: 18,
-                          fontFamily: 'Jazeera-Regular',
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: isDarkModeEnabled
-                              ? Constants.itemColorNight
-                              : Constants.itemColor,
-                          border: Border.all(
-                            width: 0.4,
-                            color: isDarkModeEnabled
-                                ? Constants.lineColorNight
-                                : Constants.lineColor,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (brightnessValue.toInt() != 0) {
-                                    brightnessValue--;
-                                  }
-                                });
-                              },
-                              icon: Icon(
-                                Icons.lightbulb_outline,
-                                size: 23,
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              decoration: BoxDecoration(
                                 color: isDarkModeEnabled
-                                    ? Constants.textColorNight
-                                    : Constants.textColor,
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor,
+                                border: Border.all(
+                                  width: 0.4,
+                                  color: isDarkModeEnabled
+                                      ? Constants.lineColorNight
+                                      : Constants.lineColor,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (brightnessValue.toInt() != 0) {
+                                          brightnessValue--;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.lightbulb_outline,
+                                      size: 23,
+                                      color: isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                    ),
+                                  ),
+                                  SliderTheme(
+                                    data: const SliderThemeData(),
+                                    child: Slider(
+                                      min: 0,
+                                      max: 20,
+                                      value: brightnessValue,
+                                      divisions: 20,
+                                      label: brightnessValue.toInt().toString(),
+                                      onChanged: (double value) {
+                                        setState(() {
+                                          brightnessValue = value;
+                                        });
+                                      },
+                                      activeColor: isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                      inactiveColor: isDarkModeEnabled
+                                          ? Constants.backGroundColorNight
+                                          : Constants.backGroundColor,
+                                      thumbColor: isDarkModeEnabled
+                                          ? Constants.headerColorNight
+                                          : Constants.headerColor,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (brightnessValue.toInt() < 19) {
+                                          brightnessValue++;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.lightbulb,
+                                      color: isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                      size: 23,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SliderTheme(
-                              data: const SliderThemeData(),
-                              child: Slider(
-                                min: 0,
-                                max: 20,
-                                value: brightnessValue,
-                                divisions: 20,
-                                label: brightnessValue.toInt().toString(),
-                                onChanged: (double value) {
-                                  setState(() {
-                                    brightnessValue = value;
-                                  });
-                                },
-                                activeColor: isDarkModeEnabled
-                                    ? Constants.textColorNight
-                                    : Constants.textColor,
-                                inactiveColor: isDarkModeEnabled
-                                    ? Constants.backGroundColorNight
-                                    : Constants.backGroundColor,
-                                thumbColor: isDarkModeEnabled
-                                    ? Constants.headerColorNight
-                                    : Constants.headerColor,
+                            Text(
+                              "حجم النص",
+                              style: TextStyle(
+                                color: isDarkModeEnabled
+                                    ? Constants.lineColorNight
+                                    : Constants.lineColor,
+                                fontSize: 18,
+                                fontFamily: 'Jazeera-Regular',
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (brightnessValue.toInt() < 19) {
-                                    brightnessValue++;
-                                  }
-                                });
-                              },
-                              icon: Icon(
-                                Icons.lightbulb,
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              decoration: BoxDecoration(
                                 color: isDarkModeEnabled
-                                    ? Constants.textColorNight
-                                    : Constants.textColor,
-                                size: 23,
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor,
+                                border: Border.all(
+                                  width: 0.4,
+                                  color: isDarkModeEnabled
+                                      ? Constants.lineColorNight
+                                      : Constants.lineColor,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        "حجم النص",
-                        style: TextStyle(
-                          color: isDarkModeEnabled
-                              ? Constants.lineColorNight
-                              : Constants.lineColor,
-                          fontSize: 18,
-                          fontFamily: 'Jazeera-Regular',
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: isDarkModeEnabled
-                              ? Constants.itemColorNight
-                              : Constants.itemColor,
-                          border: Border.all(
-                            width: 0.4,
-                            color: isDarkModeEnabled
-                                ? Constants.lineColorNight
-                                : Constants.lineColor,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (fontsizeValue.toInt() != 0) {
-                                    fontsizeValue--;
-                                  }
-                                });
-                              },
-                              icon: Icon(
-                                Icons.exposure_minus_1,
-                                size: 23,
-                                color: isDarkModeEnabled
-                                    ? Constants.textColorNight
-                                    : Constants.textColor,
-                              ),
-                            ),
-                            Slider(
-                              min: 15,
-                              max: 32,
-                              value: fontsizeValue,
-                              divisions: 17,
-                              label: fontsizeValue.toInt().toString(),
-                              onChanged: (double value) {
-                                setState(() {
-                                  fontsizeValue = value;
-                                });
-                              },
-                              activeColor: isDarkModeEnabled
-                                  ? Constants.textColorNight
-                                  : Constants.textColor,
-                              inactiveColor: isDarkModeEnabled
-                                  ? Constants.backGroundColorNight
-                                  : Constants.backGroundColor,
-                              thumbColor: isDarkModeEnabled
-                                  ? Constants.headerColorNight
-                                  : Constants.headerColor,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (fontsizeValue.toInt() < 31) {
-                                    fontsizeValue++;
-                                  }
-                                });
-                              },
-                              icon: Icon(
-                                Icons.plus_one,
-                                color: isDarkModeEnabled
-                                    ? Constants.textColorNight
-                                    : Constants.textColor,
-                                size: 23,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (fontsizeValue.toInt() != 0) {
+                                          fontsizeValue--;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.exposure_minus_1,
+                                      size: 23,
+                                      color: isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                    ),
+                                  ),
+                                  Slider(
+                                    min: 15,
+                                    max: 32,
+                                    value: fontsizeValue,
+                                    divisions: 17,
+                                    label: fontsizeValue.toInt().toString(),
+                                    onChanged: (double value) {
+                                      setState(() {
+                                        fontsizeValue = value;
+                                      });
+                                    },
+                                    activeColor: isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
+                                    inactiveColor: isDarkModeEnabled
+                                        ? Constants.backGroundColorNight
+                                        : Constants.backGroundColor,
+                                    thumbColor: isDarkModeEnabled
+                                        ? Constants.headerColorNight
+                                        : Constants.headerColor,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (fontsizeValue.toInt() < 31) {
+                                          fontsizeValue++;
+                                        }
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.plus_one,
+                                      color: isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                      size: 23,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -479,58 +489,199 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height: showProfile ? size.height : 0,
+                    // ignore: prefer_const_constructors
+                    child: ProfilePage(),
+                  ),
+                ],
+              ),
+              bottomNavigationBar: MotionTabBar(
+                controller: _motionTabBarController,
+                initialSelectedTab: "الرئيسية",
+                useSafeArea: false,
+                labels: const <String?>[
+                  "الاشعارات",
+                  "الرئيسية",
+                  "الاعدادات",
+                ],
+                icons: const <IconData>[
+                  Icons.notifications,
+                  Icons.home,
+                  Icons.settings,
+                ],
+                badges: <Widget?>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 3,
+                      right: 7,
+                    ),
+                    child: Lottie.asset(
+                      './Assets/images/15.json',
+                      width: 35,
+                      height: 35,
+                      repeat: false,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 3,
+                      right: 7,
+                    ),
+                    child: Lottie.asset(
+                      './Assets/images/14.json',
+                      width: 35,
+                      height: 35,
+                      repeat: false,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 3,
+                      right: 7,
+                    ),
+                    child: Lottie.asset(
+                      './Assets/images/13.json',
+                      width: 35,
+                      height: 35,
+                      repeat: false,
+                    ),
+                  ),
+                ],
+                tabSize: 50,
+                tabBarHeight: 55,
+                textStyle: TextStyle(
+                  fontSize: 13,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.lineColorNight
+                      : Constants.lineColor,
+                  fontFamily: 'Jazeera-Regular',
+                  fontWeight: FontWeight.w500,
+                ),
+                tabIconColor: Constants.isDarkModeEnabled
+                    ? Constants.lineColorNight
+                    : Constants.lineColor,
+                tabIconSize: 0.0,
+                tabIconSelectedSize: 0.0,
+                tabSelectedColor: Constants.isDarkModeEnabled
+                    ? Constants.lineColorNight
+                    : Constants.lineColor,
+                tabIconSelectedColor: Colors.white,
+                tabBarColor: Constants.isDarkModeEnabled
+                    ? Constants.headerColorNight
+                    : Constants.headerColor,
+                onTabItemSelected: (int value) {
+                  setState(() {
+                    _motionTabBarController!.index = value;
+                  });
+                },
+              ),
+            ),
+          ),
+          Visibility(
+            visible: isShowLogOutDialog,
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  width: size.width,
+                  height: size.height,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.6),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: size.width * 0.7,
+                    height: 130,
+                    decoration: BoxDecoration(
+                      color: isDarkModeEnabled
+                          ? Constants.backGroundColorNight
+                          : Constants.backGroundColor,
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.white,
+                          blurRadius: 2,
+                          offset: Offset(0, 0), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 10),
+                        Text(
+                          "هل انت متأكد من عملية تسجيل الخروج؟",
+                          style: TextStyle(
+                            fontFamily: 'Jazeera-Regular',
+                            color: isDarkModeEnabled
+                                ? Constants.textColorNight
+                                : Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                          textDirection: TextDirection.rtl,
+                        ),
+                        const SizedBox(height: 25),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            ElevatedButton(
+                              onPressed: () {
+                                deleteToken();
+                                Constants.userToken = "";
+                                Navigator.popAndPushNamed(
+                                  context,
+                                  LoginPage.routName,
+                                );
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith((states) {
+                                  return Constants.isDarkModeEnabled
+                                      ? Constants.itemColorNight
+                                      : Constants.textColor;
+                                }),
+                              ),
+                              child: const Text(
+                                "نعم",
+                                style: TextStyle(
+                                  fontFamily: 'Jazeera-Regular',
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  isShowLogOutDialog = false;
+                                });
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith((states) {
+                                  return Constants.isDarkModeEnabled
+                                      ? Constants.itemColorNight
+                                      : Constants.textColor;
+                                }),
+                              ),
+                              child: const Text(
+                                "لا",
+                                style: TextStyle(
+                                  fontFamily: 'Jazeera-Regular',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              height: showProfile ? size.height : 0,
-              // ignore: prefer_const_constructors
-              child: ProfilePage(),
-            ),
-          ],
-        ),
-        bottomNavigationBar: MotionTabBar(
-          controller: _motionTabBarController,
-          initialSelectedTab: "الرئيسية",
-          labels: const [
-            "الاشعارات",
-            "الرئيسية",
-            "الاعدادات",
-          ],
-          icons: const [
-            Icons.notifications,
-            Icons.home,
-            Icons.settings,
-          ],
-          tabSize: 50,
-          tabBarHeight: 55,
-          textStyle: TextStyle(
-            fontSize: 13,
-            color: Constants.isDarkModeEnabled
-                ? Constants.lineColorNight
-                : Constants.lineColor,
-            fontFamily: 'Jazeera-Regular',
-            fontWeight: FontWeight.w500,
           ),
-          tabIconColor: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.lineColor,
-          tabIconSize: 28.0,
-          tabIconSelectedSize: 28.0,
-          tabSelectedColor: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.lineColor,
-          tabIconSelectedColor: Colors.white,
-          tabBarColor: Constants.isDarkModeEnabled
-              ? Constants.headerColorNight
-              : Constants.headerColor,
-          onTabItemSelected: (int value) {
-            setState(() {
-              _motionTabBarController!.index = value;
-            });
-          },
-        ),
+        ],
       ),
     );
   }

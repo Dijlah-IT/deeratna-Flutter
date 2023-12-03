@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:deeratna/Api/login_api.dart';
-import 'package:deeratna/Api/message_posts.dart';
 import 'package:deeratna/Components/input_costum.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Pages/root_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:number_editing_controller/number_editing_controller.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,13 +16,20 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  static const maxSecondesSMS = 20;
-  int secondes = maxSecondesSMS;
   String userPhoneNumber = "";
+  String messageAPI = " ";
+  int _step = 0;
+  bool _login = true;
+
   final loginKey = GlobalKey<FormState>();
+  final registerPhoneKey = GlobalKey<FormState>();
+  final registerSMSKey = GlobalKey<FormState>();
+  final registerPasswordKey = GlobalKey<FormState>();
 
   Timer? timer;
-  String test = " ";
+  static const maxSecondesSMS = 20;
+  int secondes = maxSecondesSMS;
+
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -41,28 +46,26 @@ class _LoginPageState extends State<LoginPage> {
     timer?.cancel();
   }
 
-  int _step = 0;
-  bool _login = true;
+  final controllerRegisterPhone = TextEditingController();
+  final controllerRegisterSMS = TextEditingController();
+  final controllerRegisterPassword = TextEditingController();
+  final controllerRegisterPasswordConfirm = TextEditingController();
+  final controllerLoginPhone = TextEditingController();
+  final controllerLoginPassword = TextEditingController();
+  @override
+  void dispose() {
+    controllerRegisterPhone.dispose();
+    controllerRegisterSMS.dispose();
+    controllerRegisterPassword.dispose();
+    controllerRegisterPasswordConfirm.dispose();
+    controllerLoginPhone.dispose();
+    controllerLoginPassword.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final controllerRegisterPhone = TextEditingController();
-    final controllerRegisterSMS = TextEditingController();
-    final controllerRegisterPassword = TextEditingController();
-    final controllerRegisterPasswordConfirm = TextEditingController();
-    final controllerLoginPhone = NumberEditingTextController.integer();
-    final controllerLoginPassword = TextEditingController();
-
-    @override
-    void dispose() {
-      controllerRegisterPhone.dispose();
-      controllerRegisterSMS.dispose();
-      controllerRegisterPassword.dispose();
-      controllerRegisterPasswordConfirm.dispose();
-      controllerLoginPhone.dispose();
-      controllerLoginPassword.dispose();
-      super.dispose();
-    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -203,57 +206,72 @@ class _LoginPageState extends State<LoginPage> {
 
                                 switch (_step) {
                                   case 0:
-                                    test = "";
-                                    debugPrint(controllerRegisterPhone.text);
-                                    setState(() {
-                                      userPhoneNumber =
-                                          controllerRegisterPhone.text;
-                                      registerPhone(userPhoneNumber)
-                                          .then((value) {
+                                    if (registerPhoneKey.currentState!
+                                        .validate()) {
+                                      debugPrint("mmmmmmMmmmmmm");
+                                      setState(() {
+                                        messageAPI = "";
+                                        debugPrint(
+                                            controllerRegisterPhone.text);
                                         setState(() {
-                                          test = Constants.message;
-                                          if (Constants.statusCode == 200) {
-                                            _step++;
-                                          }
-                                        });
-                                      });
-                                    });
-                                    break;
-                                  case 1:
-                                    setState(() {
-                                      _step++;
-                                    });
-                                    // startTimer();
-                                    debugPrint(secondes.toString());
-                                  case 2:
-                                    test = "";
-                                    setState(() {
-                                      register(
-                                              userPhoneNumber,
-                                              controllerRegisterPassword.text,
-                                              controllerRegisterPasswordConfirm
-                                                  .text,
-                                              "note-10")
-                                          .then((value) {
-                                        if (Constants.statusCode == 200) {
-                                          getUserInformations(
-                                                  Constants.userToken)
+                                          userPhoneNumber =
+                                              controllerRegisterPhone.text;
+                                          registerPhone(userPhoneNumber)
                                               .then((value) {
-                                            debugPrint(
-                                                "${ConstUserInformations.name}<-----");
                                             setState(() {
+                                              messageAPI = Constants.message;
                                               if (Constants.statusCode == 200) {
                                                 _step++;
                                               }
                                             });
                                           });
-                                        } else {
-                                          setState(() {
-                                            test = Constants.message;
-                                          });
-                                        }
+                                        });
                                       });
-                                    });
+                                    }
+
+                                    break;
+                                  case 1:
+                                    if (registerSMSKey.currentState!
+                                        .validate()) {
+                                      _step++;
+                                    } else {
+                                      setState(() {
+                                        startTimer();
+                                      });
+                                    }
+                                  case 2:
+                                    if (registerPasswordKey.currentState!
+                                        .validate()) {
+                                      messageAPI = "";
+                                      setState(() {
+                                        register(
+                                                userPhoneNumber,
+                                                controllerRegisterPassword.text,
+                                                controllerRegisterPasswordConfirm
+                                                    .text,
+                                                "note-10")
+                                            .then((value) {
+                                          if (Constants.statusCode == 200) {
+                                            getUserInformations(
+                                                    Constants.userToken)
+                                                .then((value) {
+                                              debugPrint(
+                                                  "${ConstUserInformations.name}<-----");
+                                              setState(() {
+                                                if (Constants.statusCode ==
+                                                    200) {
+                                                  _step++;
+                                                }
+                                              });
+                                            });
+                                          } else {
+                                            setState(() {
+                                              messageAPI = Constants.message;
+                                            });
+                                          }
+                                        });
+                                      });
+                                    }
                                     break;
                                   case 3:
                                     Navigator.popAndPushNamed(
@@ -310,17 +328,20 @@ class _LoginPageState extends State<LoginPage> {
                               ? StepState.complete
                               : StepState.indexed,
                           // RegisterPhone
-                          content: TextFormFieldCostum(
-                            isEmptyTitle: "أدخل رقم هاتفك المحمول",
-                            maxLength: 12,
-                            lengthErrorTitle:
-                                "أدخل رقم هاتفك المحمول بشكل صحيح",
-                            labelTitle: "رقم الهاتف الجوال",
-                            helperTitle: test,
-                            inputType: TextInputType.text,
-                            obscureText: false,
-                            inputIcon: Icons.phone_android_rounded,
-                            controller: controllerRegisterPhone,
+                          content: Form(
+                            key: registerPhoneKey,
+                            child: TextFormFieldCostum(
+                              isEmptyTitle: "أدخل رقم هاتفك المحمول",
+                              maxLength: 12,
+                              lengthErrorTitle:
+                                  "أدخل رقم هاتفك المحمول بشكل صحيح",
+                              labelTitle: "رقم الهاتف الجوال",
+                              helperTitle: messageAPI,
+                              inputType: TextInputType.phone,
+                              obscureText: false,
+                              inputIcon: Icons.phone_android_rounded,
+                              controller: controllerRegisterPhone,
+                            ),
                           ),
                           label: Text(
                             "الهاتف",
@@ -339,73 +360,77 @@ class _LoginPageState extends State<LoginPage> {
                               ? StepState.complete
                               : StepState.indexed,
                           title: const Text(""),
-                          content: Column(
-                            children: [
-                              // RegisterSMS
-                              TextFormFieldCostum(
-                                isEmptyTitle: "يرجى ادخال الرمز بشكل صحيح",
-                                maxLength: 1000,
-                                lengthErrorTitle: "",
-                                labelTitle: "رمز التحقق",
-                                helperTitle:
-                                    "اكتب رمز التحقق الذي يصل على رقم هاتفك",
-                                inputType: TextInputType.phone,
-                                obscureText: false,
-                                inputIcon: Icons.sms,
-                                controller: controllerRegisterSMS,
-                              ),
-                              const SizedBox(height: 20),
-                              Container(
-                                child: secondes == 1
-                                    ? GestureDetector(
-                                        onTap: () {},
-                                        child: Text(
-                                          "لم تحصل على رمز التحقق؟",
-                                          style: TextStyle(
-                                            fontFamily: 'Jazeera-Regular',
-                                            color: Constants.headerColor,
-                                            decoration:
-                                                TextDecoration.underline,
-                                            fontSize: 16,
+                          content: Form(
+                            key: registerSMSKey,
+                            child: Column(
+                              children: [
+                                // RegisterSMS
+                                TextFormFieldCostum(
+                                  isEmptyTitle: "يرجى ادخال الرمز بشكل صحيح",
+                                  maxLength: 1000,
+                                  lengthErrorTitle: "",
+                                  labelTitle: "رمز التحقق",
+                                  helperTitle:
+                                      "اكتب رمز التحقق الذي يصل على رقم هاتفك",
+                                  inputType: TextInputType.phone,
+                                  obscureText: false,
+                                  inputIcon: Icons.sms,
+                                  controller: controllerRegisterSMS,
+                                ),
+                                const SizedBox(height: 20),
+                                Container(
+                                  child: secondes == 1
+                                      ? GestureDetector(
+                                          onTap: () {},
+                                          child: Text(
+                                            "لم تحصل على رمز التحقق؟",
+                                            style: TextStyle(
+                                              fontFamily: 'Jazeera-Regular',
+                                              color: Constants.headerColor,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                              fontSize: 16,
+                                            ),
+                                            textAlign: TextAlign.center,
                                           ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      )
-                                    : Stack(
-                                        children: <Widget>[
-                                          Center(
-                                            child: SizedBox(
-                                              width: 30,
-                                              height: 30,
+                                        )
+                                      : Stack(
+                                          children: <Widget>[
+                                            Center(
+                                              child: SizedBox(
+                                                width: 30,
+                                                height: 30,
+                                                child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 1.0,
+                                                    value: secondes /
+                                                        maxSecondesSMS,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 3),
                                               child: Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 1.0,
-                                                  value:
-                                                      secondes / maxSecondesSMS,
+                                                child: Text(
+                                                  '$secondes',
+                                                  style: const TextStyle(
+                                                    fontFamily:
+                                                        'Jazeera-Regular',
+                                                    fontSize: 15,
+                                                  ),
+                                                  textAlign: TextAlign.center,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 3),
-                                            child: Center(
-                                              child: Text(
-                                                '$secondes',
-                                                style: const TextStyle(
-                                                  fontFamily: 'Jazeera-Regular',
-                                                  fontSize: 15,
-                                                ),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                              ),
-                              const SizedBox(height: 20),
-                            ],
+                                          ],
+                                        ),
+                                ),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
                           ),
                           label: Text(
                             "التحقق",
@@ -424,34 +449,37 @@ class _LoginPageState extends State<LoginPage> {
                               ? StepState.complete
                               : StepState.indexed,
                           title: const Text(""),
-                          content: Column(
-                            children: <Widget>[
-                              TextFormFieldCostum(
-                                isEmptyTitle: "أدخل رقم هاتفك المحمول",
-                                maxLength: 1000,
-                                lengthErrorTitle:
-                                    "أدخل رقم هاتفك المحمول بشكل صحيح",
-                                labelTitle: "كلمة المرور",
-                                helperTitle: test,
-                                inputType: TextInputType.text,
-                                obscureText: true,
-                                inputIcon: Icons.password,
-                                controller: controllerRegisterPassword,
-                              ),
-                              const SizedBox(height: 20),
-                              TextFormFieldCostum(
-                                isEmptyTitle: "أدخل رقم هاتفك المحمول",
-                                maxLength: 1000,
-                                lengthErrorTitle:
-                                    "أدخل رقم هاتفك المحمول بشكل صحيح",
-                                labelTitle: "تكرار كلمة المرور",
-                                helperTitle: test,
-                                inputType: TextInputType.text,
-                                obscureText: true,
-                                inputIcon: Icons.password,
-                                controller: controllerRegisterPasswordConfirm,
-                              ),
-                            ],
+                          content: Form(
+                            key: registerPasswordKey,
+                            child: Column(
+                              children: <Widget>[
+                                TextFormFieldCostum(
+                                  isEmptyTitle: "كلمة المرور غير صحيحة",
+                                  maxLength: 1000,
+                                  lengthErrorTitle:
+                                      "أدخل رقم هاتفك المحمول بشكل صحيح",
+                                  labelTitle: "كلمة المرور",
+                                  helperTitle: messageAPI,
+                                  inputType: TextInputType.text,
+                                  obscureText: true,
+                                  inputIcon: Icons.password,
+                                  controller: controllerRegisterPassword,
+                                ),
+                                const SizedBox(height: 20),
+                                TextFormFieldCostum(
+                                  isEmptyTitle: "كلمة المرور غير صحيحة",
+                                  maxLength: 1000,
+                                  lengthErrorTitle:
+                                      "أدخل رقم هاتفك المحمول بشكل صحيح",
+                                  labelTitle: "تكرار كلمة المرور",
+                                  helperTitle: messageAPI,
+                                  inputType: TextInputType.text,
+                                  obscureText: true,
+                                  inputIcon: Icons.password,
+                                  controller: controllerRegisterPasswordConfirm,
+                                ),
+                              ],
+                            ),
                           ),
                           label: Text(
                             "الرمز",
@@ -502,7 +530,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 40,
               bottom: 210,
               child: Center(
-                child: test != ""
+                child: messageAPI != ""
                     ? const Text("")
                     : SizedBox(
                         width: 20,
@@ -540,9 +568,8 @@ class _LoginPageState extends State<LoginPage> {
                             lengthErrorTitle:
                                 "أدخل رقم هاتفك المحمول بشكل صحيح",
                             labelTitle: "رقم الهاتف الجوال",
-                            helperTitle:
-                                "يجب ادخال الرقم المسجل في قاعدة بيانات النظام",
-                            inputType: TextInputType.text,
+                            helperTitle: messageAPI,
+                            inputType: TextInputType.number,
                             obscureText: false,
                             inputIcon: Icons.phone_android_rounded,
                             controller: controllerLoginPhone,
@@ -553,7 +580,7 @@ class _LoginPageState extends State<LoginPage> {
                             maxLength: 1000,
                             lengthErrorTitle: "",
                             labelTitle: "كلمة المرور",
-                            helperTitle: "يرجى التأكد من كلمة المرور",
+                            helperTitle: messageAPI,
                             inputType: TextInputType.text,
                             obscureText: true,
                             inputIcon: Icons.password,
@@ -569,21 +596,53 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             onPressed: () {
                               if (loginKey.currentState!.validate()) {
-                                debugPrint("qqqq");
-                                test = "";
-                                debugPrint(controllerLoginPhone.text);
+                                messageAPI = "";
+                                FocusScope.of(context).unfocus();
                                 setState(() {
                                   login(
                                           controllerLoginPhone.text,
                                           controllerLoginPassword.text,
                                           "note-10")
                                       .then((value) {
-                                    getUserInformations(Constants.userToken)
-                                        .then((value) {
-                                          if(Constants.statusCode == 200){
-                                            
-                                          }
-                                        });
+                                    if (Constants.statusCode == 200) {
+                                      getUserInformations(Constants.userToken)
+                                          .then((value) {
+                                        if (Constants.statusCode == 200) {
+                                          final snackBar = SnackBar(
+                                            elevation: 0,
+                                            margin: const EdgeInsets.only(
+                                                bottom: 80),
+                                            behavior: SnackBarBehavior.floating,
+                                            backgroundColor: Colors.transparent,
+                                            content: Directionality(
+                                              textDirection: TextDirection.rtl,
+                                              child: AwesomeSnackbarContent(
+                                                color: Constants
+                                                        .isDarkModeEnabled
+                                                    ? Constants.lineColorNight
+                                                    : Constants.headerColor,
+                                                title: 'اهلا بك',
+                                                message:
+                                                    "اهلا بك يا ${ConstUserInformations.name}",
+                                                contentType:
+                                                    ContentType.success,
+                                              ),
+                                            ),
+                                          );
+                                          Navigator.popAndPushNamed(
+                                            context,
+                                            RootPage.routName,
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(snackBar);
+                                        }
+                                      });
+                                    } else {
+                                      setState(() {
+                                        messageAPI = Constants.message;
+                                      });
+                                    }
                                   });
                                 });
                               }
