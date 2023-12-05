@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:lottie/lottie.dart';
 
+import '../Components/heading.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -70,86 +72,101 @@ class _HomePageState extends State<HomePage> {
                       items: [0, 1, 2, 3, 4].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
-                            return Hero(
-                              tag: "HouseSliderImage",
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    HouseSpecificationsPage.routName,
-                                  );
-                                },
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 5.0),
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        clipBehavior: Clip.antiAlias,
-                                        width: size.width,
-                                        decoration: const BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey,
-                                              blurRadius: 4,
-                                              offset: Offset(
-                                                  0, 0), // Shadow position
-                                            ),
-                                          ],
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(10),
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  HouseSpecificationsPage.routName,
+                                  arguments: {
+                                    "imageUrl": sampleImages[i],
+                                  },
+                                );
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 5.0),
+                                child: Stack(
+                                  children: <Widget>[
+                                    Container(
+                                      clipBehavior: Clip.antiAlias,
+                                      width: size.width,
+                                      decoration: const BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            blurRadius: 4,
+                                            offset:
+                                                Offset(0, 0), // Shadow position
                                           ),
-                                        ),
-                                        child: Image.asset(
-                                          sampleImages[i],
-                                          fit: BoxFit.fill,
+                                        ],
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
                                         ),
                                       ),
-                                      Positioned(
-                                        top: 60,
-                                        right: 0,
-                                        left: 0,
-                                        height: 150,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              bottomLeft: Radius.circular(10),
-                                              bottomRight: Radius.circular(10),
-                                            ),
-                                            gradient: LinearGradient(
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                              colors: [
-                                                Colors.transparent,
-                                                Constants.isDarkModeEnabled
-                                                    ? Constants.lineColorNight
-                                                    : Constants.headerColor,
-                                              ],
-                                            ),
+                                      child: Image.asset(
+                                        sampleImages[i],
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 60,
+                                      right: 0,
+                                      left: 0,
+                                      height: 150,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: const BorderRadius.only(
+                                            bottomLeft: Radius.circular(10),
+                                            bottomRight: Radius.circular(10),
                                           ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.only(
-                                              left: 10,
-                                              top: 110,
-                                              right: 10,
-                                            ),
-                                            child: Text(
-                                              "الامل ١ / a26-f3-p14",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: 'Jazeera-Bold',
-                                                fontSize: 18,
-                                              ),
-                                              textAlign: TextAlign.right,
-                                              textDirection: TextDirection.rtl,
-                                            ),
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Colors.transparent,
+                                              Constants.isDarkModeEnabled
+                                                  ? Constants.lineColorNight
+                                                  : Constants.headerColor,
+                                            ],
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
+                                        child: const Padding(
+                                            padding: EdgeInsets.only(
+                                              left: 10,
+                                              top: 90,
+                                              right: 10,
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: <Widget>[
+                                                Text(
+                                                  "الامل ١",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: 'Jazeera-Bold',
+                                                    fontSize: 18,
+                                                  ),
+                                                  textAlign: TextAlign.right,
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                ),
+                                                Text(
+                                                  "A26-F3-P14",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                  ),
+                                                  textAlign: TextAlign.right,
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                ),
+                                              ],
+                                            )),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             );
@@ -183,38 +200,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: Stack(
-                    children: <Widget>[
-                      Divider(
-                        height: 20,
-                        thickness: 1,
-                        endIndent: 80,
-                        color: Constants.isDarkModeEnabled
-                            ? Constants.lineColorNight
-                            : Constants.lineColor,
-                      ),
-                      Positioned(
-                        top: -3,
-                        right: 10,
-                        child: Text(
-                          "الطلبات",
-                          textDirection: TextDirection.rtl,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            color: Constants.isDarkModeEnabled
-                                ? Constants.textColorNight
-                                : Constants.textColor,
-                            fontFamily: 'Jazeera-Bold',
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                const Heading(
+                  title: 'الطلبات',
                 ),
 
                 SizedBox(
@@ -245,6 +232,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                     crossAxisCount: 3,
+                    controller: ScrollController(keepScrollOffset: false),
                     children: List.generate(
                       servicesItemText.length,
                       (index) => ServiceItem(
@@ -309,18 +297,26 @@ class ServiceItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Lottie.asset(
-              './Assets/images/15.json',
-              width: 50,
-              height: 50,
-              reverse: true,
-              repeat: false,
-              options: LottieOptions(
-                enableMergePaths: true,
-                enableApplyingOpacityToLayers: true,
-              ),
+            // Lottie.asset(
+            //   './Assets/images/15.json',
+            //   width: 50,
+            //   height: 50,
+            //   reverse: true,
+            //   repeat: false,
+            //   options: LottieOptions(
+            //     enableMergePaths: true,
+            //     enableApplyingOpacityToLayers: true,
+            //   ),
+            // ),
+            Icon(
+              servicesItemIcon,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.textColorNight
+                  : Constants.textColor,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(
+              height: 10,
+            ),
             Text(
               servicesItemText,
               style: TextStyle(

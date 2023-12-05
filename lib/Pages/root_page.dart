@@ -514,7 +514,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                 badges: <Widget?>[
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 3,
+                      top: 6,
                       right: 7,
                     ),
                     child: Lottie.asset(
@@ -526,7 +526,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 3,
+                      top: 6,
                       right: 7,
                     ),
                     child: Lottie.asset(
@@ -538,7 +538,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 3,
+                      top: 6,
                       right: 7,
                     ),
                     child: Lottie.asset(

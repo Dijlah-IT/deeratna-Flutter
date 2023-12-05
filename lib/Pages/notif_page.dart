@@ -34,16 +34,29 @@ class _NotifPageState extends State<NotifPage> {
     return Container(
       height: size.height,
       padding: const EdgeInsets.all(15),
-      child: SingleChildScrollView(
-        child: Column(
-            children: List.generate(
-          bodyContent.length,
-          (index) => NotifItem(
-            body: bodyContent[index],
-            title: titleContent[index],
-          ),
-        )),
-      ),
+      child: bodyContent.isNotEmpty
+          ? SingleChildScrollView(
+              child: Column(
+                children: List.generate(
+                  bodyContent.length,
+                  (index) => NotifItem(
+                    body: bodyContent[index],
+                    title: titleContent[index],
+                  ),
+                ),
+              ),
+            )
+          : Center(
+              child: Text(
+                "لا توجد اشعارات حاليا",
+                style: TextStyle(
+                    fontFamily: 'Jazeera-Regular',
+                    fontSize: 16,
+                    color: Constants.isDarkModeEnabled
+                        ? Constants.textColorNight
+                        : Constants.textColor),
+              ),
+            ),
     );
   }
 }

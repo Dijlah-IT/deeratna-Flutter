@@ -10,9 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // await FirebaseMessaging.instance.subscribeToTopic("general");
-  // await FirebaseApi().inintNotifications();
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.subscribeToTopic("general");
+  await FirebaseApi().inintNotifications();
   runApp(const Deeratna());
 }
 
