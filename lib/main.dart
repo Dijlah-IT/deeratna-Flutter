@@ -25,12 +25,12 @@ class Deeratna extends StatefulWidget {
 
 class _DeeratnaState extends State<Deeratna> {
   bool isNightTheme = false;
-  bool deviceTheme = false;
-  _GetThemeMod() async {
+  bool? deviceTheme;
+  _getThemeMod() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
 
     setState(() {
-      isNightTheme = pref.getBool("isDarkModeEnabled") ?? deviceTheme;
+      isNightTheme = (pref.getBool("isDarkModeEnabled") ?? deviceTheme)!;
       Constants.userToken = pref.getString("userToken") ?? "";
     });
   }
@@ -40,7 +40,7 @@ class _DeeratnaState extends State<Deeratna> {
     var brightness =
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     deviceTheme = brightness == Brightness.dark;
-    _GetThemeMod();
+    _getThemeMod();
 
     super.initState();
   }

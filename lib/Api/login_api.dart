@@ -38,7 +38,8 @@ Future<MessagePosts> login(
 
 Future<MessagePosts> registerPhone(String phoneNumber) async {
   final response = await http.post(
-      Uri.https("deeratna.net", '/api/mobile/pre-activate', {'phone': phoneNumber}),
+      Uri.https(
+          "deeratna.net", '/api/mobile/pre-activate', {'phone': phoneNumber}),
       headers: <String, String>{
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json; charset = UTF-8',
@@ -79,7 +80,7 @@ register(String phoneNumber, String password, String passwordConfirmation,
   }
 }
 
-Future<UserInformations> getUserInformations(String token) async {
+Future getUserInformations(String token) async {
   debugPrint(token);
 
   final response = await http
@@ -91,9 +92,9 @@ Future<UserInformations> getUserInformations(String token) async {
 
   Constants.statusCode = response.statusCode;
   if (response.statusCode == 404 || response.statusCode == 422) {
-    return UserInformations.fromJson(jsonDecode(response.body));
+    ConstUserInformations.json = jsonDecode(response.body);
   } else if (response.statusCode == 200) {
-    return UserInformations.fromJson(jsonDecode(response.body));
+    ConstUserInformations.json = jsonDecode(response.body);
   } else {
     throw Constants.message = "Erorr";
   }

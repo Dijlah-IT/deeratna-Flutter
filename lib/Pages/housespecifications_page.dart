@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:deeratna/Components/heading.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:accordion/accordion.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 
 class HouseSpecificationsPage extends StatefulWidget {
   const HouseSpecificationsPage({
@@ -40,13 +39,13 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
     Icons.cabin,
   ];
 
-  static const List<String> SpecificationsTitle = [
+  static const List<String> _specificationsTitle = [
     'المساحة',
     'الطوابق',
     'غرف النوم',
   ];
 
-  static const List<String> SpecificationsSubTitle = [
+  static const List<String> _specificationsSubTitle = [
     '٢٠٠ متر',
     '٢ طابق',
     '٣ غرف',
@@ -78,7 +77,7 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
             const Icon(Icons.person),
             const SizedBox(width: 10),
             Text(
-              ConstUserInformations.name,
+              ConstUserInformations.json?['name'],
               style: TextStyle(
                 fontFamily: 'Jazeera-Regular',
                 fontSize: 16,
@@ -114,11 +113,23 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                       Radius.circular(10),
                     ),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     arguments["imageUrl"],
+                    width: 90,
+                    height: 250,
                     fit: BoxFit.fill,
-                    height: 300,
-                    width: size.width,
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) {
+                      return Container(
+                        width: 90,
+                        height: 250,
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: child,
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -127,21 +138,32 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                   width: size.width,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      color: Constants.isDarkModeEnabled
-                          ? Colors.white.withOpacity(0.1)
-                          : Colors.grey.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10)),
+                    border: Border.all(
+                        width: 1,
+                        color: const Color.fromARGB(255, 174, 192, 163)),
+                    color: Constants.isDarkModeEnabled
+                        ? Colors.white.withOpacity(0.1)
+                        : const Color.fromARGB(255, 226, 238, 218),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Column(
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         textDirection: TextDirection.rtl,
                         children: <Widget>[
-                          const Directionality(
+                          Directionality(
                             textDirection: TextDirection.rtl,
                             child: SpecificationsItem(
-                              subtitle: 'z2-b4-ii8',
-                              title: 'الامل',
+                              subtitle: ConstUserInformations.json?['houses']
+                                      [arguments['tag']]['zone']['name'] +
+                                  ' - ' +
+                                  ConstUserInformations.json?['houses']
+                                      [arguments['tag']]['number'],
+                              title: ConstUserInformations.json?['houses']
+                                  [arguments['tag']]['city']['name'],
+                              background:
+                                  const Color.fromARGB(255, 146, 177, 151),
                             ),
                           ),
                           Container(
@@ -178,10 +200,16 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             children: List.generate(
-                              SpecificationsTitle.length,
-                              (index) => SpecificationsItem(
-                                subtitle: SpecificationsSubTitle[index],
-                                title: SpecificationsTitle[index],
+                              _specificationsTitle.length,
+                              (index) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
+                                child: SpecificationsItem(
+                                  subtitle: _specificationsSubTitle[index],
+                                  title: _specificationsTitle[index],
+                                  background: Colors.white,
+                                ),
                               ),
                             ),
                           ),
@@ -284,7 +312,12 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                   width: size.width,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    border: Border.all(
+                        width: 1,
+                        color: const Color.fromARGB(255, 174, 192, 163)),
+                    color: Constants.isDarkModeEnabled
+                        ? Colors.white.withOpacity(0.1)
+                        : const Color.fromARGB(255, 226, 238, 218),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Directionality(
@@ -328,34 +361,76 @@ class FacilitiesItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            border: Border.all(
-              style: BorderStyle.solid,
-              color: Constants.isDarkModeEnabled
-                  ? Constants.lineColorNight
-                  : Constants.lineColor,
+    return JustTheTooltip(
+      tailLength: 10.0,
+      tailBaseWidth: 8,
+      preferredDirection: AxisDirection.up,
+      isModal: true,
+      backgroundColor: Constants.backGroundColor,
+      showWhenUnlinked: true,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              border: Border.all(
+                style: BorderStyle.solid,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.lineColorNight
+                    : Constants.lineColor,
+              ),
+              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(0.5),
             ),
-            shape: BoxShape.circle,
-            color: Colors.white.withOpacity(0.5),
+            child: Icon(
+              icon,
+              color:
+                  Constants.isDarkModeEnabled ? Colors.white : Colors.black54,
+            ),
           ),
-          child: Icon(
-            icon,
-            color: Constants.isDarkModeEnabled ? Colors.white : Colors.black54,
+          const SizedBox(height: 5),
+          Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'Jazeera-Regular',
+              color: Constants.isDarkModeEnabled ? Colors.white : Colors.black,
+            ),
           ),
+        ],
+      ),
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              'لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.المطابع ودور النشر.',
+              style: TextStyle(
+                fontFamily: 'Jazeera-Regular',
+              ),
+              textAlign: TextAlign.justify,
+              textDirection: TextDirection.rtl,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith((states) {
+                  return Constants.isDarkModeEnabled
+                      ? Constants.itemColorNight
+                      : Constants.textColor;
+                }),
+              ),
+              onPressed: () {},
+              child: Text(
+                "لوريم إيبسوم",
+                style: TextStyle(
+                  fontFamily: 'Jazeera-Regular',
+                ),
+                textDirection: TextDirection.rtl,
+              ),
+            )
+          ],
         ),
-        const SizedBox(height: 5),
-        Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Jazeera-Regular',
-            color: Constants.isDarkModeEnabled ? Colors.white : Colors.black,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -363,23 +438,27 @@ class FacilitiesItem extends StatelessWidget {
 class SpecificationsItem extends StatelessWidget {
   final String title;
   final String subtitle;
+  final Color background;
   const SpecificationsItem({
     super.key,
     required this.title,
     required this.subtitle,
+    required this.background,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       textDirection: TextDirection.rtl,
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Image.asset(
-          './Assets/images/logo.png',
-          width: 50,
-          height: 50,
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: const Icon(Icons.house, size: 40),
         ),
         const SizedBox(width: 10),
         Column(

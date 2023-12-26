@@ -10,7 +10,7 @@ class Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Stack(
@@ -25,6 +25,7 @@ class Heading extends StatelessWidget {
                 color: Constants.isDarkModeEnabled
                     ? Constants.lineColorNight
                     : Constants.lineColor,
+                size: 11,
               ),
               Expanded(
                 child: Container(
@@ -39,20 +40,21 @@ class Heading extends StatelessWidget {
                 color: Constants.isDarkModeEnabled
                     ? Constants.lineColorNight
                     : Constants.lineColor,
+                size: 11,
               ),
             ],
           ),
           Positioned(
             child: Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: 10,
+                horizontal: 30,
                 vertical: 5,
               ),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
-                  width: 2,
+                  width: 1.3,
                   color: Constants.isDarkModeEnabled
                       ? Constants.lineColorNight
                       : Constants.lineColor,

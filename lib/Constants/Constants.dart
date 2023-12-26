@@ -7,11 +7,11 @@ class Constants {
   static Color lineColor = const Color.fromRGBO(216, 202, 153, 1);
   static Color backGroundColor = const Color.fromRGBO(247, 250, 243, 1);
 
-  static Color headerColorNight = const Color.fromRGBO(7,40,32, 1);
-  static Color textColorNight = const Color.fromRGBO(66,146,112, 1);
-  static Color itemColorNight = const Color.fromRGBO(7,40,32, 1);
-  static Color lineColorNight = const Color.fromRGBO(213,201,149, 1);
-  static Color backGroundColorNight = const Color.fromRGBO(14,27,23, 1);
+  static Color headerColorNight = const Color.fromRGBO(7, 40, 32, 1);
+  static Color textColorNight = const Color.fromRGBO(66, 146, 112, 1);
+  static Color itemColorNight = const Color.fromRGBO(7, 40, 32, 1);
+  static Color lineColorNight = const Color.fromRGBO(213, 201, 149, 1);
+  static Color backGroundColorNight = const Color.fromRGBO(14, 27, 23, 1);
 
   static int themeDurationChange = 300;
   static int fontSize = 18;
@@ -22,9 +22,11 @@ class Constants {
 }
 
 class ConstUserInformations {
-  static String name = "";
-  static int? id ;
-  static String photoURL = "";
+  // static String name = "";
+  // static int? id;
+  // static String photoURL = "";
+
+  static Map<String, dynamic>? json;
 }
 
 MaterialColor getMaterialColor(Color color) {
@@ -48,15 +50,15 @@ MaterialColor getMaterialColor(Color color) {
   return MaterialColor(color.value, shades);
 }
 
-
-
-
 class TrianglePainter extends CustomPainter {
   final Color strokeColor;
   final PaintingStyle paintingStyle;
   final double strokeWidth;
 
-  TrianglePainter({this.strokeColor = Colors.black, this.strokeWidth = 3, this.paintingStyle = PaintingStyle.stroke});
+  TrianglePainter(
+      {this.strokeColor = Colors.black,
+      this.strokeWidth = 3,
+      this.paintingStyle = PaintingStyle.stroke});
 
   @override
   void paint(Canvas canvas, Size size) {

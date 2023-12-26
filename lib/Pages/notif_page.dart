@@ -13,7 +13,7 @@ class NotifPage extends StatefulWidget {
 class _NotifPageState extends State<NotifPage> {
   List<String> titleContent = [];
   List<String> bodyContent = [];
-  _GetContents() async {
+  _getContents() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     setState(() {
       titleContent = pref.getStringList("titleContent") ?? [];
@@ -23,7 +23,7 @@ class _NotifPageState extends State<NotifPage> {
 
   @override
   void initState() {
-    _GetContents();
+    _getContents();
     super.initState();
   }
 

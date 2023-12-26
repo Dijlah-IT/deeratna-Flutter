@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     timer?.cancel();
   }
 
-  final controllerRegisterPhone = TextEditingController();
+  final controllerRegisterPhone  = TextEditingController();
   final controllerRegisterSMS = TextEditingController();
   final controllerRegisterPassword = TextEditingController();
   final controllerRegisterPasswordConfirm = TextEditingController();
@@ -256,7 +256,7 @@ class _LoginPageState extends State<LoginPage> {
                                                     Constants.userToken)
                                                 .then((value) {
                                               debugPrint(
-                                                  "${ConstUserInformations.name}<-----");
+                                                  "${ConstUserInformations.json?['name']}<-----");
                                               setState(() {
                                                 if (Constants.statusCode ==
                                                     200) {
@@ -280,7 +280,6 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                     break;
                                 }
-                                ;
                               },
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
@@ -499,7 +498,7 @@ class _LoginPageState extends State<LoginPage> {
                               : StepState.indexed,
                           title: const Text(""),
                           content: Text(
-                            "اهلا بك يا ${ConstUserInformations.name}",
+                            "اهلا بك يا ${ConstUserInformations.json?['name']}",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'Jazeera-Bold',
@@ -623,7 +622,7 @@ class _LoginPageState extends State<LoginPage> {
                                                     : Constants.headerColor,
                                                 title: 'اهلا بك',
                                                 message:
-                                                    "اهلا بك يا ${ConstUserInformations.name}",
+                                                    "اهلا بك يا ${ConstUserInformations.json?['name']}",
                                                 contentType:
                                                     ContentType.success,
                                               ),

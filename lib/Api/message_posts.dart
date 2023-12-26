@@ -17,29 +17,3 @@ class MessagePosts {
     );
   }
 }
-
-class UserInformations {
-  final int? id;
-  final String? userName;
-  final String? profilePhotoUrl;
-
-  UserInformations({
-    this.id,
-    this.userName,
-    this.profilePhotoUrl,
-  });
-  factory UserInformations.fromJson(Map<String, dynamic> json) {
-    ConstUserInformations.id = json['id'];
-    ConstUserInformations.name = json['name'];
-    ConstUserInformations.photoURL = json['profile_photo_url'];
-
-    debugPrint("${ConstUserInformations.id}<-----");
-    debugPrint("${ConstUserInformations.name}<-----");
-    debugPrint("${ConstUserInformations.photoURL}<-----");
-    return UserInformations(
-      id: json['id'],
-      userName: json['name'],
-      profilePhotoUrl: json['profile_photo_url'],
-    );
-  }
-}

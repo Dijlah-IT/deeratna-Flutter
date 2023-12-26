@@ -1,5 +1,5 @@
 import 'package:deeratna/Pages/about_page.dart';
-import 'package:deeratna/Pages/accessCard_page.dart';
+import 'package:deeratna/Pages/access_card_page.dart';
 import 'package:deeratna/Pages/housespecifications_page.dart';
 import 'package:deeratna/Pages/login_page.dart';
 import 'package:deeratna/Pages/profile_page.dart';

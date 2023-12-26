@@ -1,6 +1,6 @@
 import 'package:deeratna/Components/my_cart.dart';
 import 'package:deeratna/Constants/constants.dart';
-import 'package:deeratna/Pages/accessCard_page.dart';
+import 'package:deeratna/Pages/access_card_page.dart';
 import 'package:deeratna/Pages/housespecifications_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -16,13 +16,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const List<String> sampleImages = [
-    './Assets/images/d-s001.jpg',
-    './Assets/images/d-s002.jpg',
-    './Assets/images/d-s003.jpg',
-    './Assets/images/d-s004.jpg',
-    './Assets/images/d-s005.jpg',
-  ];
+  final List _userHouseInformtions = ConstUserInformations.json?['houses'];
+  final CarouselController _carouselController = CarouselController();
+  int _current = 0;
+
   static const List<String> servicesItemText = [
     "بطاقة دخول",
     "ملصق السيارات",
@@ -39,12 +36,11 @@ class _HomePageState extends State<HomePage> {
     Icons.phonelink_lock_sharp,
     Icons.mood_bad_sharp,
   ];
-  int _current = 0;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final CarouselController _controller = CarouselController();
+
     return Scaffold(
       backgroundColor: Constants.isDarkModeEnabled
           ? Constants.backGroundColorNight
@@ -56,131 +52,153 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: <Widget>[
                 // Slider one
+
                 Column(
-                  children: [
-                    CarouselSlider(
+                  children: <Widget>[
+                    CarouselSlider.builder(
+                      itemCount: _userHouseInformtions.length,
+                      itemBuilder: (BuildContext context, int itemIndex,
+                              int pageViewIndex) =>
+                          GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            HouseSpecificationsPage.routName,
+                            arguments: {
+                              'imageUrl': ConstUserInformations.json?['houses']
+                                  [itemIndex]['city']['picture_url'],
+                              'tag': itemIndex,
+                            },
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(vertical: 5.0),
+                          child: Stack(
+                            children: <Widget>[
+                              Container(
+                                clipBehavior: Clip.antiAlias,
+                                width: size.width,
+                                decoration: const BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 4,
+                                      offset: Offset(0, 0), // Shadow position
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                child: Image.network(
+                                  ConstUserInformations.json?['houses']
+                                      [itemIndex]['city']['picture_url'],
+                                  width: 90,
+                                  height: 250,
+                                  fit: BoxFit.fill,
+                                  frameBuilder: (context, child, frame,
+                                      wasSynchronouslyLoaded) {
+                                    return Container(
+                                      width: 90,
+                                      height: 250,
+                                      decoration: BoxDecoration(
+                                        color: Colors.redAccent,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      child: child,
+                                    );
+                                  },
+                                ),
+                              ),
+                              Positioned(
+                                top: 60,
+                                right: 0,
+                                left: 0,
+                                height: 150,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.only(
+                                      bottomLeft: Radius.circular(10),
+                                      bottomRight: Radius.circular(10),
+                                    ),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        Constants.isDarkModeEnabled
+                                            ? Constants.lineColorNight
+                                            : Constants.headerColor,
+                                      ],
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10,
+                                      top: 90,
+                                      right: 10,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                        Text(
+                                          ConstUserInformations.json?['houses']
+                                              [itemIndex]['city']['name'],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Jazeera-Bold',
+                                            fontSize: 18,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                        Text(
+                                          ConstUserInformations.json?['houses']
+                                                  [itemIndex]['zone']['name'] +
+                                              ' - ' +
+                                              ConstUserInformations
+                                                      .json?['houses']
+                                                  [itemIndex]['number'],
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                          ),
+                                          textAlign: TextAlign.right,
+                                          textDirection: TextDirection.rtl,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                       options: CarouselOptions(
                         height: 220.0,
                         autoPlay: true,
                         enlargeCenterPage: true,
+                        disableCenter: true,
                         onPageChanged: (index, reason) {
                           setState(() {
                             _current = index;
                           });
                         },
                       ),
-                      items: [0, 1, 2, 3, 4].map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  HouseSpecificationsPage.routName,
-                                  arguments: {
-                                    "imageUrl": sampleImages[i],
-                                  },
-                                );
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 5.0),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Container(
-                                      clipBehavior: Clip.antiAlias,
-                                      width: size.width,
-                                      decoration: const BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey,
-                                            blurRadius: 4,
-                                            offset:
-                                                Offset(0, 0), // Shadow position
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Image.asset(
-                                        sampleImages[i],
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 60,
-                                      right: 0,
-                                      left: 0,
-                                      height: 150,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            bottomLeft: Radius.circular(10),
-                                            bottomRight: Radius.circular(10),
-                                          ),
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Colors.transparent,
-                                              Constants.isDarkModeEnabled
-                                                  ? Constants.lineColorNight
-                                                  : Constants.headerColor,
-                                            ],
-                                          ),
-                                        ),
-                                        child: const Padding(
-                                            padding: EdgeInsets.only(
-                                              left: 10,
-                                              top: 90,
-                                              right: 10,
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                                Text(
-                                                  "الامل ١",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily: 'Jazeera-Bold',
-                                                    fontSize: 18,
-                                                  ),
-                                                  textAlign: TextAlign.right,
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                ),
-                                                Text(
-                                                  "A26-F3-P14",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 13,
-                                                  ),
-                                                  textAlign: TextAlign.right,
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                ),
-                                              ],
-                                            )),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }).toList(),
                     ),
                     Directionality(
                       textDirection: TextDirection.rtl,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: sampleImages.asMap().entries.map((entry) {
+                        children:
+                            _userHouseInformtions.asMap().entries.map((entry) {
                           return GestureDetector(
-                            onTap: () => _controller.animateToPage(entry.key),
+                            onTap: () =>
+                                _carouselController.animateToPage(entry.key),
                             child: Container(
                               width: 8.0,
                               height: 8.0,

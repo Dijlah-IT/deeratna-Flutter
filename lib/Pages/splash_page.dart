@@ -16,12 +16,12 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  @override
-  deleteToken() async {
+  _deleteToken() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.remove('userToken');
   }
 
+  @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
@@ -33,15 +33,14 @@ class _SplashPageState extends State<SplashPage> {
         );
       } else {
         getUserInformations(Constants.userToken).then((value) {
-          debugPrint(
-              "${Constants.statusCode}<---------------111111");
+          debugPrint("${Constants.statusCode}<---------------111111");
           if (Constants.statusCode == 200) {
             Navigator.popAndPushNamed(
               context,
               RootPage.routName,
             );
           } else {
-            deleteToken();
+            _deleteToken();
             Constants.userToken = "";
             final snackBar = SnackBar(
               elevation: 0,
@@ -55,7 +54,7 @@ class _SplashPageState extends State<SplashPage> {
                       ? Constants.lineColorNight
                       : Constants.headerColor,
                   title: 'اهلا بك',
-                  message: "اهلا بك يا ${ConstUserInformations.name}",
+                  message: "اهلا بك يا ${ConstUserInformations.json?['name']}",
                   contentType: ContentType.success,
                 ),
               ),
