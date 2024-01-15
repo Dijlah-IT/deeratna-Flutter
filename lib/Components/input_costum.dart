@@ -52,7 +52,7 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
           borderRadius: const BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: Constants.textColor),
+          borderSide: BorderSide(color: Constants.textColor,),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(

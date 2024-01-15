@@ -51,7 +51,9 @@ class Heading extends StatelessWidget {
                 vertical: 5,
               ),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.backGroundColorNight
+                    : Constants.backGroundColor,
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
                   width: 1.3,
@@ -65,6 +67,9 @@ class Heading extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Jazeera-Regular',
                   fontSize: 13,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.textColorNight
+                      : Colors.black87,
                 ),
               ),
             ),

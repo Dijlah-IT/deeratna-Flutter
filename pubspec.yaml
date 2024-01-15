@@ -66,6 +66,10 @@ dependencies:
   firebase_messaging: ^14.7.6
   accordion: ^2.6.0
   just_the_tooltip: ^0.0.12
+  flutter_time_picker_spinner: ^2.0.0
+  flutter_svg: ^2.0.9
+  vph_web_date_picker: ^0.0.4
+  board_datetime_picker: ^1.4.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

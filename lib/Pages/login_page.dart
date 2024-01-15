@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
     timer?.cancel();
   }
 
-  final controllerRegisterPhone  = TextEditingController();
+  final controllerRegisterPhone = TextEditingController();
   final controllerRegisterSMS = TextEditingController();
   final controllerRegisterPassword = TextEditingController();
   final controllerRegisterPasswordConfirm = TextEditingController();
@@ -162,362 +162,369 @@ class _LoginPageState extends State<LoginPage> {
                   textDirection: TextDirection.rtl,
                   child: Theme(
                     data: ThemeData(
-                      shadowColor: Colors.transparent,
+                      colorScheme: ColorScheme.light(primary: Constants.headerColor),
                       canvasColor: Colors.transparent,
-                      primarySwatch: getMaterialColor(Constants.headerColor),
                     ),
-                    child: Stepper(
-                      controlsBuilder: (context, details) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            _step != 0 && _step != 3
-                                ? TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _step--;
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                        vertical: 5,
-                                      ),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          border: Border.all(
-                                            width: 0.3,
-                                            color: Constants.headerColor,
-                                          )),
-                                      child: const Text(
-                                        'السابق',
-                                        style: TextStyle(
-                                          fontFamily: 'Jazeera-Regular',
-                                          fontSize: 16,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Stepper(
+                        elevation: 0,
+                        onStepTapped: (step) {},
+                        controlsBuilder: (context, details) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              _step != 0 && _step != 3
+                                  ? TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _step--;
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 5,
+                                        ),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            border: Border.all(
+                                              width: 0.3,
+                                              color: Constants.headerColor,
+                                            )),
+                                        child: const Text(
+                                          'السابق',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 16,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                : const Text(""),
-                            TextButton(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
+                                    )
+                                  : const Text(""),
+                              TextButton(
+                                onPressed: () {
+                                  FocusScope.of(context).unfocus();
 
-                                switch (_step) {
-                                  case 0:
-                                    if (registerPhoneKey.currentState!
-                                        .validate()) {
-                                      debugPrint("mmmmmmMmmmmmm");
-                                      setState(() {
-                                        messageAPI = "";
-                                        debugPrint(
-                                            controllerRegisterPhone.text);
+                                  switch (_step) {
+                                    case 0:
+                                      if (registerPhoneKey.currentState!
+                                          .validate()) {
+                                        debugPrint("mmmmmmMmmmmmm");
                                         setState(() {
-                                          userPhoneNumber =
-                                              controllerRegisterPhone.text;
-                                          registerPhone(userPhoneNumber)
-                                              .then((value) {
-                                            setState(() {
-                                              messageAPI = Constants.message;
-                                              if (Constants.statusCode == 200) {
-                                                _step++;
-                                              }
-                                            });
-                                          });
-                                        });
-                                      });
-                                    }
-
-                                    break;
-                                  case 1:
-                                    if (registerSMSKey.currentState!
-                                        .validate()) {
-                                      _step++;
-                                    } else {
-                                      setState(() {
-                                        startTimer();
-                                      });
-                                    }
-                                  case 2:
-                                    if (registerPasswordKey.currentState!
-                                        .validate()) {
-                                      messageAPI = "";
-                                      setState(() {
-                                        register(
-                                                userPhoneNumber,
-                                                controllerRegisterPassword.text,
-                                                controllerRegisterPasswordConfirm
-                                                    .text,
-                                                "note-10")
-                                            .then((value) {
-                                          if (Constants.statusCode == 200) {
-                                            getUserInformations(
-                                                    Constants.userToken)
+                                          messageAPI = "";
+                                          debugPrint(
+                                              controllerRegisterPhone.text);
+                                          setState(() {
+                                            userPhoneNumber =
+                                                controllerRegisterPhone.text;
+                                            registerPhone(userPhoneNumber)
                                                 .then((value) {
-                                              debugPrint(
-                                                  "${ConstUserInformations.json?['name']}<-----");
                                               setState(() {
+                                                messageAPI = Constants.message;
                                                 if (Constants.statusCode ==
                                                     200) {
                                                   _step++;
                                                 }
                                               });
                                             });
-                                          } else {
-                                            setState(() {
-                                              messageAPI = Constants.message;
-                                            });
-                                          }
+                                          });
                                         });
-                                      });
-                                    }
-                                    break;
-                                  case 3:
-                                    Navigator.popAndPushNamed(
-                                      context,
-                                      RootPage.routName,
-                                    );
-                                    break;
-                                }
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(
-                                    width: 0.3,
-                                    color: Constants.headerColor,
+                                      }
+
+                                      break;
+                                    case 1:
+                                      if (registerSMSKey.currentState!
+                                          .validate()) {
+                                        _step++;
+                                      } else {
+                                        setState(() {
+                                          startTimer();
+                                        });
+                                      }
+                                    case 2:
+                                      if (registerPasswordKey.currentState!
+                                          .validate()) {
+                                        messageAPI = "";
+                                        setState(() {
+                                          register(
+                                                  userPhoneNumber,
+                                                  controllerRegisterPassword
+                                                      .text,
+                                                  controllerRegisterPasswordConfirm
+                                                      .text,
+                                                  "note-10")
+                                              .then((value) {
+                                            if (Constants.statusCode == 200) {
+                                              getUserInformations(
+                                                      Constants.userToken)
+                                                  .then((value) {
+                                                debugPrint(
+                                                    "${ConstUserInformations.json?['name']}<-----");
+                                                setState(() {
+                                                  if (Constants.statusCode ==
+                                                      200) {
+                                                    _step++;
+                                                  }
+                                                });
+                                              });
+                                            } else {
+                                              setState(() {
+                                                messageAPI = Constants.message;
+                                              });
+                                            }
+                                          });
+                                        });
+                                      }
+                                      break;
+                                    case 3:
+                                      Navigator.popAndPushNamed(
+                                        context,
+                                        RootPage.routName,
+                                      );
+                                      break;
+                                  }
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 5,
                                   ),
-                                  color: _step != 3
-                                      ? Colors.transparent
-                                      : Constants.headerColor,
-                                ),
-                                child: _step != 3
-                                    ? const Text(
-                                        'التالي',
-                                        style: TextStyle(
-                                          fontFamily: 'Jazeera-Regular',
-                                          fontSize: 16,
-                                        ),
-                                      )
-                                    : const Text(
-                                        "دخول",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontFamily: 'Jazeera-Regular',
-                                        ),
-                                      ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                      type: StepperType.horizontal,
-                      currentStep: _step,
-                      steps: <Step>[
-                        Step(
-                          isActive: _step != 0 ? false : true,
-                          title: const Text(""),
-                          state: _step > 0
-                              ? StepState.complete
-                              : StepState.indexed,
-                          // RegisterPhone
-                          content: Form(
-                            key: registerPhoneKey,
-                            child: TextFormFieldCostum(
-                              isEmptyTitle: "أدخل رقم هاتفك المحمول",
-                              maxLength: 12,
-                              lengthErrorTitle:
-                                  "أدخل رقم هاتفك المحمول بشكل صحيح",
-                              labelTitle: "رقم الهاتف الجوال",
-                              helperTitle: messageAPI,
-                              inputType: TextInputType.phone,
-                              obscureText: false,
-                              inputIcon: Icons.phone_android_rounded,
-                              controller: controllerRegisterPhone,
-                            ),
-                          ),
-                          label: Text(
-                            "الهاتف",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Jazeera-Regular',
-                              color: _step != 0
-                                  ? Colors.grey
-                                  : Constants.headerColor,
-                            ),
-                          ),
-                        ),
-                        Step(
-                          isActive: _step != 1 ? false : true,
-                          state: _step > 1
-                              ? StepState.complete
-                              : StepState.indexed,
-                          title: const Text(""),
-                          content: Form(
-                            key: registerSMSKey,
-                            child: Column(
-                              children: [
-                                // RegisterSMS
-                                TextFormFieldCostum(
-                                  isEmptyTitle: "يرجى ادخال الرمز بشكل صحيح",
-                                  maxLength: 1000,
-                                  lengthErrorTitle: "",
-                                  labelTitle: "رمز التحقق",
-                                  helperTitle:
-                                      "اكتب رمز التحقق الذي يصل على رقم هاتفك",
-                                  inputType: TextInputType.phone,
-                                  obscureText: false,
-                                  inputIcon: Icons.sms,
-                                  controller: controllerRegisterSMS,
-                                ),
-                                const SizedBox(height: 20),
-                                Container(
-                                  child: secondes == 1
-                                      ? GestureDetector(
-                                          onTap: () {},
-                                          child: Text(
-                                            "لم تحصل على رمز التحقق؟",
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              color: Constants.headerColor,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              fontSize: 16,
-                                            ),
-                                            textAlign: TextAlign.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(
+                                      width: 0.3,
+                                      color: Constants.headerColor,
+                                    ),
+                                    color: _step != 3
+                                        ? Colors.transparent
+                                        : Constants.headerColor,
+                                  ),
+                                  child: _step != 3
+                                      ? const Text(
+                                          'التالي',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 16,
                                           ),
                                         )
-                                      : Stack(
-                                          children: <Widget>[
-                                            Center(
-                                              child: SizedBox(
-                                                width: 30,
-                                                height: 30,
-                                                child: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: 1.0,
-                                                    value: secondes /
-                                                        maxSecondesSMS,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 3),
-                                              child: Center(
-                                                child: Text(
-                                                  '$secondes',
-                                                  style: const TextStyle(
-                                                    fontFamily:
-                                                        'Jazeera-Regular',
-                                                    fontSize: 15,
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
+                                      : const Text(
+                                          "دخول",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontFamily: 'Jazeera-Regular',
+                                          ),
                                         ),
                                 ),
-                                const SizedBox(height: 20),
-                              ],
+                              ),
+                            ],
+                          );
+                        },
+                        type: StepperType.horizontal,
+                        currentStep: _step,
+                        steps: <Step>[
+                          Step(
+                            isActive: _step != 0 ? false : true,
+                            title: const Text(""),
+                            state: _step > 0
+                                ? StepState.complete
+                                : StepState.indexed,
+                            // RegisterPhone
+                            content: Form(
+                              key: registerPhoneKey,
+                              child: TextFormFieldCostum(
+                                isEmptyTitle: "أدخل رقم هاتفك المحمول",
+                                maxLength: 12,
+                                lengthErrorTitle:
+                                    "أدخل رقم هاتفك المحمول بشكل صحيح",
+                                labelTitle: "رقم الهاتف الجوال",
+                                helperTitle: messageAPI,
+                                inputType: TextInputType.phone,
+                                obscureText: false,
+                                inputIcon: Icons.phone_android_rounded,
+                                controller: controllerRegisterPhone,
+                              ),
+                            ),
+                            label: Text(
+                              "الهاتف",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Jazeera-Regular',
+                                color: _step != 0
+                                    ? Colors.grey
+                                    : Constants.headerColor,
+                              ),
                             ),
                           ),
-                          label: Text(
-                            "التحقق",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Jazeera-Regular',
-                              color: _step != 1
-                                  ? Colors.grey
-                                  : Constants.headerColor,
+                          Step(
+                            isActive: _step != 1 ? false : true,
+                            state: _step > 1
+                                ? StepState.complete
+                                : StepState.indexed,
+                            title: const Text(""),
+                            content: Form(
+                              key: registerSMSKey,
+                              child: Column(
+                                children: [
+                                  // RegisterSMS
+                                  TextFormFieldCostum(
+                                    isEmptyTitle: "يرجى ادخال الرمز بشكل صحيح",
+                                    maxLength: 1000,
+                                    lengthErrorTitle: "",
+                                    labelTitle: "رمز التحقق",
+                                    helperTitle:
+                                        "اكتب رمز التحقق الذي يصل على رقم هاتفك",
+                                    inputType: TextInputType.phone,
+                                    obscureText: false,
+                                    inputIcon: Icons.sms,
+                                    controller: controllerRegisterSMS,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    child: secondes == 1
+                                        ? GestureDetector(
+                                            onTap: () {},
+                                            child: Text(
+                                              "لم تحصل على رمز التحقق؟",
+                                              style: TextStyle(
+                                                fontFamily: 'Jazeera-Regular',
+                                                color: Constants.headerColor,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                fontSize: 16,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          )
+                                        : Stack(
+                                            children: <Widget>[
+                                              Center(
+                                                child: SizedBox(
+                                                  width: 30,
+                                                  height: 30,
+                                                  child: Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      strokeWidth: 1.0,
+                                                      value: secondes /
+                                                          maxSecondesSMS,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 3),
+                                                child: Center(
+                                                  child: Text(
+                                                    '$secondes',
+                                                    style: const TextStyle(
+                                                      fontFamily:
+                                                          'Jazeera-Regular',
+                                                      fontSize: 15,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
+                            ),
+                            label: Text(
+                              "التحقق",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Jazeera-Regular',
+                                color: _step != 1
+                                    ? Colors.grey
+                                    : Constants.headerColor,
+                              ),
                             ),
                           ),
-                        ),
-                        Step(
-                          isActive: _step != 2 ? false : true,
-                          state: _step > 2
-                              ? StepState.complete
-                              : StepState.indexed,
-                          title: const Text(""),
-                          content: Form(
-                            key: registerPasswordKey,
-                            child: Column(
-                              children: <Widget>[
-                                TextFormFieldCostum(
-                                  isEmptyTitle: "كلمة المرور غير صحيحة",
-                                  maxLength: 1000,
-                                  lengthErrorTitle:
-                                      "أدخل رقم هاتفك المحمول بشكل صحيح",
-                                  labelTitle: "كلمة المرور",
-                                  helperTitle: messageAPI,
-                                  inputType: TextInputType.text,
-                                  obscureText: true,
-                                  inputIcon: Icons.password,
-                                  controller: controllerRegisterPassword,
-                                ),
-                                const SizedBox(height: 20),
-                                TextFormFieldCostum(
-                                  isEmptyTitle: "كلمة المرور غير صحيحة",
-                                  maxLength: 1000,
-                                  lengthErrorTitle:
-                                      "أدخل رقم هاتفك المحمول بشكل صحيح",
-                                  labelTitle: "تكرار كلمة المرور",
-                                  helperTitle: messageAPI,
-                                  inputType: TextInputType.text,
-                                  obscureText: true,
-                                  inputIcon: Icons.password,
-                                  controller: controllerRegisterPasswordConfirm,
-                                ),
-                              ],
+                          Step(
+                            isActive: _step != 2 ? false : true,
+                            state: _step > 2
+                                ? StepState.complete
+                                : StepState.indexed,
+                            title: const Text(""),
+                            content: Form(
+                              key: registerPasswordKey,
+                              child: Column(
+                                children: <Widget>[
+                                  TextFormFieldCostum(
+                                    isEmptyTitle: "كلمة المرور غير صحيحة",
+                                    maxLength: 1000,
+                                    lengthErrorTitle:
+                                        "أدخل رقم هاتفك المحمول بشكل صحيح",
+                                    labelTitle: "كلمة المرور",
+                                    helperTitle: messageAPI,
+                                    inputType: TextInputType.text,
+                                    obscureText: true,
+                                    inputIcon: Icons.password,
+                                    controller: controllerRegisterPassword,
+                                  ),
+                                  const SizedBox(height: 20),
+                                  TextFormFieldCostum(
+                                    isEmptyTitle: "كلمة المرور غير صحيحة",
+                                    maxLength: 1000,
+                                    lengthErrorTitle:
+                                        "أدخل رقم هاتفك المحمول بشكل صحيح",
+                                    labelTitle: "تكرار كلمة المرور",
+                                    helperTitle: messageAPI,
+                                    inputType: TextInputType.text,
+                                    obscureText: true,
+                                    inputIcon: Icons.password,
+                                    controller:
+                                        controllerRegisterPasswordConfirm,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            label: Text(
+                              "الرمز",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Jazeera-Regular',
+                                color: _step != 2
+                                    ? Colors.grey
+                                    : Constants.headerColor,
+                              ),
                             ),
                           ),
-                          label: Text(
-                            "الرمز",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Jazeera-Regular',
-                              color: _step != 2
-                                  ? Colors.grey
-                                  : Constants.headerColor,
+                          Step(
+                            isActive: _step != 3 ? false : true,
+                            state: _step > 3
+                                ? StepState.complete
+                                : StepState.indexed,
+                            title: const Text(""),
+                            content: Text(
+                              "اهلا بك يا ${ConstUserInformations.json?['name']}",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Jazeera-Bold',
+                                fontSize: 20,
+                                color: Constants.headerColor,
+                              ),
+                            ),
+                            label: Text(
+                              "النهاية",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Jazeera-Regular',
+                                color: _step != 3
+                                    ? Colors.grey
+                                    : Constants.headerColor,
+                              ),
                             ),
                           ),
-                        ),
-                        Step(
-                          isActive: _step != 3 ? false : true,
-                          state: _step > 3
-                              ? StepState.complete
-                              : StepState.indexed,
-                          title: const Text(""),
-                          content: Text(
-                            "اهلا بك يا ${ConstUserInformations.json?['name']}",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontFamily: 'Jazeera-Bold',
-                              fontSize: 20,
-                              color: Constants.headerColor,
-                            ),
-                          ),
-                          label: Text(
-                            "النهاية",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Jazeera-Regular',
-                              color: _step != 3
-                                  ? Colors.grey
-                                  : Constants.headerColor,
-                            ),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

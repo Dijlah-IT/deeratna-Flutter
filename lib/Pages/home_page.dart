@@ -1,9 +1,12 @@
+import 'package:deeratna/Components/custom_line.dart';
 import 'package:deeratna/Components/my_cart.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Pages/access_card_page.dart';
 import 'package:deeratna/Pages/housespecifications_page.dart';
+import 'package:deeratna/Pages/qr_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 
 import '../Components/heading.dart';
@@ -28,13 +31,13 @@ class _HomePageState extends State<HomePage> {
     "حجز ملعب",
     "حجز مسبح",
   ];
-  static const List<IconData> servicesItemIcon = [
-    Icons.card_membership,
-    Icons.car_crash_outlined,
-    Icons.car_crash_outlined,
-    Icons.add_location_alt_outlined,
-    Icons.phonelink_lock_sharp,
-    Icons.mood_bad_sharp,
+  static const List<String> servicesItemIcon = [
+    './Assets/images/41.svg',
+    './Assets/images/42.svg',
+    './Assets/images/46.svg',
+    './Assets/images/44.svg',
+    './Assets/images/43.svg',
+    './Assets/images/20.svg',
   ];
 
   @override
@@ -103,7 +106,9 @@ class _HomePageState extends State<HomePage> {
                                       width: 90,
                                       height: 250,
                                       decoration: BoxDecoration(
-                                        color: Colors.redAccent,
+                                        color: Constants.isDarkModeEnabled
+                                            ? Constants.textColorNight
+                                            : Constants.textColor,
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
@@ -218,8 +223,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                const Heading(
-                  title: 'الطلبات',
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Heading(
+                    title: 'الطلبات',
+                  ),
                 ),
 
                 SizedBox(
@@ -241,6 +249,70 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     }).toList(),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    right: 20,
+                    left: 20,
+                    bottom: 0,
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        QRPage.routName,
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerRight,
+                          end: Alignment.centerLeft,
+                          colors: <Color>[
+                            Constants.headerColor,
+                            Constants.textColor,
+                          ],
+                          tileMode: TileMode.mirror,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          10,
+                        ),
+                      ),
+                      child: Row(
+                        textDirection: TextDirection.rtl,
+                        children: <Widget>[
+                          Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              color: Constants.backGroundColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Lottie.asset(
+                              './Assets/images/Animation-1704283213535.json',
+                              width: 50,
+                              height: 50,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'خطار QR',
+                            style: TextStyle(
+                              fontFamily: 'Jazeera-Regular',
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: CustomHeadLine(size: size.width),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -272,7 +344,7 @@ class _HomePageState extends State<HomePage> {
 
 class ServiceItem extends StatelessWidget {
   final String servicesItemText;
-  final IconData servicesItemIcon;
+  final String servicesItemIcon;
   final int itemTag;
 
   const ServiceItem({
@@ -315,22 +387,12 @@ class ServiceItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Lottie.asset(
-            //   './Assets/images/15.json',
-            //   width: 50,
-            //   height: 50,
-            //   reverse: true,
-            //   repeat: false,
-            //   options: LottieOptions(
-            //     enableMergePaths: true,
-            //     enableApplyingOpacityToLayers: true,
-            //   ),
-            // ),
-            Icon(
+            SvgPicture.asset(
               servicesItemIcon,
-              color: Constants.isDarkModeEnabled
-                  ? Constants.textColorNight
-                  : Constants.textColor,
+              width: 40,
+              height: 40,
+              fit: BoxFit.fill,
+              color: Constants.textColor,
             ),
             const SizedBox(
               height: 10,
