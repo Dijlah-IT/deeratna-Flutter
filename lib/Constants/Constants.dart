@@ -22,11 +22,10 @@ class Constants {
 }
 
 class ConstUserInformations {
-  // static String name = "";
-  // static int? id;
-  // static String photoURL = "";
+
 
   static Map<String, dynamic>? json;
+  static Map<String, dynamic>? generalJson;
 }
 
 MaterialColor getMaterialColor(Color color) {

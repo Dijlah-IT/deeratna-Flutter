@@ -99,3 +99,25 @@ Future getUserInformations(String token) async {
     throw Constants.message = "Erorr";
   }
 }
+
+
+Future getUserGeneral(String token) async {
+  debugPrint(token);
+  debugPrint('-----------------------------------------');
+
+  final response = await http
+      .get(Uri.https("deeratna.net", 'api/mobile/general'), headers: <String, String>{
+    'X-Requested-With': 'XMLHttpRequest',
+    'Authorization': 'Bearer $token',
+    'Content-Type': 'application/json; charset = UTF-8',
+  });
+
+  Constants.statusCode = response.statusCode;
+  if (response.statusCode == 404 || response.statusCode == 422) {
+    ConstUserInformations.generalJson = jsonDecode(response.body);
+  } else if (response.statusCode == 200) {
+    ConstUserInformations.generalJson = jsonDecode(response.body);
+  } else {
+    throw Constants.message = "Erorr";
+  }
+}

@@ -70,6 +70,9 @@ dependencies:
   flutter_svg: ^2.0.9
   vph_web_date_picker: ^0.0.4
   board_datetime_picker: ^1.4.0
+  percent_indicator: ^4.2.3
+  flutter_html: ^3.0.0-beta.2
+  dotted_border: ^2.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

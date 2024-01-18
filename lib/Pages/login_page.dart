@@ -162,7 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                   textDirection: TextDirection.rtl,
                   child: Theme(
                     data: ThemeData(
-                      colorScheme: ColorScheme.light(primary: Constants.headerColor),
+                      colorScheme:
+                          ColorScheme.light(primary: Constants.headerColor),
                       canvasColor: Colors.transparent,
                     ),
                     child: Padding(
@@ -613,6 +614,7 @@ class _LoginPageState extends State<LoginPage> {
                                     if (Constants.statusCode == 200) {
                                       getUserInformations(Constants.userToken)
                                           .then((value) {
+                                        getUserGeneral(Constants.userToken);
                                         if (Constants.statusCode == 200) {
                                           final snackBar = SnackBar(
                                             elevation: 0,
@@ -657,6 +659,7 @@ class _LoginPageState extends State<LoginPage> {
                               "دخول",
                               style: TextStyle(
                                 fontFamily: 'Jazeera-Regular',
+                                color: Colors.white,
                               ),
                             ),
                           )

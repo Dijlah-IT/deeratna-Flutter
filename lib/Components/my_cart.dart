@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class MyCart extends StatelessWidget {
   final String title;
   final String description;
-  final IconData icon;
+  final Widget icon;
 
   const MyCart({
     super.key,
@@ -29,6 +29,7 @@ class MyCart extends StatelessWidget {
               textDirection: TextDirection.rtl,
               title,
               style: TextStyle(
+                fontSize: 16,
                 color: Constants.isDarkModeEnabled
                     ? Constants.textColorNight
                     : Constants.textColor,
@@ -48,13 +49,7 @@ class MyCart extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Icon(
-                icon,
-                size: 45,
-                color: Constants.isDarkModeEnabled
-                    ? Constants.textColorNight
-                    : Constants.textColor,
-              ),
+              child: icon,
             ),
             subtitle: Text(
               textAlign: TextAlign.justify,

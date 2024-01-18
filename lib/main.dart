@@ -40,6 +40,7 @@ class _DeeratnaState extends State<Deeratna> {
     var brightness =
         SchedulerBinding.instance.platformDispatcher.platformBrightness;
     deviceTheme = brightness == Brightness.dark;
+    debugPrint('$deviceTheme<<<<<<<<<<<<<');
     _getThemeMod();
 
     super.initState();
@@ -52,6 +53,7 @@ class _DeeratnaState extends State<Deeratna> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.grey,
         ),
@@ -62,4 +64,3 @@ class _DeeratnaState extends State<Deeratna> {
     );
   }
 }
-

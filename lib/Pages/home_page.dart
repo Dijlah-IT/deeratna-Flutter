@@ -2,7 +2,9 @@ import 'package:deeratna/Components/custom_line.dart';
 import 'package:deeratna/Components/my_cart.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:deeratna/Pages/access_card_page.dart';
+import 'package:deeratna/Pages/car_sticker_page.dart';
 import 'package:deeratna/Pages/housespecifications_page.dart';
+import 'package:deeratna/Pages/information_management_page.dart';
 import 'package:deeratna/Pages/qr_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -237,14 +239,53 @@ class _HomePageState extends State<HomePage> {
                       autoPlay: false,
                       enlargeCenterPage: true,
                     ),
-                    items: [0, 1, 2, 3, 4].map((i) {
+                    items: [0, 1, 2, 3].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return const MyCart(
+                          return MyCart(
                             description:
                                 " لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
-                            title: "لوريم إيبسوم",
-                            icon: Icons.person_pin,
+                            title: servicesItemText[i],
+                            icon: GestureDetector(
+                              child: SvgPicture.asset(
+                                servicesItemIcon[i],
+                                height: 40,
+                                fit: BoxFit.fill,
+                                color: Constants.textColor,
+                              ),
+                              onTap: () {
+                                debugPrint(i.toString());
+                                debugPrint("Click !");
+                                switch (i) {
+                                  case 0:
+                                    Navigator.pushNamed(
+                                      context,
+                                      InformationManagementPage.routName,
+                                      arguments: {
+                                        'editInformation': false,
+                                      },
+                                    );
+
+                                    break;
+                                  case 1:
+                                    Navigator.pushNamed(
+                                      context,
+                                      CarSticker.routName,
+                                    );
+                                    break;
+                                  case 3:
+                                    Navigator.pushNamed(
+                                      context,
+                                      InformationManagementPage.routName,
+                                      arguments: {
+                                        'editInformation': true,
+                                      },
+                                    );
+                                    break;
+                                  default:
+                                }
+                              },
+                            ),
                           );
                         },
                       );
@@ -360,10 +401,34 @@ class ServiceItem extends StatelessWidget {
       onTap: () {
         debugPrint(itemTag.toString());
         debugPrint("Click !");
-        Navigator.pushNamed(
-          context,
-          AccessCard.routName,
-        );
+        switch (itemTag) {
+          case 0:
+            Navigator.pushNamed(
+              context,
+              InformationManagementPage.routName,
+              arguments: {
+                'editInformation': false,
+              },
+            );
+
+            break;
+          case 1:
+            Navigator.pushNamed(
+              context,
+              CarSticker.routName,
+            );
+            break;
+          case 3:
+            Navigator.pushNamed(
+              context,
+              InformationManagementPage.routName,
+              arguments: {
+                'editInformation': true,
+              },
+            );
+            break;
+          default:
+        }
       },
       child: Container(
         decoration: BoxDecoration(

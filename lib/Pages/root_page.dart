@@ -1,5 +1,5 @@
 import 'package:deeratna/Constants/constants.dart';
-import 'package:deeratna/Pages/about_page.dart';
+import 'package:deeratna/Pages/text_page.dart';
 import 'package:deeratna/Pages/home_page.dart';
 import 'package:deeratna/Pages/login_page.dart';
 import 'package:deeratna/Pages/notif_page.dart';
@@ -27,7 +27,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
   bool showProfile = false;
   double brightnessValue = 0.0;
   double fontsizeValue = 15.0;
-  bool isDarkModeEnabled = false;
+  bool isDarkModeEnabled = Constants.isDarkModeEnabled;
   bool isShowLogOutDialog = false;
 
   _deleteToken() async {
@@ -35,12 +35,12 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
     await pref.remove('userToken');
   }
 
-  _getThemeMod() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    setState(() {
-      isDarkModeEnabled = pref.getBool("isDarkModeEnabled") ?? true;
-    });
-  }
+  // _getThemeMod() async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     isDarkModeEnabled = pref.getBool("isDarkModeEnabled") ?? true;
+  //   });
+  // }
 
   _setThemeMod() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -50,7 +50,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _getThemeMod();
+    // _getThemeMod();
     super.initState();
     _motionTabBarController = MotionTabBarController(
       initialIndex: 1,
@@ -74,6 +74,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       "الرئيسية",
       "من نحن",
       "الدعم الفني",
+      "الشروط والقوانين",
       "شارك التطبيق",
     ];
 
@@ -81,6 +82,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
       Icons.home,
       Icons.assignment_late_outlined,
       Icons.phone_enabled,
+      Icons.gavel,
       Icons.share,
     ];
     final Size size = MediaQuery.of(context).size;
@@ -536,7 +538,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                         './Assets/images/15.json',
                         width: 35,
                         height: 35,
-                        repeat: false,
+                        repeat: true,
                       ),
                     ),
                     Padding(
@@ -548,7 +550,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                         './Assets/images/14.json',
                         width: 35,
                         height: 35,
-                        repeat: false,
+                        repeat: true,
                       ),
                     ),
                     Padding(
@@ -560,7 +562,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                         './Assets/images/13.json',
                         width: 35,
                         height: 35,
-                        repeat: false,
+                        repeat: true,
                       ),
                     ),
                   ],
@@ -664,6 +666,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                                 "نعم",
                                 style: TextStyle(
                                   fontFamily: 'Jazeera-Regular',
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -685,6 +688,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                                 "لا",
                                 style: TextStyle(
                                   fontFamily: 'Jazeera-Regular',
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
@@ -734,20 +738,33 @@ class DrawerItems extends StatelessWidget {
             case 1:
               Navigator.pushNamed(
                 context,
-                AboutPage.routName,
+                TextPage.routName,
                 arguments: {
                   "title": "من نحن",
-                  "isAbout": true,
+                  "text":
+                      "شركة رائدة في مجال العقارات وإنشاء المدن السكنية وتسويقها وبيعها على شكل قطع سكنية ضمن مربعات سكنية واقــعه ضـمن وحدات جوار بموجب مخططات حضرية رسمية ومعتمدة من الجهــات الحكومـية ذات الأختصاص.\nهدفنا كسب ثقة كل شرائح المجتمع وذالك من خلال تجهيز مشاريع سكنية حضرية حديثة باسعار ميسرة بحيث يكون في متناول جميع فئات المجتمع حيث يتوفر نظام البيع بالأقساط المريحة والميسرة لهذة المشاريع وبهذا يستطيع ذوي الدخل المحدود إمتلاك قطعة أرض .\nالي جانب السجل العقاري ودفتر غرفة الصناعة والتجارة لدينا تصاريح مزاولة المهنة صادرة من هيئة الأراضي والمساحة والتخطيط العمراني بالحديدة، والى جانب هذا نمتلك أكثر من شهادة تقدير وأوسمة من جهات رسمية ومنظمات حقوقية يمنية وعربية الي جانب ذلك لدينا العديد من الشهادات المعتمدة من كل الجهات الحكومية ذات الإختصاص .",
                 },
               );
               break;
             case 2:
               Navigator.pushNamed(
                 context,
-                AboutPage.routName,
+                TextPage.routName,
                 arguments: {
                   "title": "الدعم الفني",
-                  "isAbout": false,
+                  "text":
+                      "بامكانك التواصل مع خدمة الدعم الفني على مدار الاسبوع عبر الارقام التالية:\n0780000000\n0770000000",
+                },
+              );
+              break;
+            case 3:
+              Navigator.pushNamed(
+                context,
+                TextPage.routName,
+                arguments: {
+                  "title": "الشروط والقوانين",
+                  "text": ConstUserInformations
+                      .generalJson!['terms_and_conditions'],
                 },
               );
               break;

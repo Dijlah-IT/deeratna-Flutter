@@ -1,17 +1,16 @@
+import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:deeratna/Constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:board_datetime_picker/board_datetime_picker.dart';
 
-class AccessCard extends StatefulWidget {
-  const AccessCard({super.key});
-  static String routName = "/AccessCard";
-
+class CarSticker extends StatefulWidget {
+  const CarSticker({super.key});
+  static String routName = "/CarSticker";
   @override
-  State<AccessCard> createState() => _AccessCardState();
+  State<CarSticker> createState() => _CarStickerState();
 }
 
-class _AccessCardState extends State<AccessCard> {
+class _CarStickerState extends State<CarSticker> {
   int _arrivalsDepartures = 1;
   final controller = BoardDateTimeController();
   DateTime dateCreated = DateTime.now();
@@ -32,9 +31,7 @@ class _AccessCardState extends State<AccessCard> {
 
   @override
   Widget build(BuildContext context) {
-    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Constants.isDarkModeEnabled
           ? Constants.backGroundColorNight
@@ -53,7 +50,7 @@ class _AccessCardState extends State<AccessCard> {
           child: Padding(
             padding: const EdgeInsets.only(right: 55),
             child: Text(
-              "بطاقة دخول",
+              "ملصق السيارات",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Constants.isDarkModeEnabled
@@ -79,7 +76,7 @@ class _AccessCardState extends State<AccessCard> {
                       BoxShadow(
                         color: Constants.textColor,
                         blurRadius: 4,
-                        offset: const Offset(0, 0),
+                        offset: const Offset(0, 0), // Shadow position
                       ),
                     ],
                   ),
@@ -95,30 +92,18 @@ class _AccessCardState extends State<AccessCard> {
                             topRight: Radius.circular(15),
                           ),
                         ),
-                        child: Row(
-                          textDirection: TextDirection.rtl,
-                          children: <Widget>[
-                            SvgPicture.asset(
-                              './Assets/images/41.svg',
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.fill,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              arguments['username'],
-                              style: const TextStyle(
-                                fontFamily: 'Jazeera-Regular',
-                                color: Colors.white,
-                                fontSize: 17,
-                              ),
-                            )
-                          ],
+                        child: Center(
+                          child: SvgPicture.asset(
+                            './Assets/images/42.svg',
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.fill,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                       Container(
-                        height: 500,
+                        height: 780,
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                           children: <Widget>[
@@ -129,7 +114,62 @@ class _AccessCardState extends State<AccessCard> {
                                 decoration: InputDecoration(
                                   fillColor: Constants.backGroundColor,
                                   filled: true,
-                                  labelText: 'رمز البطاقة',
+                                  labelText: 'رمز الملصق',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Jazeera-Regular',
+                                    color: Constants.headerColor,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Constants.headerColor,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Constants.headerColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: TextFormField(
+                                keyboardType: TextInputType.name,
+                                decoration: InputDecoration(
+                                  fillColor: Constants.backGroundColor,
+                                  filled: true,
+                                  labelText: 'رقم العجلة',
+                                  labelStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Jazeera-Regular',
+                                    color: Constants.headerColor,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Constants.headerColor,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Constants.headerColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: TextFormField(
+                                maxLines: 6,
+                                keyboardType: TextInputType.name,
+                                decoration: InputDecoration(
+                                  fillColor: Constants.backGroundColor,
+                                  filled: true,
+                                  labelText: 'تفاصيل العجلة',
                                   labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Jazeera-Regular',
@@ -188,7 +228,53 @@ class _AccessCardState extends State<AccessCard> {
                                             },
                                           ),
                                           const Text(
-                                            'فعالة',
+                                            'دخول وخروج',
+                                            style: TextStyle(
+                                              fontFamily: 'Jazeera-Regular',
+                                              fontSize: 13,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Radio(
+                                            value: 2,
+                                            groupValue: _arrivalsDepartures,
+                                            activeColor: Constants.headerColor,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _arrivalsDepartures = 2;
+                                              });
+                                            },
+                                          ),
+                                          const Text(
+                                            'خروج فقط',
+                                            style: TextStyle(
+                                              fontFamily: 'Jazeera-Regular',
+                                              fontSize: 13,
+                                              color: Colors.black87,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Radio(
+                                            value: 3,
+                                            groupValue: _arrivalsDepartures,
+                                            activeColor: Constants.headerColor,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _arrivalsDepartures = 3;
+                                              });
+                                            },
+                                          ),
+                                          const Text(
+                                            'دخول فقط',
                                             style: TextStyle(
                                               fontFamily: 'Jazeera-Regular',
                                               fontSize: 13,
@@ -239,6 +325,45 @@ class _AccessCardState extends State<AccessCard> {
                                 }),
                               ),
                               child: Text(
+                                'تاريخ الانشاء :   ${BoardDateFormat('yyyy/MM/dd').format(dateCreated)}',
+                                style: const TextStyle(
+                                  fontFamily: 'Jazeera-Bold',
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                              ),
+                              onPressed: () async {
+                                final result = await showBoardDateTimePicker(
+                                  context: context,
+                                  pickerType: DateTimePickerType.date,
+                                  options: BoardDateTimeOptions(
+                                    activeColor: Constants.textColor,
+                                    showDateButton: false,
+                                    pickerFormat: PickerFormat.ymd,
+                                    boardTitle: 'تاريخ الانشاء',
+                                    boardTitleTextStyle: TextStyle(
+                                      color: Constants.textColor,
+                                      fontFamily: 'Jazeera-Bold',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                );
+                                if (result != null) {
+                                  setState(() => dateCreated = result);
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith((states) {
+                                  return Constants.isDarkModeEnabled
+                                      ? Constants.itemColorNight
+                                      : Constants.textColor;
+                                }),
+                              ),
+                              child: Text(
                                 'تاريخ النفاذ :   ${BoardDateFormat('yyyy/MM/dd').format(effectiveDate)}',
                                 style: const TextStyle(
                                   fontFamily: 'Jazeera-Bold',
@@ -268,6 +393,10 @@ class _AccessCardState extends State<AccessCard> {
                               },
                             ),
                             const SizedBox(height: 10),
+                            Divider(
+                              color: Constants.lineColor.withAlpha(50),
+                            ),
+                            const SizedBox(height: 10),
                             Directionality(
                               textDirection: TextDirection.rtl,
                               child: Column(
@@ -283,7 +412,7 @@ class _AccessCardState extends State<AccessCard> {
                                     ),
                                   ),
                                   const SizedBox(height: 10),
-                                  SizedBox(
+                                    SizedBox(
                                     width: size.width,
                                     child: Wrap(
                                       direction: Axis.horizontal,
@@ -297,13 +426,11 @@ class _AccessCardState extends State<AccessCard> {
                                               value: _doors[
                                                   _doors.keys.elementAt(index)],
                                               checkColor: Colors.white,
-                                              activeColor:
-                                                  Constants.headerColor,
+                                              activeColor: Constants.headerColor,
                                               onChanged: (value) {
                                                 setState(() {
                                                   _doors[_doors.keys
-                                                          .elementAt(index)] =
-                                                      value!;
+                                                      .elementAt(index)] = value!;
                                                 });
                                               },
                                               materialTapTargetSize:
@@ -312,7 +439,7 @@ class _AccessCardState extends State<AccessCard> {
                                             ),
                                             Text(
                                               _doors.keys.elementAt(index),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontFamily: 'Jazeera-Regular',
                                               ),
                                             ),
@@ -321,6 +448,7 @@ class _AccessCardState extends State<AccessCard> {
                                       ),
                                     ),
                                   ),
+                                  
                                 ],
                               ),
                             ),
@@ -350,6 +478,7 @@ class _AccessCardState extends State<AccessCard> {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
