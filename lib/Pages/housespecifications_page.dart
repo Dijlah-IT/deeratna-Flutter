@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class HouseSpecificationsPage extends StatefulWidget {
   const HouseSpecificationsPage({
@@ -33,15 +34,15 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
   ];
 
   static const List<String> facilitiesIcon = [
-    './Assets/images/13.svg',
-    './Assets/images/14.svg',
-    './Assets/images/15.svg',
-    './Assets/images/19.svg',
-    './Assets/images/16.svg',
-    './Assets/images/17.svg',
-    './Assets/images/18.svg',
-    './Assets/images/20.svg',
-    './Assets/images/21.svg',
+    './Assets/images/1.svg',
+    './Assets/images/2.svg',
+    './Assets/images/3.svg',
+    './Assets/images/4.svg',
+    './Assets/images/5.svg',
+    './Assets/images/6.svg',
+    './Assets/images/7.svg',
+    './Assets/images/8.svg',
+    './Assets/images/9.svg',
   ];
 
   static const List<String> specificationsIcon = [
@@ -87,8 +88,8 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
             : Constants.headerColor,
         iconTheme: IconThemeData(
           color: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.lineColor,
+              ? Constants.textColorNight
+              : Constants.textColor,
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -103,8 +104,8 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                 fontFamily: 'Jazeera-Regular',
                 fontSize: 16,
                 color: Constants.isDarkModeEnabled
-                    ? Constants.lineColorNight
-                    : Constants.lineColor,
+                    ? Constants.textColorNight
+                    : Constants.textColor,
               ),
               textAlign: TextAlign.right,
               textDirection: TextDirection.rtl,
@@ -149,9 +150,11 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       width: size.width,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
+                      decoration: BoxDecoration(
+                        color: Constants.isDarkModeEnabled
+                            ? Constants.backGroundColorNight
+                            : Constants.backGroundColor,
+                        borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20),
                         ),
@@ -166,13 +169,9 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                             width: size.width,
                             padding: const EdgeInsets.all(10.0),
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1,
-                                  color:
-                                      const Color.fromARGB(255, 174, 192, 163)),
                               color: Constants.isDarkModeEnabled
-                                  ? Colors.white.withOpacity(0.1)
-                                  : const Color.fromARGB(255, 226, 238, 218),
+                                  ? Constants.itemColorNight
+                                  : Constants.itemColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Column(
@@ -193,7 +192,12 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                             width: 40,
                                             height: 40,
                                             fit: BoxFit.fill,
-                                            color: Constants.textColor,
+                                            colorFilter: ColorFilter.mode(
+                                              Constants.isDarkModeEnabled
+                                                  ? Constants.textColorNight
+                                                  : Constants.textColor,
+                                              BlendMode.srcIn,
+                                            ),
                                           ),
                                           const RotationTransition(
                                             turns: AlwaysStoppedAnimation(
@@ -209,9 +213,13 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                                             .json?['houses']
                                                         [arguments['tag']]
                                                     ['city']['name'],
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontFamily: 'Jazeera-Bold',
                                                   fontSize: 16,
+                                                  color: Constants
+                                                          .isDarkModeEnabled
+                                                      ? Constants.textColorNight
+                                                      : Constants.textColor,
                                                 ),
                                               ),
                                               Text(
@@ -224,10 +232,13 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                                                 .json?['houses']
                                                             [arguments['tag']]
                                                         ['number'],
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontFamily: 'Jazeera-Regular',
                                                   fontSize: 12,
-                                                  color: Colors.black54,
+                                                  color: Constants
+                                                          .isDarkModeEnabled
+                                                      ? Constants.textColorNight
+                                                      : Constants.textColor,
                                                 ),
                                               ),
                                             ],
@@ -255,201 +266,180 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 20),
+                                CustomHeadLine(size: size.width),
                                 const SizedBox(height: 10),
-                                Stack(
-                                  children: <Widget>[
-                                    CustomHeadLine(size: size.width),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 20,
-                                        vertical: 3,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 0,
+                                    vertical: 0,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 0,
+                                    ),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10),
                                       ),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                        ),
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(10),
-                                            bottomRight: Radius.circular(10),
-                                          ),
-                                        ),
-                                        child: Directionality(
-                                          textDirection: TextDirection.rtl,
-                                          child: GridView.count(
-                                            crossAxisCount: 2,
-                                            controller: ScrollController(
-                                                keepScrollOffset: false),
-                                            childAspectRatio: (((size.height -
-                                                        kToolbarHeight) /
+                                    ),
+                                    child: Directionality(
+                                      textDirection: TextDirection.rtl,
+                                      child: GridView.count(
+                                        crossAxisCount: 2,
+                                        controller: ScrollController(
+                                            keepScrollOffset: false),
+                                        childAspectRatio:
+                                            (((size.height - kToolbarHeight) /
                                                     2) /
-                                                (size.width / 2.5)),
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            children: List.generate(
-                                              _specificationsTitle.length,
-                                              (index) => Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10,
-                                                ),
-                                                child: SpecificationsItem(
-                                                  subtitle:
-                                                      specificationsSubTitle[
-                                                              index]
-                                                          .toString(),
-                                                  title: _specificationsTitle[
-                                                      index],
-                                                  icon:
-                                                      specificationsIcon[index],
-                                                ),
-                                              ),
+                                                (size.width / 2.9)),
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        children: List.generate(
+                                          _specificationsTitle.length,
+                                          (index) => Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                            ),
+                                            child: SpecificationsItem(
+                                              subtitle:
+                                                  specificationsSubTitle[index]
+                                                      .toString(),
+                                              title:
+                                                  _specificationsTitle[index],
+                                              icon: specificationsIcon[index],
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                    Positioned(
-                                      top: -50,
-                                      right: 0,
-                                      width: size.width,
-                                      child: Image.asset(
-                                        './Assets/images/homebg.png',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          CostumAccordion(
+                            headerWidget: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  textDirection: TextDirection.rtl,
+                                  children: <Widget>[
+                                    Text(
+                                      'خطة الدفع',
+                                      style: TextStyle(
+                                        fontFamily: 'Jazeera-Regular',
+                                        fontSize: 15,
+                                        color: Constants.isDarkModeEnabled
+                                            ? Constants.textColorNight
+                                            : Constants.textColor,
+                                      ),
+                                    ),
+                                    Text(
+                                      '${ConstUserInformations.json!['houses'][0]['house_price']!} IQD',
+                                      style: TextStyle(
+                                        fontFamily: 'Jazeera-Regular',
+                                        fontSize: 15,
+                                        color: Constants.isDarkModeEnabled
+                                            ? Constants.textColorNight
+                                            : Constants.textColor,
                                       ),
                                     ),
                                   ],
                                 ),
                                 const SizedBox(height: 10),
-                                CustomHeadLine(size: size.width * 0.4),
-                                CostumAccordion(
-                                  headerWidget: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        textDirection: TextDirection.rtl,
-                                        children: <Widget>[
-                                          const Text(
-                                            'خطة الدفع',
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 15,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          Text(
-                                            '${ConstUserInformations.json!['houses'][0]['house_price']!} IQD',
-                                            style: const TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 15,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 10),
-                                      LinearPercentIndicator(
-                                        animation: true,
-                                        lineHeight: 15.0,
-                                        animationDuration: 500,
-                                        barRadius: const Radius.circular(5),
-                                        percent: ConstUserInformations
-                                            .json!['houses'][0]['paid_ratio']
-                                            ?.toDouble(),
-                                        isRTL: true,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 0.0),
-                                        center: Text(
-                                          '${ConstUserInformations.json!['houses'][0]['paid_ratio']}%',
-                                          style: const TextStyle(
-                                            fontSize: 10,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        progressColor: Constants.textColor,
-                                      ),
-                                    ],
+                                LinearPercentIndicator(
+                                  animation: true,
+                                  lineHeight: 15.0,
+                                  animationDuration: 500,
+                                  barRadius: const Radius.circular(5),
+                                  percent: ConstUserInformations.json!['houses']
+                                          [0]['paid_ratio']
+                                      ?.toDouble(),
+                                  isRTL: true,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 0.0),
+                                  center: Text(
+                                    '${ConstUserInformations.json!['houses'][0]['paid_ratio']}%',
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.white,
+                                    ),
                                   ),
-                                  contentWidget: Column(
-                                    children: <Widget>[
-                                      CostumPayment(
-                                        paymentTitle: 'المبلغ المسدد',
-                                        payment: ConstUserInformations
-                                            .json!['houses'][0]['paid']
-                                            .toString(),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      CostumPayment(
-                                        paymentTitle: 'المبلغ المتبقي',
-                                        payment: remainingAmount.toString(),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      Column(
-                                        children: List.generate(
-                                          instalments.length,
-                                          (index) => InstalmentsWidget(
-                                            instalments: instalments,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  progressColor: Constants.textColor,
+                                ),
+                              ],
+                            ),
+                            contentWidget: Column(
+                              children: <Widget>[
+                                Column(
+                                  children: List.generate(
+                                    instalments.length,
+                                    (index) => InstalmentsWidget(
+                                      instalments: instalments,
+                                      index: (index + 1).toString(),
+                                    ),
                                   ),
                                 ),
-                                CustomHeadLine(size: size.width * 0.4),
-                                CostumAccordion(
-                                  headerWidget: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    textDirection: TextDirection.rtl,
-                                    children: <Widget>[
-                                      const Text(
-                                        'الخدمات',
-                                        style: TextStyle(
-                                          fontFamily: 'Jazeera-Regular',
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15),
-                                      Expanded(
-                                        child: CustomHeadLine(size: size.width),
-                                      ),
-                                    ],
-                                  ),
-                                  contentWidget: Column(
-                                    children: [
-                                      Text('data'),
-                                    ],
+                              ],
+                            ),
+                          ),
+                          CustomHeadLine(size: size.width * 0.4),
+                          CostumAccordion(
+                            headerWidget: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              textDirection: TextDirection.rtl,
+                              children: <Widget>[
+                                Text(
+                                  'الخدمات',
+                                  style: TextStyle(
+                                    fontFamily: 'Jazeera-Regular',
+                                    fontSize: 15,
+                                    color: Constants.isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
                                   ),
                                 ),
-                                CustomHeadLine(size: size.width * 0.4),
-                                CostumAccordion(
-                                  headerWidget: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    textDirection: TextDirection.rtl,
-                                    children: <Widget>[
-                                      const Text(
-                                        'الكهرباء',
-                                        style: TextStyle(
-                                          fontFamily: 'Jazeera-Regular',
-                                          fontSize: 15,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15),
-                                      Expanded(
-                                        child: CustomHeadLine(size: size.width),
-                                      ),
-                                    ],
-                                  ),
-                                  contentWidget: Column(
-                                    children: [
-                                      Text('111111'),
-                                    ],
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  child: CustomHeadLine(size: size.width),
+                                ),
+                              ],
+                            ),
+                            contentWidget: Column(
+                              children: [
+                                Text('data'),
+                              ],
+                            ),
+                          ),
+                          CustomHeadLine(size: size.width * 0.4),
+                          CostumAccordion(
+                            headerWidget: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              textDirection: TextDirection.rtl,
+                              children: <Widget>[
+                                Text(
+                                  'الكهرباء',
+                                  style: TextStyle(
+                                    fontFamily: 'Jazeera-Regular',
+                                    fontSize: 15,
+                                    color: Constants.isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
                                   ),
                                 ),
+                                const SizedBox(width: 15),
+                                Expanded(
+                                  child: CustomHeadLine(size: size.width),
+                                ),
+                              ],
+                            ),
+                            contentWidget: Column(
+                              children: [
+                                Text('111111'),
                               ],
                             ),
                           ),
@@ -461,15 +451,11 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                           ),
                           Container(
                             width: size.width,
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.only(top: 20),
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1,
-                                  color:
-                                      const Color.fromARGB(255, 174, 192, 163)),
                               color: Constants.isDarkModeEnabled
-                                  ? Colors.white.withOpacity(0.1)
-                                  : const Color.fromARGB(255, 226, 238, 218),
+                                  ? Constants.itemColorNight
+                                  : Constants.itemColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Directionality(
@@ -499,12 +485,14 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               textDirection: TextDirection.rtl,
                               children: <Widget>[
-                                const Text(
+                                Text(
                                   'الخارطة',
                                   style: TextStyle(
                                     fontFamily: 'Jazeera-Regular',
                                     fontSize: 15,
-                                    color: Colors.white,
+                                    color: Constants.isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
                                   ),
                                 ),
                                 const SizedBox(width: 15),
@@ -552,39 +540,6 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
   }
 }
 
-class CostumPayment extends StatelessWidget {
-  final String paymentTitle;
-  final String payment;
-  const CostumPayment({
-    super.key,
-    required this.paymentTitle,
-    required this.payment,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: BoxDecoration(
-        color: Colors.black12,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(payment),
-          Text(
-            paymentTitle,
-            style: const TextStyle(
-              fontFamily: 'Jazeera-Regular',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class CostumAccordion extends StatelessWidget {
   const CostumAccordion({
     super.key,
@@ -599,18 +554,20 @@ class CostumAccordion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Accordion(
       headerBackgroundColorOpened: Constants.isDarkModeEnabled
-          ? Constants.headerColorNight
-          : Constants.headerColor,
+          ? Constants.itemColorNight
+          : Constants.itemColor,
       contentBackgroundColor:
           Constants.isDarkModeEnabled ? Colors.black54 : Colors.white,
       contentBorderColor: Constants.isDarkModeEnabled
           ? Constants.lineColorNight
-          : Constants.headerColor,
+          : Constants.itemColor,
       headerBackgroundColor: Constants.isDarkModeEnabled
-          ? Constants.headerColorNight
-          : Constants.headerColor,
+          ? Constants.itemColorNight
+          : Constants.itemColor,
       contentBorderWidth: 1,
       contentHorizontalPadding: 20,
+      paddingListBottom: 0,
+      paddingListHorizontal: 0,
       scaleWhenAnimating: false,
       disableScrolling: true,
       openAndCloseAnimation: true,
@@ -625,7 +582,7 @@ class CostumAccordion extends StatelessWidget {
               : Constants.headerColor,
           headerBorderWidth: 1,
           contentVerticalPadding: 15,
-          headerPadding: const EdgeInsets.all(20),
+          headerPadding: const EdgeInsets.all(10),
           rightIcon: const Text(""),
           header: headerWidget,
           content: contentWidget,
@@ -639,29 +596,54 @@ class InstalmentsWidget extends StatelessWidget {
   const InstalmentsWidget({
     super.key,
     required this.instalments,
+    required this.index,
   });
 
   final List instalments;
+  final String index;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Constants.isDarkModeEnabled
+            ? Constants.headerColorNight
+            : Constants.headerColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         textDirection: TextDirection.rtl,
         children: <Widget>[
+          Container(
+            width: 25,
+            height: 25,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: Center(
+              child: Text(
+                index,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
           Text(
             instalments[0]['amount'],
           ),
           instalments[0]['date'] != null
-              ? Text(
-                  instalments[0]['date'],
+              ? Expanded(
+                  child: Text(
+                    instalments[0]['date'],
+                  ),
                 )
-              : Text(
-                  instalments[0]['type'],
-                  style: const TextStyle(
-                    fontFamily: 'Jazeera-Regular',
+              : Expanded(
+                  child: Text(
+                    instalments[0]['type'],
+                    style: const TextStyle(
+                      fontFamily: 'Jazeera-Regular',
+                    ),
                   ),
                 ),
         ],
@@ -686,8 +668,8 @@ class FacilitiesItem extends StatelessWidget {
         children: <Widget>[
           DottedBorder(
             radius: const Radius.circular(5),
-            color: Constants.textColor,
-            dashPattern: const <double>[7, 4],
+            color: Constants.lineColor,
+            dashPattern: const <double>[2, 3],
             borderType: BorderType.RRect,
             child: Container(
               padding: const EdgeInsets.all(10),
@@ -695,14 +677,12 @@ class FacilitiesItem extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5),
               ),
-              width: 60,
+              width: 80,
               height: 60,
               child: SvgPicture.asset(
                 icon,
                 width: 32,
                 height: 32,
-                fit: BoxFit.fill,
-                color: Constants.textColor,
               ),
             ),
           ),
@@ -714,7 +694,9 @@ class FacilitiesItem extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'Jazeera-Bold',
                   fontSize: 13,
-                  color: Constants.headerColor,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.textColorNight
+                      : Constants.textColor,
                 ),
               ),
             ),
@@ -754,8 +736,8 @@ class SpecificationsItem extends StatelessWidget {
           ),
           child: SvgPicture.asset(
             icon,
-            width: 29,
-            height: 29,
+            width: 35,
+            height: 35,
             fit: BoxFit.fill,
             color: Constants.textColor,
           ),

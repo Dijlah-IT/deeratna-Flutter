@@ -6,6 +6,7 @@ import 'package:deeratna/Pages/notif_page.dart';
 import 'package:deeratna/Pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slide_drawer/flutter_slide_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
@@ -166,7 +167,9 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                       child: Text(
                         "تسجيل الخروج",
                         style: TextStyle(
-                          color: Constants.textColor,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.textColorNight
+                              : Constants.textColor,
                           fontFamily: 'Jazeera-Regular',
                         ),
                       ),
@@ -218,17 +221,17 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {
+                      GestureDetector(
+                        onTap: () {
                           debugPrint("Working !!!");
                           drawerKey.currentState!.toggleDrawer();
                         },
-                        icon: Icon(
-                          Icons.menu,
-                          color: Constants.isDarkModeEnabled
-                              ? Constants.lineColorNight
-                              : Constants.lineColor,
-                          size: 30,
+                        child: SvgPicture.asset(
+                          './Assets/images/menu-t2.svg',
+                          width: 20,
+                          height: 20,
+                          allowDrawingOutsideViewBox: true,
+                          excludeFromSemantics: true,
                         ),
                       ),
                     ],

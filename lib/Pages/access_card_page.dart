@@ -73,15 +73,10 @@ class _AccessCardState extends State<AccessCard> {
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Constants.isDarkModeEnabled
+                        ? Constants.itemColorNight
+                        : Constants.itemColor,
                     borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Constants.textColor,
-                        blurRadius: 4,
-                        offset: const Offset(0, 0),
-                      ),
-                    ],
                   ),
                   child: Column(
                     children: <Widget>[
@@ -89,7 +84,9 @@ class _AccessCardState extends State<AccessCard> {
                         width: size.width,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Constants.textColor,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.headerColorNight
+                              : Constants.headerColor,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),
@@ -103,22 +100,34 @@ class _AccessCardState extends State<AccessCard> {
                               width: 30,
                               height: 30,
                               fit: BoxFit.fill,
-                              color: Colors.white,
+                              colorFilter: ColorFilter.mode(
+                                Constants.isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                BlendMode.srcIn,
+                              ),
                             ),
                             const SizedBox(width: 10),
                             Text(
                               arguments['username'],
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontFamily: 'Jazeera-Regular',
-                                color: Colors.white,
+                                color: Constants.isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
                                 fontSize: 17,
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
                       Container(
                         height: 500,
+                        decoration: BoxDecoration(
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.itemColorNight
+                              : Constants.itemColor,
+                        ),
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
                           children: <Widget>[
@@ -127,22 +136,30 @@ class _AccessCardState extends State<AccessCard> {
                               child: TextFormField(
                                 keyboardType: TextInputType.name,
                                 decoration: InputDecoration(
-                                  fillColor: Constants.backGroundColor,
+                                  fillColor: Constants.isDarkModeEnabled
+                                      ? Constants.itemColorNight
+                                      : Constants.itemColor,
                                   filled: true,
                                   labelText: 'رمز البطاقة',
                                   labelStyle: TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Jazeera-Regular',
-                                    color: Constants.headerColor,
+                                    color: Constants.isDarkModeEnabled
+                                        ? Colors.white70
+                                        : Colors.black87,
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Constants.headerColor,
+                                      color: Constants.isDarkModeEnabled
+                                          ? Colors.white70
+                                          : Colors.black87,
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Constants.headerColor,
+                                      color: Constants.isDarkModeEnabled
+                                          ? Colors.white70
+                                          : Colors.black87,
                                     ),
                                   ),
                                 ),
@@ -157,7 +174,9 @@ class _AccessCardState extends State<AccessCard> {
                                   Text(
                                     'الحالة:',
                                     style: TextStyle(
-                                      color: Constants.textColor,
+                                      color: Constants.isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
                                       fontSize: 15,
                                       fontFamily: 'Jazeera-Bold',
                                     ),
@@ -187,12 +206,14 @@ class _AccessCardState extends State<AccessCard> {
                                               });
                                             },
                                           ),
-                                          const Text(
+                                          Text(
                                             'فعالة',
                                             style: TextStyle(
                                               fontFamily: 'Jazeera-Regular',
                                               fontSize: 13,
-                                              color: Colors.black87,
+                                              color: Constants.isDarkModeEnabled
+                                                  ? Constants.textColorNight
+                                                  : Constants.textColor,
                                             ),
                                           ),
                                         ],
@@ -210,12 +231,14 @@ class _AccessCardState extends State<AccessCard> {
                                               });
                                             },
                                           ),
-                                          const Text(
+                                          Text(
                                             'غير فعالة',
                                             style: TextStyle(
                                               fontFamily: 'Jazeera-Regular',
                                               fontSize: 13,
-                                              color: Colors.black87,
+                                              color: Constants.isDarkModeEnabled
+                                                  ? Constants.textColorNight
+                                                  : Constants.textColor,
                                             ),
                                           ),
                                         ],
@@ -234,15 +257,17 @@ class _AccessCardState extends State<AccessCard> {
                                 backgroundColor:
                                     MaterialStateProperty.resolveWith((states) {
                                   return Constants.isDarkModeEnabled
-                                      ? Constants.itemColorNight
-                                      : Constants.textColor;
+                                      ? Constants.headerColorNight
+                                      : Constants.headerColor;
                                 }),
                               ),
                               child: Text(
                                 'تاريخ النفاذ :   ${BoardDateFormat('yyyy/MM/dd').format(effectiveDate)}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'Jazeera-Bold',
-                                  color: Colors.white,
+                                  color: Constants.isDarkModeEnabled
+                                      ? Constants.textColorNight
+                                      : Constants.textColor,
                                   fontSize: 15,
                                 ),
                               ),
@@ -254,7 +279,7 @@ class _AccessCardState extends State<AccessCard> {
                                     activeColor: Constants.textColor,
                                     showDateButton: false,
                                     pickerFormat: PickerFormat.ymd,
-                                    boardTitle: 'تاريخ الانشاء',
+                                    boardTitle: 'تاريخ النفاذ',
                                     boardTitleTextStyle: TextStyle(
                                       color: Constants.textColor,
                                       fontFamily: 'Jazeera-Bold',
@@ -277,7 +302,9 @@ class _AccessCardState extends State<AccessCard> {
                                   Text(
                                     'البوابات:',
                                     style: TextStyle(
-                                      color: Constants.textColor,
+                                      color: Constants.isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
                                       fontSize: 15,
                                       fontFamily: 'Jazeera-Bold',
                                     ),
@@ -296,9 +323,14 @@ class _AccessCardState extends State<AccessCard> {
                                             Checkbox(
                                               value: _doors[
                                                   _doors.keys.elementAt(index)],
-                                              checkColor: Colors.white,
+                                              checkColor: Constants
+                                                      .isDarkModeEnabled
+                                                  ? Constants.textColor
+                                                  : Constants.textColorNight,
                                               activeColor:
-                                                  Constants.headerColor,
+                                                  Constants.isDarkModeEnabled
+                                                      ? Constants.textColorNight
+                                                      : Constants.textColor,
                                               onChanged: (value) {
                                                 setState(() {
                                                   _doors[_doors.keys
@@ -314,6 +346,10 @@ class _AccessCardState extends State<AccessCard> {
                                               _doors.keys.elementAt(index),
                                               style: TextStyle(
                                                 fontFamily: 'Jazeera-Regular',
+                                                color: Constants
+                                                        .isDarkModeEnabled
+                                                    ? Constants.textColorNight
+                                                    : Constants.textColor,
                                               ),
                                             ),
                                           ],
@@ -338,15 +374,17 @@ class _AccessCardState extends State<AccessCard> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
                   return Constants.isDarkModeEnabled
-                      ? Constants.itemColorNight
-                      : Constants.textColor;
+                      ? Constants.headerColorNight
+                      : Constants.headerColor;
                 }),
               ),
-              child: const Text(
+              child: Text(
                 "ارسال",
                 style: TextStyle(
                   fontFamily: 'Jazeera-Regular',
-                  color: Colors.white,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.textColorNight
+                      : Constants.textColor,
                 ),
               ),
             ),

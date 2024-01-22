@@ -68,396 +68,444 @@ class _CarStickerState extends State<CarSticker> {
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Constants.textColor,
-                        blurRadius: 4,
-                        offset: const Offset(0, 0), // Shadow position
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: size.width,
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Constants.textColor,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: size.width,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Constants.isDarkModeEnabled
+                            ? Constants.headerColorNight
+                            : Constants.headerColor,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
                         ),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            './Assets/images/42.svg',
-                            width: 40,
-                            height: 40,
-                            fit: BoxFit.fill,
-                            color: Colors.white,
+                      ),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          './Assets/images/42.svg',
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.fill,
+                          colorFilter: ColorFilter.mode(
+                            Constants.isDarkModeEnabled
+                                ? Constants.textColorNight
+                                : Constants.textColor,
+                            BlendMode.srcIn,
                           ),
                         ),
                       ),
-                      Container(
-                        height: 780,
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: <Widget>[
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: TextFormField(
-                                keyboardType: TextInputType.name,
-                                decoration: InputDecoration(
-                                  fillColor: Constants.backGroundColor,
-                                  filled: true,
-                                  labelText: 'رمز الملصق',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Jazeera-Regular',
-                                    color: Constants.headerColor,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Constants.headerColor,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Constants.headerColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: TextFormField(
-                                keyboardType: TextInputType.name,
-                                decoration: InputDecoration(
-                                  fillColor: Constants.backGroundColor,
-                                  filled: true,
-                                  labelText: 'رقم العجلة',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Jazeera-Regular',
-                                    color: Constants.headerColor,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Constants.headerColor,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Constants.headerColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: TextFormField(
-                                maxLines: 6,
-                                keyboardType: TextInputType.name,
-                                decoration: InputDecoration(
-                                  fillColor: Constants.backGroundColor,
-                                  filled: true,
-                                  labelText: 'تفاصيل العجلة',
-                                  labelStyle: TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Jazeera-Regular',
-                                    color: Constants.headerColor,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Constants.headerColor,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Constants.headerColor,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'الحالة:',
-                                    style: TextStyle(
-                                      color: Constants.textColor,
-                                      fontSize: 15,
-                                      fontFamily: 'Jazeera-Bold',
-                                    ),
-                                  ),
-                                  GridView.count(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 0,
-                                    controller: ScrollController(
-                                        keepScrollOffset: false),
-                                    childAspectRatio:
-                                        (((size.height - kToolbarHeight) /
-                                                2.0) /
-                                            (size.width / 3.0)),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Radio(
-                                            value: 1,
-                                            groupValue: _arrivalsDepartures,
-                                            activeColor: Constants.headerColor,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _arrivalsDepartures = 1;
-                                              });
-                                            },
-                                          ),
-                                          const Text(
-                                            'دخول وخروج',
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 13,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Radio(
-                                            value: 2,
-                                            groupValue: _arrivalsDepartures,
-                                            activeColor: Constants.headerColor,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _arrivalsDepartures = 2;
-                                              });
-                                            },
-                                          ),
-                                          const Text(
-                                            'خروج فقط',
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 13,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Radio(
-                                            value: 3,
-                                            groupValue: _arrivalsDepartures,
-                                            activeColor: Constants.headerColor,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _arrivalsDepartures = 3;
-                                              });
-                                            },
-                                          ),
-                                          const Text(
-                                            'دخول فقط',
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 13,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Radio(
-                                            value: 4,
-                                            groupValue: _arrivalsDepartures,
-                                            activeColor: Constants.headerColor,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _arrivalsDepartures = 4;
-                                              });
-                                            },
-                                          ),
-                                          const Text(
-                                            'غير فعالة',
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 13,
-                                              color: Colors.black87,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(
-                              color: Constants.lineColor.withAlpha(50),
-                            ),
-                            const SizedBox(height: 10),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith((states) {
-                                  return Constants.isDarkModeEnabled
-                                      ? Constants.itemColorNight
-                                      : Constants.textColor;
-                                }),
-                              ),
-                              child: Text(
-                                'تاريخ الانشاء :   ${BoardDateFormat('yyyy/MM/dd').format(dateCreated)}',
-                                style: const TextStyle(
-                                  fontFamily: 'Jazeera-Bold',
-                                  color: Colors.white,
+                    ),
+                    Container(
+                      height: 780,
+                      padding: const EdgeInsets.all(10.0),
+                      decoration: BoxDecoration(
+                        color: Constants.isDarkModeEnabled
+                            ? Constants.itemColorNight
+                            : Constants.itemColor,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFormField(
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                fillColor: Constants.isDarkModeEnabled
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor,
+                                filled: true,
+                                labelText: 'رمز الملصق',
+                                labelStyle: TextStyle(
                                   fontSize: 15,
+                                  fontFamily: 'Jazeera-Regular',
+                                  color: Constants.isDarkModeEnabled
+                                      ? Colors.white70
+                                      : Colors.black87,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Colors.white70
+                                        : Colors.black87,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Colors.white70
+                                        : Colors.black87,
+                                  ),
                                 ),
                               ),
-                              onPressed: () async {
-                                final result = await showBoardDateTimePicker(
-                                  context: context,
-                                  pickerType: DateTimePickerType.date,
-                                  options: BoardDateTimeOptions(
-                                    activeColor: Constants.textColor,
-                                    showDateButton: false,
-                                    pickerFormat: PickerFormat.ymd,
-                                    boardTitle: 'تاريخ الانشاء',
-                                    boardTitleTextStyle: TextStyle(
-                                      color: Constants.textColor,
-                                      fontFamily: 'Jazeera-Bold',
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                );
-                                if (result != null) {
-                                  setState(() => dateCreated = result);
-                                }
-                              },
                             ),
-                            const SizedBox(height: 10),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith((states) {
-                                  return Constants.isDarkModeEnabled
-                                      ? Constants.itemColorNight
-                                      : Constants.textColor;
-                                }),
-                              ),
-                              child: Text(
-                                'تاريخ النفاذ :   ${BoardDateFormat('yyyy/MM/dd').format(effectiveDate)}',
-                                style: const TextStyle(
-                                  fontFamily: 'Jazeera-Bold',
-                                  color: Colors.white,
+                          ),
+                          const SizedBox(height: 10),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFormField(
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                fillColor: Constants.isDarkModeEnabled
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor,
+                                filled: true,
+                                labelText: 'رقم العجلة',
+                                labelStyle: TextStyle(
                                   fontSize: 15,
+                                  fontFamily: 'Jazeera-Regular',
+                                  color: Constants.isDarkModeEnabled
+                                      ? Colors.white70
+                                      : Colors.black87,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Colors.white70
+                                        : Colors.black87,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Colors.white70
+                                        : Colors.black87,
+                                  ),
                                 ),
                               ),
-                              onPressed: () async {
-                                final result = await showBoardDateTimePicker(
-                                  context: context,
-                                  pickerType: DateTimePickerType.date,
-                                  options: BoardDateTimeOptions(
-                                    activeColor: Constants.textColor,
-                                    showDateButton: false,
-                                    pickerFormat: PickerFormat.ymd,
-                                    boardTitle: 'تاريخ الانشاء',
-                                    boardTitleTextStyle: TextStyle(
-                                      color: Constants.textColor,
-                                      fontFamily: 'Jazeera-Bold',
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                );
-                                if (result != null) {
-                                  setState(() => effectiveDate = result);
-                                }
-                              },
                             ),
-                            const SizedBox(height: 10),
-                            Divider(
-                              color: Constants.lineColor.withAlpha(50),
-                            ),
-                            const SizedBox(height: 10),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                textDirection: TextDirection.rtl,
-                                children: [
-                                  Text(
-                                    'البوابات:',
-                                    style: TextStyle(
-                                      color: Constants.textColor,
-                                      fontSize: 15,
-                                      fontFamily: 'Jazeera-Bold',
-                                    ),
+                          ),
+                          const SizedBox(height: 10),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: TextFormField(
+                              maxLines: 6,
+                              keyboardType: TextInputType.name,
+                              decoration: InputDecoration(
+                                fillColor: Constants.isDarkModeEnabled
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor,
+                                filled: true,
+                                labelText: 'تفاصيل العجلة',
+                                labelStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Jazeera-Regular',
+                                  color: Constants.isDarkModeEnabled
+                                      ? Colors.white70
+                                      : Colors.black87,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Colors.white70
+                                        : Colors.black87,
                                   ),
-                                  const SizedBox(height: 10),
-                                    SizedBox(
-                                    width: size.width,
-                                    child: Wrap(
-                                      direction: Axis.horizontal,
-                                      children: List.generate(
-                                        _doors.length,
-                                        (index) => Row(
-                                          textDirection: TextDirection.rtl,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Checkbox(
-                                              value: _doors[
-                                                  _doors.keys.elementAt(index)],
-                                              checkColor: Colors.white,
-                                              activeColor: Constants.headerColor,
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _doors[_doors.keys
-                                                      .elementAt(index)] = value!;
-                                                });
-                                              },
-                                              materialTapTargetSize:
-                                                  MaterialTapTargetSize
-                                                      .shrinkWrap,
-                                            ),
-                                            Text(
-                                              _doors.keys.elementAt(index),
-                                              style: const TextStyle(
-                                                fontFamily: 'Jazeera-Regular',
-                                              ),
-                                            ),
-                                          ],
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Colors.white70
+                                        : Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'الحالة:',
+                                  style: TextStyle(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
+                                    fontSize: 15,
+                                    fontFamily: 'Jazeera-Bold',
+                                  ),
+                                ),
+                                GridView.count(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 0,
+                                  controller:
+                                      ScrollController(keepScrollOffset: false),
+                                  childAspectRatio:
+                                      (((size.height - kToolbarHeight) / 2.0) /
+                                          (size.width / 3.0)),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Radio(
+                                          value: 1,
+                                          groupValue: _arrivalsDepartures,
+                                          activeColor: Constants.headerColor,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _arrivalsDepartures = 1;
+                                            });
+                                          },
                                         ),
+                                        Text(
+                                          'دخول وخروج',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 13,
+                                            color: Constants.isDarkModeEnabled
+                                                ? Constants.textColorNight
+                                                : Constants.textColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Radio(
+                                          value: 2,
+                                          groupValue: _arrivalsDepartures,
+                                          activeColor: Constants.headerColor,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _arrivalsDepartures = 2;
+                                            });
+                                          },
+                                        ),
+                                        Text(
+                                          'خروج فقط',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 13,
+                                            color: Constants.isDarkModeEnabled
+                                                ? Constants.textColorNight
+                                                : Constants.textColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Radio(
+                                          value: 3,
+                                          groupValue: _arrivalsDepartures,
+                                          activeColor: Constants.headerColor,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _arrivalsDepartures = 3;
+                                            });
+                                          },
+                                        ),
+                                        Text(
+                                          'دخول فقط',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 13,
+                                            color: Constants.isDarkModeEnabled
+                                                ? Constants.textColorNight
+                                                : Constants.textColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: <Widget>[
+                                        Radio(
+                                          value: 4,
+                                          groupValue: _arrivalsDepartures,
+                                          activeColor: Constants.headerColor,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _arrivalsDepartures = 4;
+                                            });
+                                          },
+                                        ),
+                                        Text(
+                                          'غير فعالة',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 13,
+                                            color: Constants.isDarkModeEnabled
+                                                ? Constants.textColorNight
+                                                : Constants.textColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            color: Constants.lineColor.withAlpha(50),
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith((states) {
+                                return Constants.isDarkModeEnabled
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor;
+                              }),
+                            ),
+                            child: Text(
+                              'تاريخ الانشاء :   ${BoardDateFormat('yyyy/MM/dd').format(dateCreated)}',
+                              style: TextStyle(
+                                fontFamily: 'Jazeera-Bold',
+                                color: Constants.isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                fontSize: 15,
+                              ),
+                            ),
+                            onPressed: () async {
+                              final result = await showBoardDateTimePicker(
+                                context: context,
+                                pickerType: DateTimePickerType.date,
+                                options: BoardDateTimeOptions(
+                                  activeColor: Constants.textColor,
+                                  showDateButton: false,
+                                  pickerFormat: PickerFormat.ymd,
+                                  boardTitle: 'تاريخ الانشاء',
+                                  boardTitleTextStyle: TextStyle(
+                                    color: Constants.textColor,
+                                    fontFamily: 'Jazeera-Bold',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              );
+                              if (result != null) {
+                                setState(() => dateCreated = result);
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.resolveWith((states) {
+                                return Constants.isDarkModeEnabled
+                                    ? Constants.itemColorNight
+                                    : Constants.itemColor;
+                              }),
+                            ),
+                            child: Text(
+                              'تاريخ النفاذ :   ${BoardDateFormat('yyyy/MM/dd').format(effectiveDate)}',
+                              style: TextStyle(
+                                fontFamily: 'Jazeera-Bold',
+                                color: Constants.isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
+                                fontSize: 15,
+                              ),
+                            ),
+                            onPressed: () async {
+                              final result = await showBoardDateTimePicker(
+                                context: context,
+                                pickerType: DateTimePickerType.date,
+                                options: BoardDateTimeOptions(
+                                  activeColor: Constants.textColor,
+                                  showDateButton: false,
+                                  pickerFormat: PickerFormat.ymd,
+                                  boardTitle: 'تاريخ الانشاء',
+                                  boardTitleTextStyle: TextStyle(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
+                                    fontFamily: 'Jazeera-Bold',
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              );
+                              if (result != null) {
+                                setState(() => effectiveDate = result);
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          Divider(
+                            color: Constants.lineColor.withAlpha(50),
+                          ),
+                          const SizedBox(height: 10),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              textDirection: TextDirection.rtl,
+                              children: [
+                                Text(
+                                  'البوابات:',
+                                  style: TextStyle(
+                                    color: Constants.isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
+                                    fontSize: 15,
+                                    fontFamily: 'Jazeera-Bold',
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                SizedBox(
+                                  width: size.width,
+                                  child: Wrap(
+                                    direction: Axis.horizontal,
+                                    children: List.generate(
+                                      _doors.length,
+                                      (index) => Row(
+                                        textDirection: TextDirection.rtl,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          Checkbox(
+                                            value: _doors[
+                                                _doors.keys.elementAt(index)],
+                                            checkColor:
+                                                Constants.isDarkModeEnabled
+                                                    ? Constants.textColor
+                                                    : Constants.textColorNight,
+                                            activeColor: Constants
+                                                    .isDarkModeEnabled
+                                                ? Constants.headerColor
+                                                : Constants.headerColorNight,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _doors[_doors.keys
+                                                    .elementAt(index)] = value!;
+                                              });
+                                            },
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize
+                                                    .shrinkWrap,
+                                          ),
+                                          Text(
+                                            _doors.keys.elementAt(index),
+                                            style: TextStyle(
+                                              fontFamily: 'Jazeera-Regular',
+                                              color: Constants.isDarkModeEnabled
+                                                  ? Constants.textColorNight
+                                                  : Constants.textColor,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                  
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 10),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -467,14 +515,16 @@ class _CarStickerState extends State<CarSticker> {
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
                   return Constants.isDarkModeEnabled
                       ? Constants.itemColorNight
-                      : Constants.textColor;
+                      : Constants.itemColor;
                 }),
               ),
-              child: const Text(
+              child: Text(
                 "ارسال",
                 style: TextStyle(
                   fontFamily: 'Jazeera-Regular',
-                  color: Colors.white,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.textColorNight
+                      : Constants.textColor,
                 ),
               ),
             ),

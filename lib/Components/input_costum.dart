@@ -37,7 +37,7 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
     return TextFormField(
       controller: widget.controller,
       keyboardType: widget.inputType,
-      cursorColor: Colors.black,
+      cursorColor: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
       obscureText:
           widget.obscureText == true ? showPassword : widget.obscureText,
       obscuringCharacter: '*',
@@ -52,19 +52,26 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
           borderRadius: const BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: Constants.textColor,),
+          borderSide: BorderSide(
+            color: Constants.isDarkModeEnabled ? Colors.black87 : Colors.white70,
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: Constants.headerColor),
+          borderSide: BorderSide(
+            color:
+                Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
+          ),
         ),
         focusedErrorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(5.0),
           ),
-          borderSide: BorderSide(color: Colors.red),
+          borderSide: BorderSide(
+            color: Colors.red,
+          ),
         ),
         icon: Icon(
           widget.inputIcon,
@@ -74,7 +81,7 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
                 icon: Icon(
                   !showPassword ? Icons.visibility : Icons.visibility_off,
                 ),
-                color: Constants.headerColor,
+                color: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
                 onPressed: () {
                   setState(() {
                     showPassword = !showPassword;
@@ -82,13 +89,13 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
                 },
               )
             : const Text(""),
-        iconColor: Constants.headerColor,
+        iconColor: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
         labelText: widget.labelTitle,
         helperText: widget.helperTitle,
         labelStyle: TextStyle(
           fontSize: 15,
           fontFamily: 'Jazeera-Regular',
-          color: Constants.headerColor,
+          color: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
         ),
         helperStyle: TextStyle(
           fontSize: 10,

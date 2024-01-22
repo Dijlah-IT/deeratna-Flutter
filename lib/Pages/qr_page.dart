@@ -18,7 +18,6 @@ class QRPage extends StatefulWidget {
 
 class _QRPageState extends State<QRPage> {
   final _controllerUserName = TextEditingController();
-  DateTime? _dateTime = DateTime.now();
   bool _showQrCode = false;
   bool _hasobligation = false;
   @override
@@ -80,7 +79,9 @@ class _QRPageState extends State<QRPage> {
                     const SizedBox(height: 20),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Constants.isDarkModeEnabled
+                            ? Constants.headerColorNight
+                            : Constants.headerColor,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       clipBehavior: Clip.hardEdge,
@@ -88,12 +89,16 @@ class _QRPageState extends State<QRPage> {
                         children: <Widget>[
                           Container(
                             padding: const EdgeInsets.all(10),
-                            color: Constants.headerColor,
-                            child: const Text(
+                            color: Constants.isDarkModeEnabled
+                                ? Constants.itemColorNight
+                                : Constants.itemColor,
+                            child: Text(
                               "ساعة",
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.white,
+                                color: Constants.isDarkModeEnabled
+                                    ? Constants.textColorNight
+                                    : Constants.textColor,
                                 fontFamily: 'Jazeera-Regular',
                               ),
                             ),
@@ -111,10 +116,14 @@ class _QRPageState extends State<QRPage> {
                           const SizedBox(width: 10),
                           Container(
                             padding: const EdgeInsets.all(10),
-                            color: Constants.headerColor,
-                            child: const Icon(
+                            color: Constants.isDarkModeEnabled
+                                ? Constants.itemColorNight
+                                : Constants.itemColor,
+                            child: Icon(
                               Icons.timer_outlined,
-                              color: Colors.white,
+                              color: Constants.isDarkModeEnabled
+                                  ? Constants.textColorNight
+                                  : Constants.textColor,
                             ),
                           ),
                         ],
@@ -135,7 +144,12 @@ class _QRPageState extends State<QRPage> {
                       children: <Widget>[
                         Checkbox(
                           value: _hasobligation,
-                          activeColor: Constants.textColor,
+                          activeColor: Constants.isDarkModeEnabled
+                              ? Constants.textColorNight
+                              : Constants.textColor,
+                          checkColor: Constants.isDarkModeEnabled
+                              ? Constants.textColor
+                              : Constants.textColorNight,
                           onChanged: (value) {
                             setState(() {
                               _hasobligation = !_hasobligation;
@@ -148,7 +162,9 @@ class _QRPageState extends State<QRPage> {
                             "اتعهد بتحمل كافة المسؤوليات في حال مخالفة الزائر للقوانين والضوابط الخاصة بالمجمع السكني.",
                             style: TextStyle(
                               fontFamily: 'Jazeera-Bold',
-                              color: Constants.textColor,
+                              color: Constants.isDarkModeEnabled
+                                  ? Constants.textColorNight
+                                  : Constants.textColor,
                             ),
                             textAlign: TextAlign.justify,
                             textDirection: TextDirection.rtl,
@@ -217,7 +233,9 @@ class _QRPageState extends State<QRPage> {
                       Container(
                         padding: const EdgeInsets.all(7),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.headerColorNight
+                              : Constants.headerColor,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -230,13 +248,17 @@ class _QRPageState extends State<QRPage> {
                         child: Icon(
                           Icons.share,
                           size: 30,
-                          color: Constants.headerColor,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.textColor
+                              : Constants.textColorNight,
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.all(7),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.headerColorNight
+                              : Constants.headerColor,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -249,7 +271,9 @@ class _QRPageState extends State<QRPage> {
                         child: Icon(
                           Icons.settings,
                           size: 30,
-                          color: Constants.headerColor,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.textColor
+                              : Constants.textColorNight,
                         ),
                       ),
                     ],
@@ -281,7 +305,9 @@ class WarningMessage extends StatelessWidget {
         children: <Widget>[
           Icon(
             icon,
-            color: const Color.fromARGB(255, 205, 213, 192),
+            color: Constants.isDarkModeEnabled
+                ? Constants.textColorNight
+                : Constants.textColor,
             size: 25,
           ),
           const SizedBox(width: 10),
@@ -289,7 +315,9 @@ class WarningMessage extends StatelessWidget {
             message,
             textDirection: TextDirection.rtl,
             style: TextStyle(
-              color: Constants.headerColor,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.textColorNight
+                  : Constants.textColor,
               fontFamily: 'Jazeera-Regular',
               fontSize: 17,
             ),

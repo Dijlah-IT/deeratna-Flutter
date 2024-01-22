@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                                     BoxShadow(
                                       color: Colors.grey,
                                       blurRadius: 4,
-                                      offset: Offset(0, 0), // Shadow position
+                                      offset: Offset(0, 0),
                                     ),
                                   ],
                                   borderRadius: BorderRadius.all(
@@ -135,9 +135,7 @@ class _HomePageState extends State<HomePage> {
                                       end: Alignment.bottomCenter,
                                       colors: [
                                         Colors.transparent,
-                                        Constants.isDarkModeEnabled
-                                            ? Constants.lineColorNight
-                                            : Constants.headerColor,
+                                        Constants.headerColorNight,
                                       ],
                                     ),
                                   ),
@@ -215,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                                   shape: BoxShape.circle,
                                   color: (Constants.isDarkModeEnabled
                                           ? Constants.lineColorNight
-                                          : Constants.headerColor)
+                                          : Constants.lineColor)
                                       .withOpacity(
                                           _current == entry.key ? 0.9 : 0.4)),
                             ),
@@ -251,7 +249,11 @@ class _HomePageState extends State<HomePage> {
                                 servicesItemIcon[i],
                                 height: 40,
                                 fit: BoxFit.fill,
-                                color: Constants.textColor,
+                                colorFilter: ColorFilter.mode(
+                                    Constants.isDarkModeEnabled
+                                        ? Constants.textColorNight
+                                        : Constants.textColor,
+                                    BlendMode.srcIn),
                               ),
                               onTap: () {
                                 debugPrint(i.toString());
@@ -310,15 +312,9 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerRight,
-                          end: Alignment.centerLeft,
-                          colors: <Color>[
-                            Constants.headerColor,
-                            Constants.textColor,
-                          ],
-                          tileMode: TileMode.mirror,
-                        ),
+                        color: Constants.isDarkModeEnabled
+                            ? Constants.itemColorNight
+                            : Constants.itemColor,
                         borderRadius: BorderRadius.circular(
                           10,
                         ),
@@ -329,7 +325,9 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             padding: const EdgeInsets.all(3),
                             decoration: BoxDecoration(
-                              color: Constants.backGroundColor,
+                              color: Constants.isDarkModeEnabled
+                                  ? Constants.backGroundColorNight
+                                  : Constants.backGroundColor,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Lottie.asset(
@@ -344,7 +342,9 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontFamily: 'Jazeera-Regular',
                               fontSize: 15,
-                              color: Colors.white,
+                              color: Constants.isDarkModeEnabled
+                                  ? Constants.textColorNight
+                                  : Constants.textColor,
                             ),
                           ),
                           const SizedBox(width: 10),
@@ -436,7 +436,7 @@ class ServiceItem extends StatelessWidget {
             BoxShadow(
               color: Colors.black12,
               blurRadius: 0.2,
-              offset: Offset(0, 0), // Shadow position
+              offset: Offset(0, 0),
             ),
           ],
           color: Constants.isDarkModeEnabled
@@ -457,7 +457,12 @@ class ServiceItem extends StatelessWidget {
               width: 40,
               height: 40,
               fit: BoxFit.fill,
-              color: Constants.textColor,
+              colorFilter: ColorFilter.mode(
+                Constants.isDarkModeEnabled
+                    ? Constants.textColorNight
+                    : Constants.textColor,
+                BlendMode.srcIn,
+              ),
             ),
             const SizedBox(
               height: 10,

@@ -58,27 +58,14 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
               padding: const EdgeInsets.all(20.0),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Constants.textColor,
-                      blurRadius: 4,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Constants.isDarkModeEnabled
+                        ? Constants.itemColorNight
+                        : Constants.itemColor,
                     borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Constants.textColor,
-                        blurRadius: 4,
-                        offset: const Offset(0, 0),
-                      ),
-                    ],
                   ),
                   child: Column(
                     children: [
@@ -86,7 +73,9 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
                         width: size.width,
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: Constants.textColor,
+                          color: Constants.isDarkModeEnabled
+                              ? Constants.headerColorNight
+                              : Constants.headerColor,
                           borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(15),
                             topRight: Radius.circular(15),
@@ -98,7 +87,12 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
                             width: 40,
                             height: 40,
                             fit: BoxFit.fill,
-                            color: Colors.white,
+                            colorFilter: ColorFilter.mode(
+                              Constants.isDarkModeEnabled
+                                  ? Constants.textColorNight
+                                  : Constants.textColor,
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ),
@@ -141,7 +135,8 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
                                         Navigator.pushNamed(
                                             context, AccessCard.routName,
                                             arguments: {
-                                              'username': _children[index]['name']
+                                              'username': _children[index]
+                                                  ['name']
                                             });
                                       },
                                     ),
@@ -160,14 +155,17 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
                   return Constants.isDarkModeEnabled
                       ? Constants.itemColorNight
-                      : Constants.textColor;
+                      : Constants.itemColor;
                 }),
               ),
-              child: const Text(
+              child: Text(
                 "اضافة",
                 style: TextStyle(
                   fontFamily: 'Jazeera-Regular',
-                  color: Colors.white,
+                  color: Constants.isDarkModeEnabled
+                      ? Constants.textColorNight
+                      : Constants.textColor,
+                  fontSize: 17,
                 ),
               ),
             ),
