@@ -4,11 +4,8 @@ import 'package:deeratna/Constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:accordion/accordion.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class HouseSpecificationsPage extends StatefulWidget {
   const HouseSpecificationsPage({
@@ -21,6 +18,29 @@ class HouseSpecificationsPage extends StatefulWidget {
 }
 
 class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
+  static const List<String> facilitiesLightIcon = [
+    './Assets/images/facilitiesIcon/Cafes_li.svg',
+    './Assets/images/facilitiesIcon/Restaurants_li.svg',
+    './Assets/images/facilitiesIcon/gym_li.svg',
+    './Assets/images/facilitiesIcon/Methods_li.svg',
+    './Assets/images/facilitiesIcon/security_li.svg',
+    './Assets/images/facilitiesIcon/shopping_li.svg',
+    './Assets/images/facilitiesIcon/stance_li.svg',
+    './Assets/images/facilitiesIcon/pool_li.svg',
+    './Assets/images/facilitiesIcon/entertainment_li.svg',
+  ];
+  static const List<String> facilitiesDarkIcon = [
+    './Assets/images/facilitiesIcon/Cafes_da.svg',
+    './Assets/images/facilitiesIcon/Restaurants_da.svg',
+    './Assets/images/facilitiesIcon/gym_da.svg',
+    './Assets/images/facilitiesIcon/Methods_da.svg',
+    './Assets/images/facilitiesIcon/security_da.svg',
+    './Assets/images/facilitiesIcon/shopping_da.svg',
+    './Assets/images/facilitiesIcon/stance_da.svg',
+    './Assets/images/facilitiesIcon/pool_da.svg',
+    './Assets/images/facilitiesIcon/entertainment_da.svg',
+  ];
+
   static const List<String> facilitiesTitle = [
     'مقاهي',
     'مطاعم',
@@ -33,23 +53,18 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
     'ترفيه',
   ];
 
-  static const List<String> facilitiesIcon = [
-    './Assets/images/1.svg',
-    './Assets/images/2.svg',
-    './Assets/images/3.svg',
-    './Assets/images/4.svg',
-    './Assets/images/5.svg',
-    './Assets/images/6.svg',
-    './Assets/images/7.svg',
-    './Assets/images/8.svg',
-    './Assets/images/9.svg',
+  static const List<String> specificationsLightIcon = [
+    './Assets/images/specificationsIcon/LandArea_li.svg',
+    './Assets/images/specificationsIcon/buildingErea_li.svg',
+    './Assets/images/specificationsIcon/Floors_li.svg',
+    './Assets/images/specificationsIcon/bedrooms_li.svg',
   ];
 
-  static const List<String> specificationsIcon = [
-    './Assets/images/33.svg',
-    './Assets/images/34.svg',
-    './Assets/images/35.svg',
-    './Assets/images/36.svg',
+  static const List<String> specificationsDarkIcon = [
+    './Assets/images/specificationsIcon/LandArea_da.svg',
+    './Assets/images/specificationsIcon/buildingErea_da.svg',
+    './Assets/images/specificationsIcon/Floors_da.svg',
+    './Assets/images/specificationsIcon/bedrooms_da.svg',
   ];
 
   static const List<String> _specificationsTitle = [
@@ -62,11 +77,6 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var myDouble =
-        double.parse(ConstUserInformations.json?['houses'][0]['house_price']);
-
-    final double remainingAmount =
-        myDouble - (ConstUserInformations.json!['houses'][0]['paid']);
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     final List<dynamic> instalments =
         ConstUserInformations.json?['houses'][arguments['tag']]['instalments'];
@@ -303,14 +313,29 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                             padding: const EdgeInsets.symmetric(
                                               horizontal: 10,
                                             ),
-                                            child: SpecificationsItem(
-                                              subtitle:
-                                                  specificationsSubTitle[index]
-                                                      .toString(),
-                                              title:
-                                                  _specificationsTitle[index],
-                                              icon: specificationsIcon[index],
-                                            ),
+                                            child: Constants.isDarkModeEnabled
+                                                ? SpecificationsItem(
+                                                    subtitle:
+                                                        specificationsSubTitle[
+                                                                index]
+                                                            .toString(),
+                                                    title: _specificationsTitle[
+                                                        index],
+                                                    icon:
+                                                        specificationsDarkIcon[
+                                                            index],
+                                                  )
+                                                : SpecificationsItem(
+                                                    subtitle:
+                                                        specificationsSubTitle[
+                                                                index]
+                                                            .toString(),
+                                                    title: _specificationsTitle[
+                                                        index],
+                                                    icon:
+                                                        specificationsLightIcon[
+                                                            index],
+                                                  ),
                                           ),
                                         ),
                                       ),
@@ -339,7 +364,7 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                       ),
                                     ),
                                     Text(
-                                      '${ConstUserInformations.json!['houses'][0]['house_price']!} IQD',
+                                      '${ConstUserInformations.json!['houses'][0]['house_price']!} / ${ConstUserInformations.json!['houses'][0]['paid']!}',
                                       style: TextStyle(
                                         fontFamily: 'Jazeera-Regular',
                                         fontSize: 15,
@@ -380,14 +405,13 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                     instalments.length,
                                     (index) => InstalmentsWidget(
                                       instalments: instalments,
-                                      index: (index + 1).toString(),
+                                      index: (index),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          CustomHeadLine(size: size.width * 0.4),
                           CostumAccordion(
                             headerWidget: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -415,7 +439,6 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                               ],
                             ),
                           ),
-                          CustomHeadLine(size: size.width * 0.4),
                           CostumAccordion(
                             headerWidget: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -466,16 +489,21 @@ class _HouseSpecificationsPageState extends State<HouseSpecificationsPage> {
                                 controller:
                                     ScrollController(keepScrollOffset: false),
                                 childAspectRatio:
-                                    (((size.height - kToolbarHeight) / 2.0) /
+                                    (((size.height - kToolbarHeight) / 1.6) /
                                         (size.width / 1.0)),
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 children: List.generate(
                                   facilitiesTitle.length,
-                                  (index) => FacilitiesItem(
-                                    icon: facilitiesIcon[index],
-                                    title: facilitiesTitle[index],
-                                  ),
+                                  (index) => Constants.isDarkModeEnabled
+                                      ? FacilitiesItem(
+                                          icon: facilitiesDarkIcon[index],
+                                          title: facilitiesTitle[index],
+                                        )
+                                      : FacilitiesItem(
+                                          icon: facilitiesLightIcon[index],
+                                          title: facilitiesTitle[index],
+                                        ),
                                 ),
                               ),
                             ),
@@ -559,7 +587,7 @@ class CostumAccordion extends StatelessWidget {
       contentBackgroundColor:
           Constants.isDarkModeEnabled ? Colors.black54 : Colors.white,
       contentBorderColor: Constants.isDarkModeEnabled
-          ? Constants.lineColorNight
+          ? Constants.itemColorNight
           : Constants.itemColor,
       headerBackgroundColor: Constants.isDarkModeEnabled
           ? Constants.itemColorNight
@@ -575,11 +603,11 @@ class CostumAccordion extends StatelessWidget {
         AccordionSection(
           isOpen: false,
           headerBorderColor: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.headerColor,
+              ? Constants.itemColorNight
+              : Constants.itemColor,
           headerBorderColorOpened: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.headerColor,
+              ? Constants.itemColorNight
+              : Constants.itemColor,
           headerBorderWidth: 1,
           contentVerticalPadding: 15,
           headerPadding: const EdgeInsets.all(10),
@@ -600,12 +628,13 @@ class InstalmentsWidget extends StatelessWidget {
   });
 
   final List instalments;
-  final String index;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(vertical: 3),
       decoration: BoxDecoration(
         color: Constants.isDarkModeEnabled
             ? Constants.headerColorNight
@@ -624,27 +653,50 @@ class InstalmentsWidget extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                index,
+                (index + 1).toString(),
               ),
             ),
           ),
           const SizedBox(width: 8),
           Text(
             instalments[0]['amount'],
+            style: TextStyle(
+              color: Constants.isDarkModeEnabled
+                  ? Constants.textColorNight
+                  : Constants.textColor,
+            ),
           ),
           instalments[0]['date'] != null
               ? Expanded(
                   child: Text(
-                    instalments[0]['date'],
+                    instalments[index]['date'],
+                    style: TextStyle(
+                      color: Constants.isDarkModeEnabled
+                          ? Constants.textColorNight
+                          : Constants.textColor,
+                    ),
                   ),
                 )
               : Expanded(
-                  child: Text(
-                    instalments[0]['type'],
-                    style: const TextStyle(
-                      fontFamily: 'Jazeera-Regular',
-                    ),
-                  ),
+                  child: instalments[index]['type'] == 'بتاريخ معين'
+                      ? Text(
+                          instalments[index]['date'],
+                          style: TextStyle(
+                            fontFamily: 'Jazeera-Regular',
+                            color: Constants.isDarkModeEnabled
+                                ? Constants.textColorNight
+                                : Constants.textColor,
+                          ),
+                        )
+                      : Text(
+                          instalments[index]['type'],
+                          style: TextStyle(
+                            fontFamily: 'Jazeera-Regular',
+                            color: Constants.isDarkModeEnabled
+                                ? Constants.textColorNight
+                                : Constants.textColor,
+                          ),
+                        ),
                 ),
         ],
       ),
@@ -674,12 +726,16 @@ class FacilitiesItem extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Constants.isDarkModeEnabled
+                    ? Constants.headerColorNight
+                    : Colors.white,
                 borderRadius: BorderRadius.circular(5),
               ),
               width: 80,
               height: 60,
               child: SvgPicture.asset(
+                colorFilter:
+                    ColorFilter.mode(Colors.transparent, BlendMode.difference),
                 icon,
                 width: 32,
                 height: 32,
@@ -724,23 +780,11 @@ class SpecificationsItem extends StatelessWidget {
       textDirection: TextDirection.rtl,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-              width: 0.7,
-              color: Constants.headerColor,
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: SvgPicture.asset(
-            icon,
-            width: 35,
-            height: 35,
-            fit: BoxFit.fill,
-            color: Constants.textColor,
-          ),
+        SvgPicture.asset(
+          icon,
+          width: 40,
+          height: 40,
+          fit: BoxFit.fill,
         ),
         const SizedBox(width: 10),
         Column(

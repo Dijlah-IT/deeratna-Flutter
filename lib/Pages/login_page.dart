@@ -296,7 +296,7 @@ class _LoginPageState extends State<LoginPage> {
                                     borderRadius: BorderRadius.circular(5),
                                     border: Border.all(
                                       width: 0.3,
-                                      color: Constants.headerColor,
+                                      color: Colors.black,
                                     ),
                                     color: _step != 3
                                         ? Colors.transparent
@@ -308,6 +308,7 @@ class _LoginPageState extends State<LoginPage> {
                                           style: TextStyle(
                                             fontFamily: 'Jazeera-Regular',
                                             fontSize: 16,
+                                            color: Colors.black,
                                           ),
                                         )
                                       : const Text(

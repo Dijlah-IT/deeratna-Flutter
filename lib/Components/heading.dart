@@ -23,23 +23,23 @@ class Heading extends StatelessWidget {
               Icon(
                 Icons.circle,
                 color: Constants.isDarkModeEnabled
-                    ? Constants.lineColorNight
-                    : Constants.lineColor,
+                    ? Constants.textColorNight
+                    : Constants.textColor,
                 size: 11,
               ),
               Expanded(
                 child: Container(
                   height: 1,
                   color: Constants.isDarkModeEnabled
-                      ? Constants.lineColorNight
-                      : Constants.lineColor,
+                      ? Constants.textColorNight
+                      : Constants.textColor,
                 ),
               ),
               Icon(
                 Icons.circle,
                 color: Constants.isDarkModeEnabled
-                    ? Constants.lineColorNight
-                    : Constants.lineColor,
+                    ? Constants.textColorNight
+                    : Constants.textColor,
                 size: 11,
               ),
             ],
@@ -58,8 +58,8 @@ class Heading extends StatelessWidget {
                 border: Border.all(
                   width: 1.3,
                   color: Constants.isDarkModeEnabled
-                      ? Constants.lineColorNight
-                      : Constants.lineColor,
+                      ? Constants.textColorNight
+                      : Constants.textColor,
                 ),
               ),
               child: Text(

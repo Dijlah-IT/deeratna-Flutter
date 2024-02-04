@@ -8,10 +8,10 @@
 <rect x="218.5" y="52.9" width="35" height="894.1"/>
 <rect x="136.5" y="52.9" width="35" height="894.1"/>
 <rect x="828.5" y="52.9" width="35" height="894.1"/>
-<rect x="478.5" y="759.4" class="st0" width="35" height="123"/>
-<rect x="478.5" y="600.1" class="st0" width="35" height="124.3"/>
-<rect x="478.5" y="117.6" class="st0" width="35" height="128.4"/>
-<rect x="478.5" y="281" class="st0" width="35" height="124.3"/>
-<rect x="478.5" y="440.2" class="st0" width="35" height="124.9"/>
+<rect x="478.5" y="759.4" class="st0" fill="#FDA929" width="35" height="123"/>
+<rect x="478.5" y="600.1" class="st0" fill="#FDA929" width="35" height="124.3"/>
+<rect x="478.5" y="117.6" class="st0" fill="#FDA929" width="35" height="128.4"/>
+<rect x="478.5" y="281" class="st0" fill="#FDA929" width="35" height="124.3"/>
+<rect x="478.5" y="440.2" class="st0" fill="#FDA929" width="35" height="124.9"/>
 <rect x="748.5" y="52.9" width="35" height="894.1"/>
 </svg>

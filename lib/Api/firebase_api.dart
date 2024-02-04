@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 List<String> titleContent = [];
 List<String> bodyContent = [];
+
 Future<void> handleBackgroundMessage(RemoteMessage message) async {
   debugPrint("title :${message.notification?.title}");
   debugPrint("body :${message.notification?.body}");

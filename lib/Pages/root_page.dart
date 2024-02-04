@@ -30,6 +30,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
   double fontsizeValue = 15.0;
   bool isDarkModeEnabled = Constants.isDarkModeEnabled;
   bool isShowLogOutDialog = false;
+  int activeTab = 1;
 
   _deleteToken() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -164,12 +165,10 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                           isShowLogOutDialog = true;
                         });
                       },
-                      child: Text(
+                      child: const Text(
                         "تسجيل الخروج",
                         style: TextStyle(
-                          color: Constants.isDarkModeEnabled
-                              ? Constants.textColorNight
-                              : Constants.textColor,
+                          color: Colors.white,
                           fontFamily: 'Jazeera-Regular',
                         ),
                       ),
@@ -227,7 +226,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                           drawerKey.currentState!.toggleDrawer();
                         },
                         child: SvgPicture.asset(
-                          './Assets/images/menu-t2.svg',
+                          './Assets/images/menu-t.svg',
                           width: 20,
                           height: 20,
                           allowDrawingOutsideViewBox: true,
@@ -280,12 +279,6 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                                   color: isDarkModeEnabled
                                       ? Constants.itemColorNight
                                       : Constants.itemColor,
-                                  border: Border.all(
-                                    width: 0.4,
-                                    color: isDarkModeEnabled
-                                        ? Constants.lineColorNight
-                                        : Constants.lineColor,
-                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Row(
@@ -304,6 +297,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                                     ),
                                     DayNightSwitcher(
                                       dayBackgroundColor: Constants.headerColor,
+                                      nightBackgroundColor:
+                                          Constants.headerColorNight,
                                       isDarkModeEnabled: isDarkModeEnabled,
                                       onStateChanged: (isDarkModeEnabled) {
                                         setState(() {
@@ -341,18 +336,12 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                               Container(
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 decoration: BoxDecoration(
                                   color: isDarkModeEnabled
                                       ? Constants.itemColorNight
                                       : Constants.itemColor,
-                                  border: Border.all(
-                                    width: 0.4,
-                                    color: isDarkModeEnabled
-                                        ? Constants.lineColorNight
-                                        : Constants.lineColor,
-                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Row(
@@ -375,7 +364,10 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     SliderTheme(
-                                      data: const SliderThemeData(),
+                                      data: const SliderThemeData(
+                                        activeTrackColor: Colors.grey,
+                                        thumbColor: Colors.grey,
+                                      ),
                                       child: Slider(
                                         min: 0,
                                         max: 20,
@@ -388,15 +380,6 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                                             brightnessValue = value;
                                           });
                                         },
-                                        activeColor: isDarkModeEnabled
-                                            ? Constants.textColorNight
-                                            : Constants.textColor,
-                                        inactiveColor: isDarkModeEnabled
-                                            ? Constants.backGroundColorNight
-                                            : Constants.backGroundColor,
-                                        thumbColor: isDarkModeEnabled
-                                            ? Constants.headerColorNight
-                                            : Constants.headerColor,
                                       ),
                                     ),
                                     IconButton(
@@ -431,18 +414,12 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                               Container(
                                 margin:
                                     const EdgeInsets.symmetric(vertical: 10),
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
                                 decoration: BoxDecoration(
                                   color: isDarkModeEnabled
                                       ? Constants.itemColorNight
                                       : Constants.itemColor,
-                                  border: Border.all(
-                                    width: 0.4,
-                                    color: isDarkModeEnabled
-                                        ? Constants.lineColorNight
-                                        : Constants.lineColor,
-                                  ),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Row(
@@ -464,26 +441,23 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                                             : Constants.textColor,
                                       ),
                                     ),
-                                    Slider(
-                                      min: 15,
-                                      max: 32,
-                                      value: fontsizeValue,
-                                      divisions: 17,
-                                      label: fontsizeValue.toInt().toString(),
-                                      onChanged: (double value) {
-                                        setState(() {
-                                          fontsizeValue = value;
-                                        });
-                                      },
-                                      activeColor: isDarkModeEnabled
-                                          ? Constants.textColorNight
-                                          : Constants.textColor,
-                                      inactiveColor: isDarkModeEnabled
-                                          ? Constants.backGroundColorNight
-                                          : Constants.backGroundColor,
-                                      thumbColor: isDarkModeEnabled
-                                          ? Constants.headerColorNight
-                                          : Constants.headerColor,
+                                    SliderTheme(
+                                      data: const SliderThemeData(
+                                        activeTrackColor: Colors.grey,
+                                        thumbColor: Colors.grey,
+                                      ),
+                                      child: Slider(
+                                        min: 15,
+                                        max: 32,
+                                        value: fontsizeValue,
+                                        divisions: 17,
+                                        label: fontsizeValue.toInt().toString(),
+                                        onChanged: (double value) {
+                                          setState(() {
+                                            fontsizeValue = value;
+                                          });
+                                        },
+                                      ),
                                     ),
                                     IconButton(
                                       onPressed: () {
@@ -541,7 +515,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                         './Assets/images/15.json',
                         width: 35,
                         height: 35,
-                        repeat: true,
+                        repeat: activeTab == 0 ? true : false,
                       ),
                     ),
                     Padding(
@@ -553,7 +527,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                         './Assets/images/14.json',
                         width: 35,
                         height: 35,
-                        repeat: true,
+                        repeat: activeTab == 1 ? true : false,
                       ),
                     ),
                     Padding(
@@ -565,7 +539,7 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                         './Assets/images/13.json',
                         width: 35,
                         height: 35,
-                        repeat: true,
+                        repeat: activeTab == 2 ? true : false,
                       ),
                     ),
                   ],
@@ -593,6 +567,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                       : Constants.headerColor,
                   onTabItemSelected: (int value) {
                     setState(() {
+                      debugPrint(value.toString() + '<<<<');
+                      activeTab = value;
                       _motionTabBarController!.index = value;
                     });
                   },

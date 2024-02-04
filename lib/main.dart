@@ -53,7 +53,6 @@ class _DeeratnaState extends State<Deeratna> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.grey,
         ),

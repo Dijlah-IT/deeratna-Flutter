@@ -193,55 +193,77 @@ class _AccessCardState extends State<AccessCard> {
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     children: <Widget>[
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Radio(
-                                            value: 1,
-                                            groupValue: _arrivalsDepartures,
-                                            activeColor: Constants.headerColor,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _arrivalsDepartures = 1;
-                                              });
-                                            },
+                                      RadioListTile(
+                                        tileColor: Colors.red,
+                                        visualDensity: const VisualDensity(
+                                            horizontal:
+                                                VisualDensity.minimumDensity,
+                                            vertical:
+                                                VisualDensity.minimumDensity),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        title: Text(
+                                          'فعالة',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 13,
+                                            color: Constants.isDarkModeEnabled
+                                                ? Constants.textColorNight
+                                                : Constants.textColor,
                                           ),
-                                          Text(
-                                            'فعالة',
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 13,
-                                              color: Constants.isDarkModeEnabled
-                                                  ? Constants.textColorNight
-                                                  : Constants.textColor,
-                                            ),
-                                          ),
-                                        ],
+                                        ),
+                                        groupValue: _arrivalsDepartures,
+                                        value: 1,
+                                        fillColor: MaterialStateProperty
+                                            .resolveWith<Color>(
+                                                (Set<MaterialState> states) {
+                                          if (states.contains(
+                                              MaterialState.disabled)) {
+                                            return Colors.grey.withOpacity(.32);
+                                          }
+                                          return Colors.grey;
+                                        }),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _arrivalsDepartures = 1;
+                                          });
+                                        },
                                       ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Radio(
-                                            value: 4,
-                                            groupValue: _arrivalsDepartures,
-                                            activeColor: Constants.headerColor,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _arrivalsDepartures = 4;
-                                              });
-                                            },
+                                      RadioListTile(
+                                        tileColor: Colors.red,
+                                        visualDensity: const VisualDensity(
+                                            horizontal:
+                                                VisualDensity.minimumDensity,
+                                            vertical:
+                                                VisualDensity.minimumDensity),
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        title: Text(
+                                          'غير فعالة',
+                                          style: TextStyle(
+                                            fontFamily: 'Jazeera-Regular',
+                                            fontSize: 13,
+                                            color: Constants.isDarkModeEnabled
+                                                ? Constants.textColorNight
+                                                : Constants.textColor,
                                           ),
-                                          Text(
-                                            'غير فعالة',
-                                            style: TextStyle(
-                                              fontFamily: 'Jazeera-Regular',
-                                              fontSize: 13,
-                                              color: Constants.isDarkModeEnabled
-                                                  ? Constants.textColorNight
-                                                  : Constants.textColor,
-                                            ),
-                                          ),
-                                        ],
+                                        ),
+                                        groupValue: _arrivalsDepartures,
+                                        value: 2,
+                                        fillColor: MaterialStateProperty
+                                            .resolveWith<Color>(
+                                                (Set<MaterialState> states) {
+                                          if (states.contains(
+                                              MaterialState.disabled)) {
+                                            return Colors.grey.withOpacity(.32);
+                                          }
+                                          return Colors.grey;
+                                        }),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _arrivalsDepartures = 2;
+                                          });
+                                        },
                                       ),
                                     ],
                                   ),

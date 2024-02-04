@@ -184,6 +184,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       options: CarouselOptions(
+                        enableInfiniteScroll: false,
+                        animateToClosest: false,
                         height: 220.0,
                         autoPlay: true,
                         enlargeCenterPage: true,
@@ -245,15 +247,18 @@ class _HomePageState extends State<HomePage> {
                                 " لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
                             title: servicesItemText[i],
                             icon: GestureDetector(
-                              child: SvgPicture.asset(
-                                servicesItemIcon[i],
-                                height: 40,
-                                fit: BoxFit.fill,
-                                colorFilter: ColorFilter.mode(
-                                    Constants.isDarkModeEnabled
-                                        ? Constants.textColorNight
-                                        : Constants.textColor,
-                                    BlendMode.srcIn),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: SvgPicture.asset(
+                                  servicesItemIcon[i],
+                                  height: 40,
+                                  fit: BoxFit.fill,
+                                  colorFilter: ColorFilter.mode(
+                                      Constants.isDarkModeEnabled
+                                          ? Constants.textColorNight
+                                          : Constants.textColor,
+                                      BlendMode.srcIn),
+                                ),
                               ),
                               onTap: () {
                                 debugPrint(i.toString());
@@ -284,6 +289,7 @@ class _HomePageState extends State<HomePage> {
                                       },
                                     );
                                     break;
+
                                   default:
                                 }
                               },
@@ -325,9 +331,7 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             padding: const EdgeInsets.all(3),
                             decoration: BoxDecoration(
-                              color: Constants.isDarkModeEnabled
-                                  ? Constants.backGroundColorNight
-                                  : Constants.backGroundColor,
+                              color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Lottie.asset(
@@ -424,6 +428,17 @@ class ServiceItem extends StatelessWidget {
               InformationManagementPage.routName,
               arguments: {
                 'editInformation': true,
+              },
+            );
+            break;
+          case 4:
+            Navigator.pushNamed(
+              context,
+              HouseSpecificationsPage.routName,
+              arguments: {
+                'imageUrl':
+                    'https://news-cdn.varzesh3.com/pictures/2024/01/30/D/tcgbenxc.jpg?w=800',
+                'tag': 1,
               },
             );
             break;
