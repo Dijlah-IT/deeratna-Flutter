@@ -32,20 +32,19 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
         toolbarHeight: 60,
         iconTheme: IconThemeData(
           color: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.lineColor,
+              ? Constants.textColorNight
+              : Constants.textColor,
         ),
         title: Align(
           child: Padding(
             padding: const EdgeInsets.only(right: 55),
             child: Text(
-              "ادارة معلومات",
+              "بطاقة دخول",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Constants.isDarkModeEnabled
-                    ? Constants.lineColorNight
-                    : Constants.lineColor,
-                fontFamily: 'Jazeera-Regular',
+                    ? Constants.textColorNight
+                    : Constants.textColor,
               ),
             ),
           ),
@@ -83,7 +82,7 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
                         ),
                         child: Center(
                           child: SvgPicture.asset(
-                            './Assets/images/44.svg',
+                            './Assets/images/41.svg',
                             width: 40,
                             height: 40,
                             fit: BoxFit.fill,
@@ -150,7 +149,16 @@ class _InformationManagementPageState extends State<InformationManagementPage> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  AccessCard.routName,
+                  arguments: {
+                    'editInformation': true,
+                    'username': 'mohammad',
+                  },
+                );
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith((states) {
                   return Constants.isDarkModeEnabled

@@ -40,12 +40,12 @@ dependencies:
   flutter_slide_drawer: ^1.0.3
   shared_preferences: ^2.2.2
   flutter_launcher_icons: ^0.13.1
-# dev_dependencies:
+  # dev_dependencies:
   # flutter_lints: ^3.0.1
-# flutter_launcher_icons:
-#   android: true
-#   ios: true
-#   image_path: "assets/lunchericon/appicon.png"
+  # flutter_launcher_icons:
+  #   android: true
+  #   ios: true
+  #   image_path: "assets/lunchericon/appicon.png"
 
   flutter_test:
     sdk: flutter
@@ -64,7 +64,6 @@ dependencies:
   firebase_core: ^2.24.0
   firebase_messaging: ^14.7.6
   accordion: ^2.6.0
-  flutter_time_picker_spinner: ^2.0.0
   flutter_svg: ^2.0.9
   vph_web_date_picker: ^0.0.4
   board_datetime_picker: ^1.4.0
@@ -72,6 +71,9 @@ dependencies:
   flutter_html: ^3.0.0-beta.2
   dotted_border: ^2.1.0
   intl: ^0.18.1
+  qr_flutter: ^4.1.0
+  share_plus: ^4.1.0
+  path_provider: ^2.0.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -88,6 +90,7 @@ flutter:
     - Assets/images/
     - Assets/images/facilitiesIcon/
     - Assets/images/specificationsIcon/
+    - Assets/images/servicesItemIcon/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

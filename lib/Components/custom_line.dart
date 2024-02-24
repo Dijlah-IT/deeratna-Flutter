@@ -19,13 +19,17 @@ class CustomHeadLine extends StatelessWidget {
             turns: const AlwaysStoppedAnimation(45 / 360),
             child: Icon(
               Icons.square,
-              color: Constants.textColor,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.textColorNight
+                  : Constants.textColor,
               size: 6,
             ),
           ),
           Flexible(
             child: Divider(
-              color: Constants.textColor,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.textColorNight
+                  : Constants.textColor,
               thickness: 0.8,
               height: 0,
             ),
@@ -34,7 +38,9 @@ class CustomHeadLine extends StatelessWidget {
             turns: const AlwaysStoppedAnimation(45 / 360),
             child: Icon(
               Icons.square,
-              color: Constants.textColor,
+              color: Constants.isDarkModeEnabled
+                  ? Constants.textColorNight
+                  : Constants.textColor,
               size: 6,
             ),
           ),

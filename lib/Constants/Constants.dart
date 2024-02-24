@@ -7,11 +7,11 @@ class Constants {
   static Color lineColor = const Color.fromRGBO(253, 169, 41, 1);
   static Color backGroundColor = Colors.white;
 
-  static Color headerColorNight = const Color.fromRGBO(68,68,68, 1);
+  static Color headerColorNight = const Color.fromRGBO(68, 68, 68, 1);
   static Color textColorNight = Colors.white;
-  static Color itemColorNight = const Color.fromRGBO(29,28,28, 1);
+  static Color backGroundColorNight = const Color.fromRGBO(29, 28, 28, 1);
   static Color lineColorNight = const Color.fromRGBO(253, 169, 41, 1);
-  static Color backGroundColorNight = const Color.fromRGBO(51,51,51, 1);
+  static Color itemColorNight = const Color.fromRGBO(51, 51, 51, 1);
 
   static int themeDurationChange = 300;
   static int fontSize = 18;
@@ -24,6 +24,7 @@ class Constants {
 class ConstUserInformations {
   static Map<String, dynamic>? json;
   static Map<String, dynamic>? generalJson;
+  static String? qrCode;
 }
 
 MaterialColor getMaterialColor(Color color) {

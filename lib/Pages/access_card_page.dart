@@ -46,8 +46,8 @@ class _AccessCardState extends State<AccessCard> {
         toolbarHeight: 60,
         iconTheme: IconThemeData(
           color: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.lineColor,
+              ? Constants.textColorNight
+              : Constants.textColor,
         ),
         title: Align(
           child: Padding(
@@ -56,9 +56,9 @@ class _AccessCardState extends State<AccessCard> {
               "بطاقة دخول",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Constants.isDarkModeEnabled
-                    ? Constants.lineColorNight
-                    : Constants.lineColor,
+                       color: Constants.isDarkModeEnabled
+              ? Constants.textColorNight
+              : Constants.textColor,
                 fontFamily: 'Jazeera-Regular',
               ),
             ),

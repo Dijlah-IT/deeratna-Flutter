@@ -16,56 +16,75 @@ class MyCart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
+    return Container(
       width: size.width,
-      child: Card(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
         color: Constants.isDarkModeEnabled
             ? Constants.itemColorNight
             : Constants.itemColor,
-        child: Center(
-          child: ListTile(
-            title: Text(
-              textAlign: TextAlign.justify,
-              textDirection: TextDirection.rtl,
-              title,
-              style: TextStyle(
-                fontSize: 16,
-                color: Constants.isDarkModeEnabled
-                    ? Constants.textColorNight
-                    : Constants.textColor,
-                fontFamily: 'Jazeera-Bold',
-              ),
-            ),
-            trailing: Container(
-              padding: const EdgeInsets.only(left: 20),
-              height: 100,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: SingleChildScrollView(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          textDirection: TextDirection.rtl,
+          children: <Widget>[
+            Container(
+              width: 70,
+              height: 70,
+              margin: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
                 border: Border(
                   left: BorderSide(
-                    width: 2,
+                    width: 1,
                     color: Constants.isDarkModeEnabled
                         ? Constants.lineColorNight
                         : Constants.lineColor,
                   ),
                 ),
               ),
-              child: icon,
-            ),
-            subtitle: Text(
-              textAlign: TextAlign.justify,
-              textDirection: TextDirection.rtl,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              description,
-              style: TextStyle(
-                color: Constants.isDarkModeEnabled
-                    ? Constants.textColorNight
-                    : Constants.textColor,
-                fontFamily: 'Jazeera-Regular',
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: icon,
               ),
             ),
-          ),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    textAlign: TextAlign.justify,
+                    textDirection: TextDirection.rtl,
+                    title,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Constants.isDarkModeEnabled
+                          ? Constants.textColorNight
+                          : Constants.textColor,
+                      fontFamily: 'Jazeera-Bold',
+                    ),
+                  ),
+                  Text(
+                    textAlign: TextAlign.justify,
+                    textDirection: TextDirection.rtl,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    description,
+                    style: TextStyle(
+                      color: Constants.isDarkModeEnabled
+                          ? Constants.textColorNight
+                          : Constants.textColor,
+                      fontSize: 12,
+                      fontFamily: 'Jazeera-Regular',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

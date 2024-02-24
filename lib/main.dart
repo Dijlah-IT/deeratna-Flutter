@@ -7,12 +7,15 @@ import 'package:deeratna/Pages/splash_page.dart';
 import 'package:deeratna/Route/routes.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io' show Platform;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.subscribeToTopic("general");
-  await FirebaseApi().inintNotifications();
+  if (Platform.isAndroid) {
+    await Firebase.initializeApp();
+    await FirebaseMessaging.instance.subscribeToTopic("general");
+    await FirebaseApi().inintNotifications();
+  }
   runApp(const Deeratna());
 }
 
@@ -56,6 +59,7 @@ class _DeeratnaState extends State<Deeratna> {
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: Colors.grey,
         ),
+        fontFamily: 'Jazeera-Regular',
       ),
       title: 'Deeratna',
       initialRoute: SplashPage.routName,

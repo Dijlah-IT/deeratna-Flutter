@@ -27,8 +27,8 @@ class _TextPageState extends State<TextPage> {
         toolbarHeight: 60,
         iconTheme: IconThemeData(
           color: Constants.isDarkModeEnabled
-              ? Constants.lineColorNight
-              : Constants.lineColor,
+              ? Constants.textColorNight
+              : Constants.textColor,
         ),
         title: Align(
           child: Padding(
@@ -38,8 +38,8 @@ class _TextPageState extends State<TextPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Constants.isDarkModeEnabled
-                    ? Constants.lineColorNight
-                    : Constants.lineColor,
+                    ? Constants.textColorNight
+                    : Constants.textColor,
                 fontFamily: 'Jazeera-Regular',
               ),
             ),

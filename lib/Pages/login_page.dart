@@ -70,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
+          alignment: Alignment.center,
           children: <Widget>[
             Image.asset(
               './Assets/images/login-p.jpg',
@@ -79,69 +80,62 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Positioned(
               width: size.width * 0.7,
-              height: 40,
               top: 255,
-              right: size.width * 0.15,
               child: Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  color: Constants.textColor,
+                  color: Colors.black54,
                   borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 1, color: Constants.headerColor),
                 ),
                 child: Row(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        debugPrint(_login.toString());
-                        setState(() {
-                          _login = false;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 100),
-                        height: 40,
-                        width: (size.width * 0.347),
-                        decoration: BoxDecoration(
-                          color: _login
-                              ? Colors.transparent
-                              : Constants.headerColor,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "مستخدم جديد",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Jazeera-Bold',
-                              color: Colors.white,
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          debugPrint(_login.toString());
+                          setState(() {
+                            _login = false;
+                          });
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: _login ? Colors.transparent : Colors.black,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "مستخدم جديد",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Jazeera-Bold',
+                                color: _login ? Colors.white54 : Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        debugPrint(_login.toString());
-                        setState(() {
-                          _login = true;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 100),
-                        height: 40,
-                        width: (size.width * 0.347),
-                        decoration: BoxDecoration(
-                          color: _login
-                              ? Constants.headerColor
-                              : Colors.transparent,
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "تسجيل الدخول",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Jazeera-Bold',
-                              color: Colors.white,
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          debugPrint(_login.toString());
+                          setState(() {
+                            _login = true;
+                          });
+                        },
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: _login ? Colors.black : Colors.transparent,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "تسجيل الدخول",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Jazeera-Bold',
+                                color: _login ? Colors.white : Colors.white54,
+                              ),
                             ),
                           ),
                         ),
@@ -163,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Theme(
                     data: ThemeData(
                       colorScheme:
-                          ColorScheme.light(primary: Constants.headerColor),
+                          ColorScheme.light(primary: Constants.lineColor),
                       canvasColor: Colors.transparent,
                     ),
                     child: Padding(
@@ -314,7 +308,7 @@ class _LoginPageState extends State<LoginPage> {
                                       : const Text(
                                           "دخول",
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: Colors.black,
                                             fontSize: 16,
                                             fontFamily: 'Jazeera-Regular',
                                           ),
@@ -356,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontFamily: 'Jazeera-Regular',
                                 color: _step != 0
                                     ? Colors.grey
-                                    : Constants.headerColor,
+                                    : Constants.lineColor,
                               ),
                             ),
                           ),
@@ -468,7 +462,7 @@ class _LoginPageState extends State<LoginPage> {
                                     helperTitle: messageAPI,
                                     inputType: TextInputType.text,
                                     obscureText: true,
-                                    inputIcon: Icons.password,
+                                    inputIcon: Icons.lock,
                                     controller: controllerRegisterPassword,
                                   ),
                                   const SizedBox(height: 20),
@@ -481,7 +475,7 @@ class _LoginPageState extends State<LoginPage> {
                                     helperTitle: messageAPI,
                                     inputType: TextInputType.text,
                                     obscureText: true,
-                                    inputIcon: Icons.password,
+                                    inputIcon: Icons.lock,
                                     controller:
                                         controllerRegisterPasswordConfirm,
                                   ),
@@ -536,17 +530,17 @@ class _LoginPageState extends State<LoginPage> {
             Positioned(
               width: size.width,
               height: 40,
-              bottom: 210,
+              bottom: 150,
               child: Center(
                 child: messageAPI != ""
                     ? const Text("")
-                    : SizedBox(
+                    : const SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
-                            color: Constants.headerColor,
-                            strokeWidth: 2.0,
-                            semanticsValue: "mohammad"),
+                          color: Colors.black,
+                          strokeWidth: 2.0,
+                        ),
                       ),
               ),
             ),
@@ -591,7 +585,7 @@ class _LoginPageState extends State<LoginPage> {
                             helperTitle: messageAPI,
                             inputType: TextInputType.text,
                             obscureText: true,
-                            inputIcon: Icons.password,
+                            inputIcon: Icons.lock,
                             controller: controllerLoginPassword,
                           ),
                           const SizedBox(height: 20),
@@ -618,9 +612,10 @@ class _LoginPageState extends State<LoginPage> {
                                         getUserGeneral(Constants.userToken);
                                         if (Constants.statusCode == 200) {
                                           final snackBar = SnackBar(
+                                            clipBehavior : Clip.antiAlias,
                                             elevation: 0,
                                             margin: const EdgeInsets.only(
-                                                bottom: 80),
+                                                bottom: 75),
                                             behavior: SnackBarBehavior.floating,
                                             backgroundColor: Colors.transparent,
                                             content: Directionality(
@@ -628,13 +623,14 @@ class _LoginPageState extends State<LoginPage> {
                                               child: AwesomeSnackbarContent(
                                                 color: Constants
                                                         .isDarkModeEnabled
-                                                    ? Constants.lineColorNight
-                                                    : Constants.headerColor,
+                                                    ? Constants.headerColorNight
+                                                    : Constants.textColor,
                                                 title: 'اهلا بك',
                                                 message:
                                                     "اهلا بك يا ${ConstUserInformations.json?['name']}",
                                                 contentType:
                                                     ContentType.success,
+                                                  
                                               ),
                                             ),
                                           );
@@ -660,7 +656,7 @@ class _LoginPageState extends State<LoginPage> {
                               "دخول",
                               style: TextStyle(
                                 fontFamily: 'Jazeera-Regular',
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                             ),
                           )

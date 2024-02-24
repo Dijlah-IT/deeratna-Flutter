@@ -37,7 +37,7 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
     return TextFormField(
       controller: widget.controller,
       keyboardType: widget.inputType,
-      cursorColor: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
+      cursorColor: Colors.black87,
       obscureText:
           widget.obscureText == true ? showPassword : widget.obscureText,
       obscuringCharacter: '*',
@@ -48,21 +48,20 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
         return null;
       },
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
             Radius.circular(5.0),
           ),
           borderSide: BorderSide(
-            color: Constants.isDarkModeEnabled ? Colors.black87 : Colors.white70,
+            color: Colors.black87,
           ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
             Radius.circular(5.0),
           ),
           borderSide: BorderSide(
-            color:
-                Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
+            color: Colors.black87,
           ),
         ),
         focusedErrorBorder: const OutlineInputBorder(
@@ -81,7 +80,7 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
                 icon: Icon(
                   !showPassword ? Icons.visibility : Icons.visibility_off,
                 ),
-                color: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
+                color: Colors.black87,
                 onPressed: () {
                   setState(() {
                     showPassword = !showPassword;
@@ -89,13 +88,13 @@ class _TextFormFieldCostumState extends State<TextFormFieldCostum> {
                 },
               )
             : const Text(""),
-        iconColor: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
+        iconColor: Colors.black87,
         labelText: widget.labelTitle,
         helperText: widget.helperTitle,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           fontSize: 15,
           fontFamily: 'Jazeera-Regular',
-          color: Constants.isDarkModeEnabled ? Colors.white70 : Colors.black87,
+          color: Colors.black87,
         ),
         helperStyle: TextStyle(
           fontSize: 10,

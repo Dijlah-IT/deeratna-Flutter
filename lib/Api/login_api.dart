@@ -83,12 +83,12 @@ register(String phoneNumber, String password, String passwordConfirmation,
 Future getUserInformations(String token) async {
   debugPrint(token);
 
-  final response = await http
-      .get(Uri.https("deeratna.net", '/api/user'), headers: <String, String>{
-    'X-Requested-With': 'XMLHttpRequest',
-    'Authorization': 'Bearer $token',
-    'Content-Type': 'application/json; charset = UTF-8',
-  });
+  final response = await http.get(Uri.https("deeratna.net", '/api/mobile/user'),
+      headers: <String, String>{
+        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json; charset = UTF-8',
+      });
 
   Constants.statusCode = response.statusCode;
   if (response.statusCode == 404 || response.statusCode == 422) {
@@ -100,17 +100,17 @@ Future getUserInformations(String token) async {
   }
 }
 
-
 Future getUserGeneral(String token) async {
   debugPrint(token);
   debugPrint('-----------------------------------------');
 
-  final response = await http
-      .get(Uri.https("deeratna.net", 'api/mobile/general'), headers: <String, String>{
-    'X-Requested-With': 'XMLHttpRequest',
-    'Authorization': 'Bearer $token',
-    'Content-Type': 'application/json; charset = UTF-8',
-  });
+  final response = await http.get(
+      Uri.https("deeratna.net", 'api/mobile/general'),
+      headers: <String, String>{
+        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json; charset = UTF-8',
+      });
 
   Constants.statusCode = response.statusCode;
   if (response.statusCode == 404 || response.statusCode == 422) {
@@ -120,4 +120,29 @@ Future getUserGeneral(String token) async {
   } else {
     throw Constants.message = "Erorr";
   }
+}
+
+Future generateQrCode(String name, String duration, String token) async {
+  debugPrint(duration.toString());
+  debugPrint(name);
+
+  final response = await http.post(
+      Uri.https("deeratna.net", '/api/mobile/make-guest',
+          {'name': name, 'duration': duration}),
+      headers: <String, String>{
+        'X-Requested-With': 'XMLHttpRequest',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json; charset = UTF-8',
+      });
+
+  Constants.statusCode = response.statusCode;
+
+  debugPrint(response.statusCode.toString());
+  if (response.statusCode == 200) {
+    String jsonsDataString = response.body.toString();
+    ConstUserInformations.qrCode = jsonsDataString;
+  } else {
+    throw Constants.message = "Erorr";
+  }
+  debugPrint(ConstUserInformations.qrCode! + '<<<<<<<<<<<<<<<');
 }

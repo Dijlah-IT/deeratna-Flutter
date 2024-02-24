@@ -727,15 +727,13 @@ class FacilitiesItem extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Constants.isDarkModeEnabled
-                    ? Constants.headerColorNight
+                    ? Constants.backGroundColorNight
                     : Colors.white,
                 borderRadius: BorderRadius.circular(5),
               ),
               width: 80,
               height: 60,
               child: SvgPicture.asset(
-                colorFilter:
-                    ColorFilter.mode(Colors.transparent, BlendMode.difference),
                 icon,
                 width: 32,
                 height: 32,
@@ -795,10 +793,9 @@ class SpecificationsItem extends StatelessWidget {
               textAlign: TextAlign.right,
               textDirection: TextDirection.rtl,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 10,
                 color:
                     Constants.isDarkModeEnabled ? Colors.white : Colors.black,
-                fontFamily: 'Jazeera-Bold',
               ),
             ),
             Text(
@@ -806,10 +803,10 @@ class SpecificationsItem extends StatelessWidget {
               textAlign: TextAlign.right,
               textDirection: TextDirection.rtl,
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 13,
                 color:
                     Constants.isDarkModeEnabled ? Colors.white : Colors.black54,
-                fontFamily: 'Jazeera-Regular',
+                fontFamily: 'Jazeera-Bold',
               ),
             ),
           ],

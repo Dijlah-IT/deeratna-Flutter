@@ -214,8 +214,8 @@ class _RootPageState extends State<RootPage> with TickerProviderStateMixin {
                           icon: Icon(
                             Icons.person,
                             color: Constants.isDarkModeEnabled
-                                ? Constants.lineColorNight
-                                : Constants.lineColor,
+                                ? Constants.textColorNight
+                                : Constants.textColor,
                             size: 30,
                           ),
                         ),

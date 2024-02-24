@@ -1,11 +1,11 @@
 import 'package:deeratna/Components/custom_line.dart';
 import 'package:deeratna/Components/my_cart.dart';
 import 'package:deeratna/Constants/constants.dart';
-import 'package:deeratna/Pages/access_card_page.dart';
 import 'package:deeratna/Pages/car_sticker_page.dart';
 import 'package:deeratna/Pages/housespecifications_page.dart';
 import 'package:deeratna/Pages/information_management_page.dart';
 import 'package:deeratna/Pages/qr_page.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,20 +26,42 @@ class _HomePageState extends State<HomePage> {
   int _current = 0;
 
   static const List<String> servicesItemText = [
-    "بطاقة دخول",
+    "كهرباء",
+    "ماء",
+    "انترنت",
+    "صيانة",
+    "موقف",
+  ];
+
+  static const List<String> servicesItemIconLight = [
+    'Elctricity_li.svg',
+    'water_li.svg',
+    'Internet_li.svg',
+    'Services_li.svg',
+    'Payments_li.svg',
+  ];
+
+  static const List<String> servicesItemIconDark = [
+    'Elctricity_da.svg',
+    'water_da.svg',
+    'Internet_da.svg',
+    'Services_da.svg',
+    'Payments_da.svg',
+  ];
+
+  static const List<String> servicesSliderItemText = [
     "ملصق السيارات",
     "صيانة",
+    "بطاقة دخول",
     "ادارة معلومات",
-    "حجز ملعب",
-    "حجز مسبح",
+    "خطار QR",
   ];
-  static const List<String> servicesItemIcon = [
-    './Assets/images/41.svg',
+  static const List<String> servicesSliderItemIcon = [
     './Assets/images/42.svg',
     './Assets/images/46.svg',
+    './Assets/images/41.svg',
     './Assets/images/44.svg',
-    './Assets/images/43.svg',
-    './Assets/images/20.svg',
+    './Assets/images/qr.svg',
   ];
 
   @override
@@ -235,64 +257,84 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   child: CarouselSlider(
                     options: CarouselOptions(
-                      height: 100.0,
+                      height: 80.0,
                       autoPlay: false,
                       enlargeCenterPage: true,
                     ),
-                    items: [0, 1, 2, 3].map((i) {
+                    items: [0, 1, 2, 3, 4].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return MyCart(
-                            description:
-                                " لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
-                            title: servicesItemText[i],
-                            icon: GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: SvgPicture.asset(
-                                  servicesItemIcon[i],
-                                  height: 40,
-                                  fit: BoxFit.fill,
-                                  colorFilter: ColorFilter.mode(
-                                      Constants.isDarkModeEnabled
-                                          ? Constants.textColorNight
-                                          : Constants.textColor,
-                                      BlendMode.srcIn),
+                          return InkWell(
+                            onTap: () {
+                              debugPrint(i.toString());
+                              debugPrint("Click !");
+                              switch (i) {
+                                case 0:
+                                  Navigator.pushNamed(
+                                    context,
+                                    CarSticker.routName,
+                                    arguments: {
+                                      'editInformation': false,
+                                    },
+                                  );
+
+                                  break;
+                                case 1:
+                                  Navigator.pushNamed(
+                                    context,
+                                    CarSticker.routName,
+                                  );
+                                  break;
+                                case 2:
+                                  Navigator.pushNamed(
+                                    context,
+                                    InformationManagementPage.routName,
+                                    arguments: {
+                                      'editInformation': true,
+                                    },
+                                  );
+                                  break;
+                                case 4:
+                                  Navigator.pushNamed(
+                                    context,
+                                    QRPage.routName,
+                                  );
+                                  break;
+
+                                default:
+                              }
+                            },
+                            child: MyCart(
+                              description:
+                                  " لوريم إيبسوم هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع ودور النشر.",
+                              title: servicesSliderItemText[i],
+                              icon: Container(
+                                decoration: BoxDecoration(
+                                  color: Constants.isDarkModeEnabled
+                                      ? Constants.backGroundColorNight
+                                      : Constants.backGroundColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: DottedBorder(
+                                  radius: const Radius.circular(100),
+                                  color: Constants.lineColor,
+                                  dashPattern: const <double>[3, 3],
+                                  strokeWidth: 1.8,
+                                  borderType: BorderType.RRect,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset(
+                                      servicesSliderItemIcon[i],
+                                      fit: BoxFit.fill,
+                                      colorFilter: ColorFilter.mode(
+                                          Constants.isDarkModeEnabled
+                                              ? Constants.textColorNight
+                                              : Constants.textColor,
+                                          BlendMode.srcIn),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              onTap: () {
-                                debugPrint(i.toString());
-                                debugPrint("Click !");
-                                switch (i) {
-                                  case 0:
-                                    Navigator.pushNamed(
-                                      context,
-                                      InformationManagementPage.routName,
-                                      arguments: {
-                                        'editInformation': false,
-                                      },
-                                    );
-
-                                    break;
-                                  case 1:
-                                    Navigator.pushNamed(
-                                      context,
-                                      CarSticker.routName,
-                                    );
-                                    break;
-                                  case 3:
-                                    Navigator.pushNamed(
-                                      context,
-                                      InformationManagementPage.routName,
-                                      arguments: {
-                                        'editInformation': true,
-                                      },
-                                    );
-                                    break;
-
-                                  default:
-                                }
-                              },
                             ),
                           );
                         },
@@ -301,67 +343,74 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    right: 20,
-                    left: 20,
-                    bottom: 0,
+                // Padding(
+                //   padding: const EdgeInsets.only(
+                //     top: 20,
+                //     right: 20,
+                //     left: 20,
+                //     bottom: 0,
+                //   ),
+                //   child: InkWell(
+                //     onTap: () {
+                //       Navigator.pushNamed(
+                //         context,
+                //         QRPage.routName,
+                //       );
+                //     },
+                //     child: Container(
+                //       padding: const EdgeInsets.all(10),
+                //       decoration: BoxDecoration(
+                //         color: Constants.isDarkModeEnabled
+                //             ? Constants.itemColorNight
+                //             : Constants.itemColor,
+                //         borderRadius: BorderRadius.circular(
+                //           10,
+                //         ),
+                //       ),
+                //       child: Row(
+                //         textDirection: TextDirection.rtl,
+                //         children: <Widget>[
+                //           Container(
+                //             padding: const EdgeInsets.all(3),
+                //             decoration: BoxDecoration(
+                //               color: Colors.white,
+                //               borderRadius: BorderRadius.circular(10),
+                //             ),
+                //             child: Lottie.asset(
+                //               './Assets/images/Animation-1704283213535.json',
+                //               width: 50,
+                //               height: 50,
+                //             ),
+                //           ),
+                //           const SizedBox(width: 10),
+                //           Text(
+                //             'خطار QR',
+                //             style: TextStyle(
+                //               fontFamily: 'Jazeera-Regular',
+                //               fontSize: 15,
+                //               color: Constants.isDarkModeEnabled
+                //                   ? Constants.textColorNight
+                //                   : Constants.textColor,
+                //             ),
+                //           ),
+                //           const SizedBox(width: 10),
+                //           Expanded(
+                //             child: CustomHeadLine(size: size.width),
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  height: 240,
+                  decoration: BoxDecoration(
+                    color: Constants.isDarkModeEnabled
+                        ? Constants.itemColorNight
+                        : Constants.itemColor,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        QRPage.routName,
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Constants.isDarkModeEnabled
-                            ? Constants.itemColorNight
-                            : Constants.itemColor,
-                        borderRadius: BorderRadius.circular(
-                          10,
-                        ),
-                      ),
-                      child: Row(
-                        textDirection: TextDirection.rtl,
-                        children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.all(3),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Lottie.asset(
-                              './Assets/images/Animation-1704283213535.json',
-                              width: 50,
-                              height: 50,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            'خطار QR',
-                            style: TextStyle(
-                              fontFamily: 'Jazeera-Regular',
-                              fontSize: 15,
-                              color: Constants.isDarkModeEnabled
-                                  ? Constants.textColorNight
-                                  : Constants.textColor,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: CustomHeadLine(size: size.width),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 280,
                   child: GridView.count(
                     padding: const EdgeInsets.all(20),
                     crossAxisSpacing: 20,
@@ -370,11 +419,17 @@ class _HomePageState extends State<HomePage> {
                     controller: ScrollController(keepScrollOffset: false),
                     children: List.generate(
                       servicesItemText.length,
-                      (index) => ServiceItem(
-                        servicesItemText: servicesItemText[index],
-                        servicesItemIcon: servicesItemIcon[index],
-                        itemTag: index,
-                      ),
+                      (index) => Constants.isDarkModeEnabled
+                          ? ServiceItem(
+                              servicesItemText: servicesItemText[index],
+                              servicesItemIcon: servicesItemIconDark[index],
+                              itemTag: index,
+                            )
+                          : ServiceItem(
+                              servicesItemText: servicesItemText[index],
+                              servicesItemIcon: servicesItemIconLight[index],
+                              itemTag: index,
+                            ),
                     ),
                   ),
                 )
@@ -402,49 +457,49 @@ class ServiceItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        debugPrint(itemTag.toString());
-        debugPrint("Click !");
-        switch (itemTag) {
-          case 0:
-            Navigator.pushNamed(
-              context,
-              InformationManagementPage.routName,
-              arguments: {
-                'editInformation': false,
-              },
-            );
+      // onTap: () {
+      //   debugPrint(itemTag.toString());
+      //   debugPrint("Click !");
+      //   switch (itemTag) {
+      //     case 0:
+      //       Navigator.pushNamed(
+      //         context,
+      //         InformationManagementPage.routName,
+      //         arguments: {
+      //           'editInformation': false,
+      //         },
+      //       );
 
-            break;
-          case 1:
-            Navigator.pushNamed(
-              context,
-              CarSticker.routName,
-            );
-            break;
-          case 3:
-            Navigator.pushNamed(
-              context,
-              InformationManagementPage.routName,
-              arguments: {
-                'editInformation': true,
-              },
-            );
-            break;
-          case 4:
-            Navigator.pushNamed(
-              context,
-              HouseSpecificationsPage.routName,
-              arguments: {
-                'imageUrl':
-                    'https://news-cdn.varzesh3.com/pictures/2024/01/30/D/tcgbenxc.jpg?w=800',
-                'tag': 1,
-              },
-            );
-            break;
-          default:
-        }
-      },
+      //       break;
+      //     case 1:
+      //       Navigator.pushNamed(
+      //         context,
+      //         CarSticker.routName,
+      //       );
+      //       break;
+      //     case 3:
+      //       Navigator.pushNamed(
+      //         context,
+      //         InformationManagementPage.routName,
+      //         arguments: {
+      //           'editInformation': true,
+      //         },
+      //       );
+      //       break;
+      //     case 4:
+      //       Navigator.pushNamed(
+      //         context,
+      //         HouseSpecificationsPage.routName,
+      //         arguments: {
+      //           'imageUrl':
+      //               'https://news-cdn.varzesh3.com/pictures/2024/01/30/D/tcgbenxc.jpg?w=800',
+      //           'tag': 1,
+      //         },
+      //       );
+      //       break;
+      //     default:
+      //   }
+      // },
       child: Container(
         decoration: BoxDecoration(
           boxShadow: const [
@@ -455,32 +510,28 @@ class ServiceItem extends StatelessWidget {
             ),
           ],
           color: Constants.isDarkModeEnabled
-              ? Constants.itemColorNight
-              : Constants.itemColor,
+              ? Constants.backGroundColorNight
+              : Constants.backGroundColor,
           border: Border.all(
-              color: Constants.isDarkModeEnabled
-                  ? Constants.lineColorNight
-                  : Constants.lineColor),
+            color: Constants.isDarkModeEnabled
+                ? Constants.textColorNight
+                : Constants.textColor,
+          ),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             SvgPicture.asset(
-              servicesItemIcon,
+              './Assets/images/servicesItemIcon/$servicesItemIcon',
               width: 40,
               height: 40,
               fit: BoxFit.fill,
-              colorFilter: ColorFilter.mode(
-                Constants.isDarkModeEnabled
-                    ? Constants.textColorNight
-                    : Constants.textColor,
-                BlendMode.srcIn,
-              ),
             ),
-            const SizedBox(
-              height: 10,
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 0),
+              child: CustomHeadLine(size: 60),
             ),
             Text(
               servicesItemText,
@@ -489,6 +540,7 @@ class ServiceItem extends StatelessWidget {
                     ? Constants.textColorNight
                     : Constants.textColor,
                 fontFamily: 'Jazeera-Regular',
+                fontSize: 13,
               ),
             ),
           ],
